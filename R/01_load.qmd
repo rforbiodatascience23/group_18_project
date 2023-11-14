@@ -4,15 +4,17 @@ format: html
 editor: visual
 ---
 
-Load libraries
+# Load libraries
 
 ```{r}
 library(tidyverse)
 library(readxl)
 ```
 
-Load dataset
+# Load dataset
 
 ```{r}
-radiation <- read_xlsx(path = "~/group_18_project/_raw/radiation_dataset.xlsx")
+# Load the data using readxl library and remove missing values present in different formats
+
+radiation <- read_xlsx(path = "~/group_18_project/_raw/radiation_dataset.xlsx", na = c("unknown", "Unknown", "N/A", "Unkown", "unkown", "" ))
 ```

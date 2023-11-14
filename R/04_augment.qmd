@@ -4,8 +4,25 @@ format: html
 editor: visual
 ---
 
-Augment
+# Load clean data
 
 ```{r}
+clean_patient_data <- read_csv(file = "~/group_18_project/data/cleaned_radiation_data.csv")
+```
+
+# Augment
+
+```{r}
+## cancer_type is separated into new variables cancer_organ and cancer_stage and removed afterwards
+patient_data <- patient_data |>
+  mutate(cancer_organ = ifelse(
+      grepl("prostate", tolower(cancer_type)) & grepl("bladder", tolower(cancer_type)),
+      "prostate,bladder",
+      ifelse(grepl("prostate", tolower(cancer_type)), "prostate",
+             ifelse(grepl("bladder", tolower(cancer_type)), "bladder", NA))
+    ),
+         cancer_stage = str_extract(cancer_type, "(?i)T\\d++[a-z]|Gleason \\d+")) |>
+  select(-cancer_type)
+
 
 ```

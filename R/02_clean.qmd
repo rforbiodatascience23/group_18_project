@@ -4,8 +4,85 @@ format: html
 editor: visual
 ---
 
-Clean
+# Load libraries
+
+```{r}
+library(lubridate)
+library(dplyr)
+library(janitor)
+library(data.table)
+```
+
+# Clean Data 
+
+```{r}
+# Remove rows that do not correspond to patients and last column called "Notes" 
+patient_data <- radiation |> 
+  slice(1:80) |>
+  select(1:28)
+
+# Make variable type as Date
+patient_data <- patient_data |>
+  mutate(DOB = ymd(DOB))
+
+# Clean column names with janitor library
+patient_data <- patient_data |>
+  clean_names()
+```
+
+## Give shorter names to the variables renaming them
+
+```{r}
+# Rename variables 
+lookup <- c(
+  date_of_birth = "dob",
+  grading_system = "ctcae_4_0_hematuria_grade",
+  comorbidities = "comorbidities_dm_stroke_pvd_cirrhosis_drug_abuse_alcoholism_tobacco_hx_mi_last_6mo_chf_copd_esrd",
+  cancer_type = "type_bladder_prostate_pathologic_clinial_staging_of_cancer",
+  radiation_type = "type_of_radation",
+  radiation_dosage = "dose_of_radation_gy",
+  start_end_radiation = "start_date_of_radiation_end_date_of_radiation",
+  number_of_admissions = "number_of_admissions_including_er_visits_requiring_urology_consultation",
+  number_of_icu_admits = "number_of_icu_admits_with_hemorrhgic_cystits",
+  radiation_completion_to_first_hc = "time_passed_since_completion_of_radiation_treatment_months_and_first_incidence_hc",
+  number_of_cystoscopies = "number_of_cystoscopies_with_clot_evacuation_and_or_fulguration_of_bleeders",
+  formalin_instillation = "number_of_times_requiring_formalin_instillation",
+  alum_instillation = "number_of_times_requiring_alum_instillation",
+  silver_nit_instillation = "number_of_times_requiring_silver_nitrate_instillation",
+  amicar_instillation = "number_of_times_requiring_amicar_instillation",
+  hyperbaric_o2 = "number_times_requiring_hyperbaric_o2_tx_days",
+  surgery_for_urinary_diversion = "surgery_for_urinary_diversion_required_if_yes_what_type",
+  number_transfusions = "number_of_units_of_p_rb_cs_tranfused",
+  hospitalization_complications = "complications_during_hospitalization_uti_pyelonephritis_urosepsis_hydronephrosis_aki_other"
+)
+
+patient_data <- rename(patient_data, any_of(lookup))
+```
+
+## Correct mistakes in the variable classes
 
 ```{r}
 
+## ethnicity - make all names lower case, change AA to african american
+patient_data <- patient_data |>
+  mutate(ethnicity = ifelse(ethnicity == "AA", "african_american", tolower(ethnicity)))
+
+## hospital_site - remove spaces and separate different hospitals by comas, correct names 
+patient_data <- patient_data |>
+  mutate(hospital_site = str_replace_all(hospital_site, " ", ""),
+         hospital_site = str_replace_all(hospital_site, "/", ","),
+         hospital_site = str_replace(hospital_site, "Harperr", "Harper"))
+
+
+## radiation_dosage - remove characters "Gy" make the observatons as num
+patient_data <- patient_data |>
+  mutate(radiation_dosage =  str_replace_all(radiation_dosage, "Gy", ""),
+         radiation_dosage = round(as.numeric(radiation_dosage),2)) 
+
+```
+
+## Write the clean data in a CSV file and save it in data
+
+```{r}
+write.csv(patient_data, file = "~/group_18_project/data/cleaned_radiation_data.csv", row.names = FALSE)
 ```
