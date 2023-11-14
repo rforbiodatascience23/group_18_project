@@ -1,0 +1,37 @@
+---
+title: "00_all.qmd"
+format: html
+editor: visual
+---
+
+Load
+
+```{r}
+
+```
+
+Clean
+
+```{r}
+
+```
+
+Describe
+
+Augment
+
+```{r}
+
+```
+
+Analysis 1
+
+```{r}
+
+```
+
+Analysis 2
+
+```{r}
+
+```

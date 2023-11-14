@@ -1,0 +1,11 @@
+---
+title: "06_analysis_2.qmd"
+format: html
+editor: visual
+---
+
+Analysis 2
+
+```{r}
+
+```
