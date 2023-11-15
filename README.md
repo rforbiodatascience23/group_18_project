@@ -2,7 +2,7 @@
 
 Group 18 Project Repository - R for Bio Data Science 2023 🧬📊
 
-Project description:
+Description:
 Our project focuses on the analysis of the dataset derived from the research article by Martin et al. (2019) titled "Incidence and Morbidity of Radiation-Induced Hemorrhagic Cystitis in Prostate Cancer." This study, published in the Urology journal, explores the occurrence and impact of radiation-induced hemorrhagic cystitis in prostate cancer patients. The associated dataset, curated by Sarah Martin in 2021 and available on Mendeley Data, provides a valuable resource for our group to analyse and reproduce the research findings. 
 
 Reference:
