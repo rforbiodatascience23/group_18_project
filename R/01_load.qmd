@@ -16,5 +16,11 @@ library(readxl)
 ```{r}
 # Load the data using readxl library and remove missing values present in different formats
 
-radiation <- read_xlsx(path = "~/group_18_project/_raw/radiation_dataset.xlsx", na = c("unknown", "Unknown", "N/A", "Unkown", "unkown", "" ))
+file = "~/group_18_project/_raw/radiation_dataset.xlsx"
+
+hc_patient_data <- read_xlsx(path = file, na = c("unknown", "Unknown", "N/A", "Unkown", "unkown", "" ), sheet = 1)
+
+patient_info1 <- read_excel(path = file, sheet = 2)
+
+patient_info2 <- read_excel(path = file, sheet = 3)
 ```
