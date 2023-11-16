@@ -13,28 +13,31 @@ library(janitor)
 library(data.table)
 ```
 
-# Clean Data 
+# Clean Data
+
+## Clean HC patient data
 
 ```{r}
+
 # Remove rows that do not correspond to patients and last column called "Notes" 
-patient_data <- radiation |> 
-  slice(1:80) |>
-  select(1:28)
+hc_patient_data <- hc_patient_data |> 
+  slice(1:80) |> select(1:28)
 
 # Make variable type as Date
-patient_data <- patient_data |>
+hc_patient_data <- hc_patient_data |> 
   mutate(DOB = ymd(DOB))
-
-# Clean column names with janitor library
-patient_data <- patient_data |>
-  clean_names()
 ```
 
-## Give shorter names to the variables renaming them
+### Give shorter names to the variables renaming them
 
 ```{r}
+
+# Remove spaces from variable names 
+hc_patient_data <- hc_patient_data |> 
+  clean_names()
+
 # Rename variables 
-lookup <- c(
+change_variable_names <- c(
   date_of_birth = "dob",
   grading_system = "ctcae_4_0_hematuria_grade",
   comorbidities = "comorbidities_dm_stroke_pvd_cirrhosis_drug_abuse_alcoholism_tobacco_hx_mi_last_6mo_chf_copd_esrd",
@@ -56,33 +59,82 @@ lookup <- c(
   hospitalization_complications = "complications_during_hospitalization_uti_pyelonephritis_urosepsis_hydronephrosis_aki_other"
 )
 
-patient_data <- rename(patient_data, any_of(lookup))
+hc_patient_data <- rename(hc_patient_data, any_of(change_variable_names))
 ```
 
-## Correct mistakes in the variable classes
+### Correct mistakes in the variable classes
 
 ```{r}
 
 ## ethnicity - make all names lower case, change AA to african american
-patient_data <- patient_data |>
+hc_patient_data <- hc_patient_data |> 
   mutate(ethnicity = ifelse(ethnicity == "AA", "african_american", tolower(ethnicity)))
 
 ## hospital_site - remove spaces and separate different hospitals by comas, correct names 
-patient_data <- patient_data |>
+hc_patient_data <- hc_patient_data |> 
   mutate(hospital_site = str_replace_all(hospital_site, " ", ""),
          hospital_site = str_replace_all(hospital_site, "/", ","),
          hospital_site = str_replace(hospital_site, "Harperr", "Harper"))
 
 
 ## radiation_dosage - remove characters "Gy" make the observatons as num
-patient_data <- patient_data |>
+hc_patient_data <- hc_patient_data |> 
   mutate(radiation_dosage =  str_replace_all(radiation_dosage, "Gy", ""),
          radiation_dosage = round(as.numeric(radiation_dosage),2)) 
 
 ```
 
-## Write the clean data in a CSV file and save it in data
+### Write the clean data in a CSV file and save it in data
 
 ```{r}
-write.csv(patient_data, file = "~/group_18_project/data/cleaned_radiation_data.csv", row.names = FALSE)
+write.csv(hc_patient_data, 
+          file = "~/group_18_project/data/clean_hc_patient_data.csv", 
+          row.names = FALSE)
+```
+
+## Clean patients_1 and patients_2 data
+
+```{r}
+# Remove spaces from variable names 
+patient_info1 <- patient_info1 |> 
+    clean_names()
+
+patient_info2 <- patient_info2 |> 
+    clean_names()
+
+# Remove Unknown column from the variables and columns that don't exist in patient_info2
+patient_info1 <- patient_info1 |> 
+  select(-unknown, 
+         -rads_for_prostate_primary, 
+         -rads_bladder_primary, 
+         -developed_bladder_first,
+         -developed_prostate_first)
+
+# Remove Unknown column
+patient_info2 <- patient_info2 |> 
+  select(-unknown)
+
+# Replace N/A with 0 and X or x with 1
+patient_info1 <- patient_info1 |>
+   mutate_all(~ ifelse(is.na(.) | tolower(.) == "na", 0, 
+                       ifelse(tolower(.) == "x", 1, .)))
+
+patient_info2 <- patient_info2 |> 
+   mutate_all(~ ifelse(is.na(.) | tolower(.) == "na", 0, 
+                       ifelse(tolower(.) == "x", 1, .)))
+
+# Change variable in patient_info1 blader_ca to blader as in patient_info2
+patient_info1 <- patient_info1 |>
+  rename(bladder = "bladder_ca")
+
+# Merge patient_info1 and patient_info2
+combined_patient_info <- bind_rows(patient_info1, patient_info2)
+```
+
+### Write the clean data in a CSV file and save it in data
+
+```{r}
+write.csv(combined_patient_info, 
+          file = "~/group_18_project/data/clean_patient_info.csv", 
+          row.names = FALSE)
 ```
