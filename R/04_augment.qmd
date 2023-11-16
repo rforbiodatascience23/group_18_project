@@ -26,3 +26,21 @@ patient_data <- patient_data |>
 
 
 ```
+
+BMI (Laia)
+
+```{r}
+
+```
+
+Divide comorbidities into columns
+
+```{r}
+
+```
+
+Hospitalization complications (either divide columns or count into a new table)
+
+```{r}
+
+```
