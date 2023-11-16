@@ -7,22 +7,26 @@ editor: visual
 # Load clean data
 
 ```{r}
-clean_patient_data <- read_csv(file = "~/group_18_project/data/cleaned_radiation_data.csv")
+clean_hc_patient_data <- read_csv(file = "~/group_18_project/data/clean_hc_patient_data.csv")
 ```
 
 # Augment
 
+Make new columns cancer_organ and cancer_stage from cancer_type, removing the later afterwards
+
 ```{r}
-## cancer_type is separated into new variables cancer_organ and cancer_stage and removed afterwards
-patient_data <- patient_data |>
-  mutate(cancer_organ = ifelse(
-      grepl("prostate", tolower(cancer_type)) & grepl("bladder", tolower(cancer_type)),
-      "prostate,bladder",
-      ifelse(grepl("prostate", tolower(cancer_type)), "prostate",
-             ifelse(grepl("bladder", tolower(cancer_type)), "bladder", NA))
-    ),
-         cancer_stage = str_extract(cancer_type, "(?i)T\\d++[a-z]|Gleason \\d+")) |>
+
+## cancer_type is separated into new variables and then removed 
+clean_hc_patient_data <- clean_hc_patient_data |>
+  mutate(
+    cancer_organ = case_when(
+      grepl("prostate", tolower(cancer_type)) & grepl("bladder", tolower(cancer_type)) ~       "prostate,bladder",
+      grepl("prostate", tolower(cancer_type)) ~ "prostate",
+      grepl("bladder", tolower(cancer_type)) ~ "bladder",
+      TRUE ~ NA_character_),
+    cancer_stage = str_extract(cancer_type, "(?i)T\\d++[a-z]|Gleason \\d+")) |>
   select(-cancer_type)
+
 
 
 ```
