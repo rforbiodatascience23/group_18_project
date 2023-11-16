@@ -11,3 +11,7 @@ Martin, S. E., Begun, E. M., Samir, E., Azaiza, M. T., Allegro, S., & Abdelhady,
 Dataset:
 Martin, Sarah (2021), “Data for: Incidence and Morbidity of Radiation-Induced Hemorrhagic Cystitis in Prostate Cancer”, Mendeley Data, V2, doi: 10.17632/tngrtnvn2p.2
 
+To recreate our results using the specified dataset follow the steps:
+1. When cloning our repository create in group_18_project two folders: '_raw' and 'data'
+2. Download the dataset from the given website and save it as 'radiation_dataset.xlsx'
+3. Run the code 
