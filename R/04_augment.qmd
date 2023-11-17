@@ -26,9 +26,6 @@ clean_hc_patient_data <- clean_hc_patient_data |>
       TRUE ~ NA_character_),
     cancer_stage = str_extract(cancer_type, "(?i)T\\d++[a-z]|Gleason \\d+")) |>
   select(-cancer_type)
-
-
-
 ```
 
 BMI (Laia)

@@ -4,15 +4,6 @@ format: html
 editor: visual
 ---
 
-# Load libraries
-
-```{r}
-library(lubridate)
-library(dplyr)
-library(janitor)
-library(data.table)
-```
-
 # Clean Data
 
 ## Clean HC patient data
@@ -129,6 +120,9 @@ patient_info1 <- patient_info1 |>
 
 # Merge patient_info1 and patient_info2
 combined_patient_info <- bind_rows(patient_info1, patient_info2)
+
+combined_patient_info <- combined_patient_info |>
+  rename(hospital_id = "fin")
 ```
 
 ### Write the clean data in a CSV file and save it in data

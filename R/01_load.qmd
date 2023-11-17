@@ -9,6 +9,10 @@ editor: visual
 ```{r}
 library(tidyverse)
 library(readxl)
+library(lubridate)
+library(dplyr)
+library(janitor)
+library(data.table)
 ```
 
 # Load dataset
