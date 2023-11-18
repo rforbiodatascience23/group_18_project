@@ -132,3 +132,18 @@ write.csv(combined_patient_info,
           file = "~/group_18_project/data/clean_patient_info.csv", 
           row.names = FALSE)
 ```
+
+# Save clean datasets in tsv files
+
+```{r}
+# Save data in hc_patient_data
+write_tsv(
+  x= hc_patient_data, 
+  file = '~/group_18_project/data/01_dat_clean1.tsv')
+
+# Save data in combined_patient_info
+write_tsv(
+  x= combined_patient_info, 
+  file = '~/group_18_project/data/01_dat_clean2.tsv')
+
+```

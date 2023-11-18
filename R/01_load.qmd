@@ -28,3 +28,23 @@ patient_info1 <- read_excel(path = file, sheet = 2)
 
 patient_info2 <- read_excel(path = file, sheet = 3)
 ```
+
+# Save datasets in tsv
+
+```{r}
+# Save data in sheet 1
+write_tsv(
+  x= hc_patient_data, 
+  file = '~/group_18_project/data/01_dat_load1.tsv')
+
+# Save data in sheet 2
+write_tsv(
+  x= patient_info1, 
+  file = '~/group_18_project/data/01_dat_load2.tsv')
+
+# Save data in sheet 3
+write_tsv(
+  x= patient_info1, 
+  file = '~/group_18_project/data/01_dat_load3.tsv')
+
+```
