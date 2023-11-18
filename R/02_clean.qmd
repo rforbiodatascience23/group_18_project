@@ -85,8 +85,14 @@ hc_patient_data <- hc_patient_data |>
 
 ```{r}
 write.csv(hc_patient_data, 
-          file = "~/group_18_project/data/clean_hc_patient_data.csv", 
-          row.names = FALSE)
+          file = "~/group_18_project/data/clean_hc_patient_data.csv", row.names = FALSE)
+    
+
+# Save data in hc_patient_data
+write.table(hc_patient_data, 
+            file = "~/group_18_project/data/02_dat_clean1.tsv", 
+            sep = "\t", 
+            row.names = FALSE)
 ```
 
 ## Clean patients_1 and patients_2 data
@@ -142,10 +148,6 @@ write.csv(combined_patient_info,
 # Save clean datasets in tsv files
 
 ```{r}
-# Save data in hc_patient_data
-write_tsv(
-  x= hc_patient_data, 
-  file = '~/group_18_project/data/02_dat_clean1.tsv')
 
 # Save data in combined_patient_info
 write_tsv(
