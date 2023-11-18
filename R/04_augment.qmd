@@ -4,6 +4,12 @@ format: html
 editor: visual
 ---
 
+# Load libraries
+
+```{r}
+library(purrr)
+```
+
 # Load clean data
 
 ```{r}
@@ -34,15 +40,30 @@ clean_hc_patient_data <- clean_hc_patient_data |>
   select(-cancer_type)
 ```
 
-BMI (Laia)
+### Data Wrangling: BMI
+
+Compute the Body Mass Index (BMI) using the Height and Weight columns. The BMI will be added in a new column named: 'BMI'.
 
 ```{r}
+clean_data1<- clean_data1 |> 
+  mutate(
+    height_m = height_cm/100,
+    BMI = weight_kg/(height_m^2)) |> # Calculate BMI
+  select(-height_m) # Remove 'height_m'. No longer used.
 
 ```
 
-Divide comorbidities into columns
+### Data Wrangling: Comorbidities
+
+Separating and counting the number of comorbidities presented bye each patient. The number is added in a new column named: 'num_comorbidities'.
+
+If comorbidities appears like 'NA' a 0 is assigned to 'num_comorbidities'.
 
 ```{r}
+clean_data1 <- clean_data1 |> 
+  mutate(
+    num_comorbidities = ifelse(is.na(comorbidities), 0, lengths(str_split(comorbidities, ','))
+  ))
 
 ```
 
@@ -51,6 +72,9 @@ Divide comorbidities into columns
 Comput the sum fo hopitalization complications and add is as a new columns called: " "
 
 ```{r}
+# WRONG CODE
+clean_data1 <- replace(clean_data1:hospitalization_complications, c(', and', ' and '), ',')
 
+print(clean_data1 |> select(hospitalization_complications))
 
 ```

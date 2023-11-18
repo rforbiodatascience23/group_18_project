@@ -81,13 +81,9 @@ hc_patient_data <- hc_patient_data |>
 
 ```
 
-### Write the clean data in a CSV file and save it in data
+### Write the clean data in a TSV file and save it in data
 
 ```{r}
-write.csv(hc_patient_data, 
-          file = "~/group_18_project/data/clean_hc_patient_data.csv", row.names = FALSE)
-    
-
 # Save data in hc_patient_data
 write.table(hc_patient_data, 
             file = "~/group_18_project/data/02_dat_clean1.tsv", 
