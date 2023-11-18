@@ -46,8 +46,11 @@ Divide comorbidities into columns
 
 ```
 
-Hospitalization complications (either divide columns or count into a new table)
+### Data Wrangling: Hospitalization complications
+
+Comput the sum fo hopitalization complications and add is as a new columns called: " "
 
 ```{r}
+
 
 ```
