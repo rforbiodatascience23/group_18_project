@@ -6,12 +6,6 @@ editor: visual
 
 # Clean Data
 
-## Libraries
-
-```{r}
-library(tidyverse)
-```
-
 ## Clean HC patient data
 
 ```{r}
@@ -85,10 +79,9 @@ hc_patient_data <- hc_patient_data |>
 
 ```{r}
 # Save data in hc_patient_data
-write.table(hc_patient_data, 
-            file = "~/group_18_project/data/02_dat_clean1.tsv", 
-            sep = "\t", 
-            row.names = FALSE)
+write_tsv(
+  x= hc_patient_data, 
+  file = '~/group_18_project/data/02_dat_clean1.tsv')
 ```
 
 ## Clean patients_1 and patients_2 data
@@ -133,15 +126,7 @@ combined_patient_info <- combined_patient_info |>
   rename(hospital_id = "fin")
 ```
 
-### Write the clean data in a CSV file and save it in data
-
-```{r}
-write.csv(combined_patient_info, 
-          file = "~/group_18_project/data/clean_patient_info.csv", 
-          row.names = FALSE)
-```
-
-# Save clean datasets in tsv files
+### Write the clean data in a TSV file and save it in data
 
 ```{r}
 
