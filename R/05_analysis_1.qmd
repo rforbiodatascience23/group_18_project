@@ -4,8 +4,39 @@ format: html
 editor: visual
 ---
 
+```{r warning=FALSE}
+clean_data2 <- read_tsv(
+  file = "~/group_18_project/data/02_dat_clean2.tsv",
+  show_col_types = FALSE)
+```
+
 Analysis 1
 
 ```{r}
 
+
+plot1 <- clean_data2 |> 
+  count(treatment, hc_incidence) |>
+  group_by(treatment) |>
+  mutate(freq = n / sum(n)) |>
+  ggplot(aes(x = treatment, 
+           y = freq,
+           fill = hc_incidence)) +  
+  geom_col(position = position_dodge(
+    preserve = "single"),
+    colour = "black",
+    alpha = 0.5) +
+  geom_hline(yintercept = 0) +
+  labs(x = "Treatment Received",    
+       y = "Proportion",              
+       fill = "Radiation-Induced Hemorrhagic Cystitis"     
+  ) +
+  theme_minimal(base_size = 12) +
+  theme(legend.position = "top",
+        panel.grid.major.x = element_blank(),
+        axis.text.x = element_text(angle = 45,
+                                   hjust = 1,
+                                   vjust = 1.1))
+
+plot1
 ```

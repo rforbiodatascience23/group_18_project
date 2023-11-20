@@ -46,6 +46,7 @@ change_variable_names <- c(
   hospitalization_complications = "complications_during_hospitalization_uti_pyelonephritis_urosepsis_hydronephrosis_aki_other"
 )
 
+
 dat_load1 <- rename(dat_load1, 
                     any_of(change_variable_names))
 ```
@@ -86,38 +87,42 @@ write.table(x = dat_load1,
 ## Clean patient_data for sheets 2 and 3 - dat_load2 and dat_load3
 
 ```{r}
-# Remove Unknown column from the variables and columns that don't exist in patient_info2
+# Remove column from the variables and columns that don't exist in patient_info2
 dat_load2 <- dat_load2 |> 
-  select(-unknown, 
-         -rads_for_prostate_primary, 
+  select(-rads_for_prostate_primary, 
          -rads_bladder_primary, 
          -developed_bladder_first,
          -developed_prostate_first)
 
-# Remove Unknown column
-dat_load3 <- dat_load3 |> 
-  select(-unknown)
-
-# Replace N/A with 0 and X or x with 1
-dat_load2 <- dat_load2 |>
-   mutate_all(
-     ~ ifelse(is.na(.) | tolower(.) == "na", 0, 
-       ifelse(tolower(.) == "x", 1, .)))
-
-dat_load3 <- dat_load3 |> 
-   mutate_all(
-     ~ ifelse(is.na(.) | tolower(.) == "na", 0, 
-       ifelse(tolower(.) == "x", 1, .)))
-
 # Change variable in patient_info1 blader_ca to blader as in patient_info2
 dat_load2 <- dat_load2 |>
   rename(bladder = "bladder_ca")
-
+ 
 # Merge patient_info1 and patient_info2
 combined_dat_load2_load3 <- bind_rows(dat_load2, dat_load3)
 
+# Make rename hc as hc_incidence and remove no_hc. If obs=1 patient had hc if obs=0 patient didn't have hc 
+combined_dat_load2_load3 <- combined_dat_load2_load3 |> 
+  rename("hc_incidence" = "hc") |>
+  select(-"no_hc")
+
+# Rename the identifier fin to hospital_id 
 combined_dat_load2_load3 <- combined_dat_load2_load3|>
-  rename(hospital_id = "fin")
+  rename(hospital_id = "fin") 
+
+# Combine types of treatment into one column called treatment
+combined_dat_load2_load3 <- combined_dat_load2_load3 |>
+  pivot_longer(cols = ebrt:brachytherapy,
+              names_to = "treatment", 
+              values_to = "values",
+              values_drop_na = TRUE) |>
+  select(-values)
+
+# Replace NA and Xs for 0 and 1s but yes
+combined_dat_load2_load3 <- combined_dat_load2_load3 |> 
+   mutate_all(~ ifelse(is.na(.) | tolower(.) == "na", "no", 
+                       ifelse(tolower(.) == "x", "yes", .))) 
+
 ```
 
 ### Save the cleaned data as a TSV file in data folder

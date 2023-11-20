@@ -6,6 +6,8 @@ editor: visual
 
 Analysis 2
 
+PCA
+
 ```{r}
 
 ```
