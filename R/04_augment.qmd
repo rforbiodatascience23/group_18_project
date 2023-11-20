@@ -13,9 +13,6 @@ library(purrr)
 # Load clean data
 
 ```{r}
-# OLD -  from csv file
-clean_hc_patient_data <- read_csv(file = "~/group_18_project/data/clean_hc_patient_data.csv")
-
 # NEW - from tsv file
 clean_data1 <- read_tsv(
   file = "~/group_18_project/data/02_dat_clean1.tsv",
