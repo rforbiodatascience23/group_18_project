@@ -20,5 +20,5 @@ Martin, Sarah (2021), “Data for: Incidence and Morbidity of Radiation-Induced 
 ### Please follow these instructions to replicate our results
 
 1. Clone our repository and within the 'group_18_project' directory, create two folders: '_raw' and 'data'.
-2. Obtain the dataset from the provided website and store it as 'radiation_dataset.xlsx' in the '_raw' folder.
+2. Obtain the dataset from the provided website and store it as 'raw_data.xlsx' in the '_raw' folder.
 3. Execute the provided code.
