@@ -6,13 +6,14 @@ editor: visual
 
 # Load libraries
 
-```{r}
+```{r message=FALSE}
 library(tidyverse)
 library(readxl)
 library(lubridate)
 library(dplyr)
 library(janitor)
 library(data.table)
+library(purrr)
 ```
 
 # Load dataset
@@ -20,32 +21,52 @@ library(data.table)
 ```{r}
 # Load the data using readxl library and remove missing values present in different formats
 
-file = "~/group_18_project/_raw/radiation_dataset.xlsx"
+file_path = "~/group_18_project/_raw/raw_data.xlsx"
 
-hc_patient_data <- read_xlsx(path = file, na = c("unknown", "Unknown", "N/A", "Unkown", "unkown", "None", "none", "" ), sheet = 1)
-# None here as NA might not be correct as data is given as none, meaning the patient had 0 of the named diseases that were given) 
+dat_load1 <- read_xlsx(path = file_path, na = c("unknown", "Unknown", "N/A", "Unkown", "unkown", "None", "none", "" ), sheet = 1)
 
-patient_info1 <- read_excel(path = file, sheet = 2)
+dat_load2 <- read_excel(path = file_path, sheet = 2)
 
-patient_info2 <- read_excel(path = file, sheet = 3)
+dat_load3 <- read_excel(path = file_path, sheet = 3)
 ```
 
-# Save datasets in tsv
+Use janitor library to fix the variable names
 
 ```{r}
-# Save data in sheet 1
-write_tsv(
-  x= hc_patient_data, 
-  file = '~/group_18_project/data/01_dat_load1.tsv')
 
-# Save data in sheet 2
-write_tsv(
-  x= patient_info1, 
-  file = '~/group_18_project/data/01_dat_load2.tsv')
+# Remove spaces from variable names 
+dat_load1 <- dat_load1 |> 
+  clean_names()
 
-# Save data in sheet 3
-write_tsv(
-  x= patient_info1, 
-  file = '~/group_18_project/data/01_dat_load3.tsv')
+# Remove spaces from variable names 
+dat_load2 <- dat_load2 |> 
+    clean_names()
 
+dat_load3 <- dat_load3 |> 
+    clean_names()
+```
+
+### Save the raw_data as a TSV file in data folder
+
+```{r}
+
+# Save data from sheet 1
+write.table(x = dat_load1, "~/group_18_project/data/01_dat_load1.tsv", 
+            sep = "\t", 
+            quote = TRUE,
+            row.names = FALSE)
+
+# Save data from sheet 2
+write.table(x = dat_load2, 
+            file = "~/group_18_project/data/01_dat_load2.tsv", 
+            sep = "\t", 
+            quote = TRUE,
+            row.names = FALSE)
+
+# Save data from sheet 
+write.table(x = dat_load3, 
+            file = "~/group_18_project/data/01_dat_load3.tsv", 
+            sep = "\t", 
+            quote = TRUE,
+            row.names = FALSE)
 ```

@@ -4,16 +4,9 @@ format: html
 editor: visual
 ---
 
-# Load libraries
-
-```{r}
-library(purrr)
-```
-
 # Load clean data
 
-```{r}
-# NEW - from tsv file
+```{r warning=FALSE}
 clean_data1 <- read_tsv(
   file = "~/group_18_project/data/02_dat_clean1.tsv",
   show_col_types = FALSE)
@@ -26,7 +19,7 @@ Make new columns cancer_organ and cancer_stage from cancer_type, removing the la
 ```{r}
 
 ## cancer_type is separated into new variables and then removed 
-clean_hc_patient_data <- clean_hc_patient_data |>
+clean_data1 <- clean_data1 |>
   mutate(
     cancer_organ = case_when(
       grepl("prostate", tolower(cancer_type)) & grepl("bladder", tolower(cancer_type)) ~       "prostate,bladder",
@@ -45,7 +38,7 @@ Compute the Body Mass Index (BMI) using the Height and Weight columns. The BMI w
 clean_data1<- clean_data1 |> 
   mutate(
     height_m = height_cm/100,
-    BMI = weight_kg/(height_m^2)) |> # Calculate BMI
+    BMI = weight_kg/(height_m*2)) |> # Calculate BMI
   select(-height_m) # Remove 'height_m'. No longer used.
 
 ```
@@ -59,14 +52,15 @@ If comorbidities appears like 'NA' a 0 is assigned to 'num_comorbidities'.
 ```{r}
 clean_data1 <- clean_data1 |> 
   mutate(
-    num_comorbidities = ifelse(is.na(comorbidities), 0, lengths(str_split(comorbidities, ','))
+    num_comorbidities = ifelse(is.na(comorbidities), 0, 
+                               lengths(str_split(comorbidities, ','))
   ))
 
 ```
 
 ### Data Wrangling: Hospitalization complications
 
-Comput the sum fo hopitalization complications and add is as a new columns called: " "
+Compute the sum fo hospitalization complications and add is as a new columns called: " "
 
 ```{r}
 # WRONG CODE
