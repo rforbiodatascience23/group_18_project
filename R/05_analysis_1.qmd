@@ -102,6 +102,7 @@ ggplot(result, aes(x = radiation_type, y = Percentage, fill = dose_category)) +
   theme(axis.text.x = element_text(angle = 65, hjust = 1, vjust = 1))
 
 =======
+  
 Plot for comparison of the average time passed since the completion of radiation treatment and the first incident of HC
 
 ```{r warning=FALSE}
