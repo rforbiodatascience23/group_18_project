@@ -107,7 +107,7 @@ ggplot(result, aes(x = radiation_type, y = Percentage, fill = dose_category)) +
 
 ```{r warning=FALSE}
 clean_data1 <- read_tsv(
-  file = "~/group_18_project/data/03_dat_aug.tsv",
+  file = "~/group_18_project/data/03_dat_aug1.tsv",
   show_col_types = FALSE)
 ```
 
@@ -136,6 +136,8 @@ plot2 <-
 print(plot2)
 ```
 
+\_Calculate percentage
+
 ```{r}
 # Assuming you have a data frame named clean_data1 with columns "radiation_type" and "radiation_dosage"
 
@@ -150,5 +152,54 @@ percentage_df <- clean_data1 |>
 
 # Print the resulting data frame
 print(percentage_df)
+
+```
+
+```{r}
+library(ggplot2)
+
+# Assuming percentage_df is your data frame
+# You can replace 'percentage_df' with your actual data frame name
+
+# Melt the data frame to long format for easier plotting
+melted_df <- tidyr::gather(percentage_df, key = "DoseCategory", value = "Percentage", -radiation_type)
+
+# Create a stacked bar plot
+ggplot(melted_df, aes(x = radiation_type, y = Percentage, fill = DoseCategory)) +
+  geom_bar(stat = "identity", position = "stack", color = "black") +
+  labs(
+    title = "Percentage of Patients in Low, Medium, and High Dose Categories",
+    x = "Radiation Type",
+    y = "Percentage"
+  ) +
+  scale_fill_manual(values = c("Low" = "skyblue", "Medium" = "lightcoral", "High" = "gold")) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+```
+
+```{r}
+library(ggplot2)
+
+# Assuming percentage_df is your data frame
+# You can replace 'percentage_df' with your actual data frame name
+
+# Melt the data frame to long format for easier plotting
+melted_df <- tidyr::gather(percentage_df, key = "DoseCategory", value = "Percentage", -radiation_type)
+
+# Create a larger stacked bar plot with extended y-axis range
+ggplot(melted_df, aes(x = radiation_type, y = Percentage, fill = DoseCategory)) +
+  geom_bar(stat = "identity", position = "stack", color = "black") +
+  labs(
+    title = "Percentage of Patients in Low, Medium, and High Dose Categories",
+    x = "Radiation Type",
+    y = "Percentage"
+  ) +
+  scale_fill_manual(values = c("Low" = "skyblue", "Medium" = "lightcoral", "High" = "gold")) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  theme(axis.title.y = element_text(size = 12)) +  # Adjust y-axis title size
+  theme(axis.text.y = element_text(size = 10)) +   # Adjust y-axis text size
+  coord_cartesian(ylim = c(0, 150))  # Set y-axis range
 
 ```
