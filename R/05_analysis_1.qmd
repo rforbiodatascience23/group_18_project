@@ -1,0 +1,154 @@
+---
+title: "05_analysis_1.qmd"
+format: html
+editor: visual
+---
+
+```{r warning=FALSE}
+clean_data2 <- read_tsv(
+  file = "~/group_18_project/data/02_dat_clean2.tsv",
+  show_col_types = FALSE)
+```
+
+Analysis 1
+
+```{r}
+
+
+plot1 <- clean_data2 |> 
+  count(treatment, hc_incidence) |>
+  group_by(treatment) |>
+  mutate(freq = n / sum(n)) |>
+  ggplot(aes(x = treatment, 
+           y = freq,
+           fill = hc_incidence)) +  
+  geom_col(position = position_dodge(
+    preserve = "single"),
+    colour = "black",
+    alpha = 0.5) +
+  geom_hline(yintercept = 0) +
+  labs(x = "Treatment Received",    
+       y = "Proportion",              
+       fill = "Radiation-Induced Hemorrhagic Cystitis"     
+  ) +
+  theme_minimal(base_size = 12) +
+  theme(legend.position = "top",
+        panel.grid.major.x = element_blank(),
+        axis.text.x = element_text(angle = 45,
+                                   hjust = 1,
+                                   vjust = 1.1))
+
+plot1
+```
+
+Linear Regression:
+
+```{r}
+# Read data from the TSV file
+data <- read.delim('~/group_18_project/data/02_dat_clean1.tsv')
+
+#Create the plot
+plot_lm <- clean_data1 |> 
+  na.omit(clean_data1) |> 
+  ggplot(aes(x=radiation_dosage, y=BMI)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE, color = "blue") +
+  theme_minimal(base_size = 16) +
+  labs(x = "Radiation Dose",    
+       y = "BMI",              
+       title = "Linear Regression between BMI and radiation dose"     
+  ) +
+  theme(plot.title = element_text(hjust = 0.5, size = 16))  # Adjust title position and size
+
+# Perform linear regression
+model <- lm(radiation_dosage ~ BMI, data = clean_data1)
+
+# Print regression summary
+summary(model)
+
+#Print plot
+print(plot_lm)
+
+```
+
+\<\<\<\<\<\<\< HEAD Calculate percentage
+
+```{r}
+# Assuming 'data' is your data frame with columns 'radiation_type' and 'radiation_dosage'
+# Define dose categories based on your research or expert consultation
+low_dose_threshold <- 50
+high_dose_threshold <- 95
+
+# Categorize doses using mutate
+clean_data1 <- clean_data1 %>%
+  mutate(dose_category = cut(radiation_dosage, breaks = c(-Inf, low_dose_threshold, high_dose_threshold, Inf),
+                             labels = c('Low Dose', 'Medium Dose', 'High Dose')))
+
+# Calculate percentages for each type of radiation using summarise
+result <- clean_data1 %>%
+  group_by(radiation_type, dose_category) %>%
+  summarise(Percentage = n() / nrow(clean_data1) * 100) %>%
+  ungroup()  # Ungroup the data
+
+# Create a grouped bar plot
+ggplot(result, aes(x = radiation_type, y = Percentage, fill = dose_category)) +
+  geom_bar(stat = "identity", position = "dodge", width = 0.7) +
+  labs(title = "Percentage of Radiation Dosage in Each Dose Category by Radiation Type",
+       x = "Radiation Type",
+       y = "Percentage") +
+  scale_fill_manual(values = c('Low Dose' = 'lightblue', 'Medium Dose' = 'lightgreen', 'High Dose' = 'lightcoral', 'NAs'='darkgrey')) +
+  theme_classic(base_size = 8) + 
+  theme(axis.text.x = element_text(angle = 65, hjust = 1, vjust = 1))
+
+
+```
+
+#Plot for comparison of the average time passed since the completion of radiation treatment and the first incident of HC
+
+```{r warning=FALSE}
+clean_data1 <- read_tsv(
+  file = "~/group_18_project/data/03_dat_aug.tsv",
+  show_col_types = FALSE)
+```
+
+```{r}
+plot2_data <- clean_data1 |>
+  select(new_radiation_type, radiation_completion_to_first_hc) |>
+  mutate(TimePassed = as.numeric(radiation_completion_to_first_hc)) |>
+  filter(!is.na(TimePassed)) |> 
+  filter(!is.na(new_radiation_type)) 
+
+result <- plot2_data |>
+  group_by(new_radiation_type) |>
+  summarize(
+    AvgTimePassed = mean(TimePassed),
+    MedianTimePassed = median(TimePassed),
+    TotalObservations = n())
+
+plot2 <- 
+  ggplot(result, aes(x = new_radiation_type, y = AvgTimePassed, fill = new_radiation_type)) +
+  geom_bar(stat = "identity", position = "dodge", color = "black") +
+  labs(title = "Comparison of Average Time Since Radiation and Time to HC",
+       x = "Type of Radiation",
+       y = "Average Time Since Radiation (months)") +
+  theme_minimal()
+
+print(plot2)
+```
+
+```{r}
+# Assuming you have a data frame named clean_data1 with columns "radiation_type" and "radiation_dosage"
+
+# Calculate the percentage of patients who received low, medium, and high doses for each radiation type
+percentage_df <- clean_data1 |> 
+  group_by(radiation_type)  |> 
+  summarize(
+    Low = sum(radiation_dosage < 50) / n() * 100,
+    Medium = sum(radiation_dosage >= 50 & radiation_dosage < 70) / n() * 100,
+    High = sum(radiation_dosage >= 70) / n() * 100
+  )
+
+# Print the resulting data frame
+print(percentage_df)
+
+```
