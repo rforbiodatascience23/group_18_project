@@ -82,8 +82,9 @@ dat_load1 <- dat_load1 |>
     los_for_each_admission_days = str_replace_all(los_for_each_admission_days, "\\s+", " "),
     los_for_each_admission_days = str_replace_all(los_for_each_admission_days, ", ", " "),
      los_for_each_admission_days = str_replace_all(los_for_each_admission_days, " ", ","),
+        los_for_each_admission_days = ifelse(row_number() == 20, "1", los_for_each_admission_days),
     los_for_each_admission_days = ifelse(row_number() == 77, "3,1,4,5,1", los_for_each_admission_days),
-    
+
     # hospitalization_complications add coma to replace 'which' and 'and' 
     hospitalization_complications = str_replace_all(hospitalization_complications, "and", ","),
     hospitalization_complications = str_replace_all(hospitalization_complications, "which", ","),

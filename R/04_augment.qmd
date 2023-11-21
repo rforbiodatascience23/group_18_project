@@ -14,22 +14,6 @@ clean_data1 <- read_tsv(
 
 # Augment
 
-Make new columns cancer_organ and cancer_stage from cancer_type, removing the later afterwards
-
-```{r}
-
-## cancer_type is separated into new variables and then removed 
-clean_data1 <- clean_data1 |>
-  mutate(
-    cancer_organ = case_when(
-      grepl("prostate", tolower(cancer_type)) & grepl("bladder", tolower(cancer_type)) ~       "prostate,bladder",
-      grepl("prostate", tolower(cancer_type)) ~ "prostate",
-      grepl("bladder", tolower(cancer_type)) ~ "bladder",
-      TRUE ~ NA_character_),
-    cancer_stage = str_extract(cancer_type, "(?i)T\\d++[a-z]|Gleason \\d+")) |>
-  select(-cancer_type)
-```
-
 ### Data Wrangling: BMI
 
 Compute the Body Mass Index (BMI) using the Height and Weight columns. The BMI will be added in a new column named: 'BMI'.
@@ -38,9 +22,9 @@ Compute the Body Mass Index (BMI) using the Height and Weight columns. The BMI w
 clean_data1<- clean_data1 |> 
   mutate(
     height_m = height_cm/100,
-    BMI = weight_kg/(height_m*2)) |> # Calculate BMI
-  select(-height_m) # Remove 'height_m'. No longer used.
-
+    BMI = weight_kg/(height_m*2)) |>    # Calculate BMI
+  select(-height_m) |>                  # Remove 'height_m'. No longer used.
+  relocate(BMI, .after = height_cm)
 ```
 
 ### Data Wrangling: Comorbidities
@@ -50,12 +34,12 @@ Separating and counting the number of comorbidities presented bye each patient. 
 If comorbidities appears like 'NA' a 0 is assigned to 'num_comorbidities'.
 
 ```{r}
+ 
 clean_data1 <- clean_data1 |> 
   mutate(
     num_comorbidities = ifelse(is.na(comorbidities), 0, 
-                               lengths(str_split(comorbidities, ','))
-  ))
-
+                               str_count(comorbidities, pattern = ",") + 1)) |>
+    relocate(num_comorbidities, .after = comorbidities)
 ```
 
 ### Data Wrangling: Hospitalization complications
@@ -64,7 +48,34 @@ Compute the sum fo hospitalization complications and add is as a new columns cal
 
 ```{r}
 
-##help
+clean_data1 <- clean_data1 |> 
+  mutate(
+    num_hosp_complications = ifelse(is.na(hospitalization_complications), 0, 
+                                    str_count(hospitalization_complications, pattern = ",") + 1)) |>
+    relocate(num_hosp_complications, .after = hospitalization_complications)
+```
+
+### Data Wrangling: Length of stay per admission (los_for_each_admission_days)
+
+```{r}
+
+# Function to sum values in a string
+sum_values <- function(string) {
+  if (string != "") {
+    values <- as.numeric(unlist(strsplit(string, ",")))
+    return(sum(values))
+  } else {
+    return(0)
+  }
+}
+
+clean_data1 <- clean_data1 |> 
+  mutate(
+    los_for_each_admission_days = ifelse(is.na(los_for_each_admission_days), 0,
+                                         los_for_each_admission_days),
+    num_days_admited = sapply(los_for_each_admission_days, sum_values)) |>
+  relocate(num_days_admited, .after = los_for_each_admission_days)
+  
 ```
 
 ### Save it as a '.tsv' file
