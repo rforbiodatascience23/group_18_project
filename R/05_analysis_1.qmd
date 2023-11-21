@@ -146,7 +146,6 @@ print(plot2)
 \_Calculate percentage
 
 ```{r}
-# Assuming you have a data frame named clean_data1 with columns "radiation_type" and "radiation_dosage"
 
 # Calculate the percentage of patients who received low, medium, and high doses for each radiation type
 percentage_df <- clean_data1 |> 
@@ -164,9 +163,6 @@ print(percentage_df)
 
 ```{r}
 library(ggplot2)
-
-# Assuming percentage_df is your data frame
-# You can replace 'percentage_df' with your actual data frame name
 
 # Melt the data frame to long format for easier plotting
 melted_df <- tidyr::gather(percentage_df, key = "DoseCategory", value = "Percentage", -radiation_type)
@@ -187,9 +183,6 @@ ggplot(melted_df, aes(x = radiation_type, y = Percentage, fill = DoseCategory)) 
 
 ```{r}
 library(ggplot2)
-
-# Assuming percentage_df is your data frame
-# You can replace 'percentage_df' with your actual data frame name
 
 # Melt the data frame to long format for easier plotting
 melted_df <- tidyr::gather(percentage_df, key = "DoseCategory", value = "Percentage", -radiation_type)
