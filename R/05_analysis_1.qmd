@@ -71,6 +71,37 @@ print(plot_lm)
 
 ```
 
+<<<<<<< HEAD
+Calculate percentage
+
+```{r}
+# Assuming 'data' is your data frame with columns 'radiation_type' and 'radiation_dosage'
+# Define dose categories based on your research or expert consultation
+low_dose_threshold <- 50
+high_dose_threshold <- 95
+
+# Categorize doses using mutate
+clean_data1 <- clean_data1 %>%
+  mutate(dose_category = cut(radiation_dosage, breaks = c(-Inf, low_dose_threshold, high_dose_threshold, Inf),
+                             labels = c('Low Dose', 'Medium Dose', 'High Dose')))
+
+# Calculate percentages for each type of radiation using summarise
+result <- clean_data1 %>%
+  group_by(radiation_type, dose_category) %>%
+  summarise(Percentage = n() / nrow(clean_data1) * 100) %>%
+  ungroup()  # Ungroup the data
+
+# Create a grouped bar plot
+ggplot(result, aes(x = radiation_type, y = Percentage, fill = dose_category)) +
+  geom_bar(stat = "identity", position = "dodge", width = 0.7) +
+  labs(title = "Percentage of Radiation Dosage in Each Dose Category by Radiation Type",
+       x = "Radiation Type",
+       y = "Percentage") +
+  scale_fill_manual(values = c('Low Dose' = 'lightblue', 'Medium Dose' = 'lightgreen', 'High Dose' = 'lightcoral', 'NAs'='darkgrey')) +
+  theme_classic(base_size = 8) + 
+  theme(axis.text.x = element_text(angle = 65, hjust = 1, vjust = 1))
+
+=======
 Plot for comparison of the average time passed since the completion of radiation treatment and the first incident of HC
 
 ```{r warning=FALSE}
@@ -118,5 +149,6 @@ percentage_df <- clean_data1 |>
 
 # Print the resulting data frame
 print(percentage_df)
+>>>>>>> b104fcd48b6cac26af67ca5f50224c5755376559
 
 ```
