@@ -6,7 +6,7 @@ format: revealjs
 
 ## Introduction (slide 1)
 
--   Include intrduction
+-   Include introduction
 
 -   Graphical representation of your process going from raw to analysis-ready data
 
