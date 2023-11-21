@@ -66,3 +66,14 @@ Compute the sum fo hospitalization complications and add is as a new columns cal
 
 ##help
 ```
+
+### Save it as a '.tsv' file
+
+```{r}
+# Save aug data from sheet 1
+write.table(x = clean_data1,
+            file = "~/group_18_project/data/03_dat_aug1.tsv", 
+            sep = "\t", 
+            quote = TRUE,
+            row.names = FALSE)
+```
