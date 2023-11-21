@@ -63,7 +63,8 @@ dat_load1 <- dat_load1 |>
 dat_load1 <- dat_load1 |> 
   mutate(hospital_site = str_replace_all(hospital_site, " ", ""),
          hospital_site = str_replace_all(hospital_site, "/", ","),
-         hospital_site = str_replace(hospital_site, "Harperr", "Harper"))
+         hospital_site = str_replace(hospital_site, "Harperr", "Harper"),
+         hospital_site = str_replace(hospital_site, "Haper", "Harper"))
 
 
 ## dat_load1 - remove characters "Gy" make the observatons as num
@@ -87,36 +88,39 @@ dat_load1 <- dat_load1 |>
     cancer_stage = str_extract(cancer_type, "(?i)T\\d++[a-z]|Gleason \\d+")) |>
   select(-cancer_type)
 
-
 dat_load1_wider <- dat_load1 |>
-  mutate(comorbidities = gsub(" ", "", comorbidities)) |>
+  mutate(comorbidities = gsub("\n", "", comorbidities)) |>
   separate_rows(comorbidities, sep = ",") |>
-  pivot_wider(
-    id_cols = seq_along(comorbidities),
-    names_from = comorbidities,
-    values_from = comorbidities,
-    values_fn = length,
-    values_fill = 0
-  )
-
-dat_load1_wider <- dat_load1 %>%
-  mutate(comorbidities = gsub("\n", "", comorbidities)) %>%
-  separate_rows(comorbidities, sep = ",") %>%
-  mutate(comorbidities = str_trim(comorbidities)) %>%
-  group_by(row_number()) %>%
-  mutate(comorbidities = make.names(comorbidities, unique = TRUE)) %>%
+  mutate(comorbidities = str_trim(comorbidities)) |>
+  group_by(row_number()) |>
+  mutate(comorbidities = make.names(comorbidities, unique = TRUE))|>
   pivot_wider(names_from = comorbidities, values_from = comorbidities, values_fn = function(x) ifelse(!is.na(x), 1, 0))
 
-dat_load1_wider <- dat_load1 %>%
-  mutate(hospitalization_complications = gsub("\n", "", hospitalization_complications)) %>%
-  separate_rows(hospitalization_complications, sep = ",") %>%
-  mutate(hospitalization_complications = str_trim(hospitalization_complications)) %>%
-  group_by(row_number()) %>%
-  mutate(hospitalization_complications = make.names(hospitalization_complications, unique = TRUE)) %>%
+dat_load1_wider <- dat_load1_wider |>
+  mutate(CHF.tobacco.abuse = CHF)
+
+dat_load1_wider <- dat_load1_wider |> 
+  group_by(date_of_birth) |> 
+  summarise(dat_load1_wider)
+
+dat_load1_wider <- dat_load1_wider |>
+  mutate(hospitalization_complications = gsub("\n", "", hospitalization_complications)) |>
+  separate_rows(hospitalization_complications, sep = ",") |>
+  mutate(hospitalization_complications = str_trim(hospitalization_complications)) |>
+  group_by(row_number()) |>
+  mutate(hospitalization_complications = make.names(hospitalization_complications, unique = TRUE)) |>
   pivot_wider(names_from = hospitalization_complications, values_from = hospitalization_complications, values_fn = function(x) ifelse(!is.na(x), 1, 0))
 
+dat_load1_wider <- dat_load1_wider |> 
+  separate_rows(hospital_site, sep = ",") |>
+  mutate(hospital_site = str_trim(hospital_site)) |>
+  group_by(row_number()) |>
+  mutate(hospital_site = make.names(hospital_site, unique = TRUE)) |>
+  pivot_wider(names_from = hospital_site, values_from = hospital_site, values_fn = function(x) ifelse(!is.na(x), 1, 0))
 
 
+
+  
 
 ```
 
