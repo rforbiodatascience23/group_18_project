@@ -69,9 +69,11 @@ summary(model)
 #Print plot
 print(plot_lm)
 
+# Save plot to folder called "results"
+ggsave("~/group_18_project/results/plot_lm.png", plot_lm, width = 8, height = 5, dpi = 300)
 ```
 
-\<\<\<\<\<\<\< HEAD Calculate percentage
+Calculate percentage
 
 ```{r}
 # Assuming 'data' is your data frame with columns 'radiation_type' and 'radiation_dosage'
@@ -80,18 +82,19 @@ low_dose_threshold <- 50
 high_dose_threshold <- 95
 
 # Categorize doses using mutate
-clean_data1 <- clean_data1 %>%
+clean_data1 <- clean_data1 |> 
   mutate(dose_category = cut(radiation_dosage, breaks = c(-Inf, low_dose_threshold, high_dose_threshold, Inf),
                              labels = c('Low Dose', 'Medium Dose', 'High Dose')))
 
 # Calculate percentages for each type of radiation using summarise
-result <- clean_data1 %>%
-  group_by(radiation_type, dose_category) %>%
-  summarise(Percentage = n() / nrow(clean_data1) * 100) %>%
+result <- clean_data1 |> 
+  group_by(radiation_type, dose_category) |> 
+  summarise(Percentage = n() / nrow(clean_data1) * 100, .groups = 'drop') |> 
   ungroup()  # Ungroup the data
 
 # Create a grouped bar plot
-ggplot(result, aes(x = radiation_type, y = Percentage, fill = dose_category)) +
+plot_rad <- result |> 
+  ggplot(aes(x = radiation_type, y = Percentage, fill = dose_category)) +
   geom_bar(stat = "identity", position = "dodge", width = 0.7) +
   labs(title = "Percentage of Radiation Dosage in Each Dose Category by Radiation Type",
        x = "Radiation Type",
@@ -100,6 +103,10 @@ ggplot(result, aes(x = radiation_type, y = Percentage, fill = dose_category)) +
   theme_classic(base_size = 8) + 
   theme(axis.text.x = element_text(angle = 65, hjust = 1, vjust = 1))
 
+# Save plot to the "results" folder
+ggsave("~/group_18_project/results/plot_per_rad_dose.png", plot_rad, width = 8, height = 5, dpi = 300)
+
+
 
 ```
 
@@ -107,7 +114,7 @@ ggplot(result, aes(x = radiation_type, y = Percentage, fill = dose_category)) +
 
 ```{r warning=FALSE}
 clean_data1 <- read_tsv(
-  file = "~/group_18_project/data/03_dat_aug.tsv",
+  file = "~/group_18_project/data/03_dat_aug1.tsv",
   show_col_types = FALSE)
 ```
 
