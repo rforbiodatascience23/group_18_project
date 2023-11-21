@@ -120,20 +120,20 @@ clean_data1 <- read_tsv(
 
 ```{r}
 plot2_data <- clean_data1 |>
-  select(new_radiation_type, radiation_completion_to_first_hc) |>
+  select(radiation_type, radiation_completion_to_first_hc) |>
   mutate(TimePassed = as.numeric(radiation_completion_to_first_hc)) |>
   filter(!is.na(TimePassed)) |> 
-  filter(!is.na(new_radiation_type)) 
+  filter(!is.na(radiation_type)) 
 
 result <- plot2_data |>
-  group_by(new_radiation_type) |>
+  group_by(radiation_type) |>
   summarize(
     AvgTimePassed = mean(TimePassed),
     MedianTimePassed = median(TimePassed),
     TotalObservations = n())
 
 plot2 <- 
-  ggplot(result, aes(x = new_radiation_type, y = AvgTimePassed, fill = new_radiation_type)) +
+  ggplot(result, aes(x = radiation_type, y = AvgTimePassed, fill = radiation_type)) +
   geom_bar(stat = "identity", position = "dodge", color = "black") +
   labs(title = "Comparison of Average Time Since Radiation and Time to HC",
        x = "Type of Radiation",
@@ -141,6 +141,13 @@ plot2 <-
   theme_minimal()
 
 print(plot2)
+
+# Save the plot in Results directory
+ggsave(
+  filename = 'comparison_radiation_HC.png',
+  plot = comparison_radiation_HC,
+  path = "~/group_18_project/results"
+)
 ```
 
 \_Calculate percentage
