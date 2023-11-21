@@ -73,6 +73,53 @@ dat_load1 <- dat_load1 |>
 
 ```
 
+Separate cancer site
+
+```{r}
+## cancer_type is separated into new variables and then removed 
+dat_load1 <- dat_load1 |> 
+  mutate(
+    cancer_site = case_when(
+      grepl("prostate", tolower(cancer_type)) & grepl("bladder", tolower(cancer_type)) ~ "both",
+      grepl("prostate", tolower(cancer_type)) ~ "prostate",
+      grepl("bladder", tolower(cancer_type)) ~ "bladder",
+      TRUE ~ NA_character_),
+    cancer_stage = str_extract(cancer_type, "(?i)T\\d++[a-z]|Gleason \\d+")) |>
+  select(-cancer_type)
+
+
+dat_load1_wider <- dat_load1 |>
+  mutate(comorbidities = gsub(" ", "", comorbidities)) |>
+  separate_rows(comorbidities, sep = ",") |>
+  pivot_wider(
+    id_cols = seq_along(comorbidities),
+    names_from = comorbidities,
+    values_from = comorbidities,
+    values_fn = length,
+    values_fill = 0
+  )
+
+dat_load1_wider <- dat_load1 %>%
+  mutate(comorbidities = gsub("\n", "", comorbidities)) %>%
+  separate_rows(comorbidities, sep = ",") %>%
+  mutate(comorbidities = str_trim(comorbidities)) %>%
+  group_by(row_number()) %>%
+  mutate(comorbidities = make.names(comorbidities, unique = TRUE)) %>%
+  pivot_wider(names_from = comorbidities, values_from = comorbidities, values_fn = function(x) ifelse(!is.na(x), 1, 0))
+
+dat_load1_wider <- dat_load1 %>%
+  mutate(hospitalization_complications = gsub("\n", "", hospitalization_complications)) %>%
+  separate_rows(hospitalization_complications, sep = ",") %>%
+  mutate(hospitalization_complications = str_trim(hospitalization_complications)) %>%
+  group_by(row_number()) %>%
+  mutate(hospitalization_complications = make.names(hospitalization_complications, unique = TRUE)) %>%
+  pivot_wider(names_from = hospitalization_complications, values_from = hospitalization_complications, values_fn = function(x) ifelse(!is.na(x), 1, 0))
+
+
+
+
+```
+
 ### Save the cleaned data as a TSV file in data folder
 
 ```{r}
@@ -109,6 +156,10 @@ combined_dat_load2_load3 <- combined_dat_load2_load3 |>
 # Rename the identifier fin to hospital_id 
 combined_dat_load2_load3 <- combined_dat_load2_load3|>
   rename(hospital_id = "fin") 
+
+# Rename 
+combined_dat_load2_load3 <- combined_dat_load2_load3|>
+  rename(prostate_cancer = "prostate", bladder_cancer = "bladder") 
 
 # Combine types of treatment into one column called treatment
 combined_dat_load2_load3 <- combined_dat_load2_load3 |>
