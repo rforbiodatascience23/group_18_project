@@ -40,3 +40,28 @@ plot1 <- clean_data2 |>
 
 plot1
 ```
+
+Linear Regression:
+
+```{r}
+# Read data from the TSV file
+data <- read.delim('~/group_18_project/data/02_dat_clean1.tsv')
+
+#Create the plot
+plot_lm <- clean_data1 |> 
+  na.omit(clean_data1) |> 
+  ggplot(aes(x=radiation_dosage, y=BMI)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE, color = "blue") +
+  theme_minimal(base_size = 16)
+
+# Perform linear regression
+model <- lm(radiation_dosage ~ BMI, data = clean_data1)
+
+# Print regression summary
+summary(model)
+
+#Print plot
+plot_lm
+
+```
