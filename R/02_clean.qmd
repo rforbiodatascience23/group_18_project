@@ -87,7 +87,41 @@ dat_load1 <- dat_load1 |>
       TRUE ~ NA_character_),
     cancer_stage = str_extract(cancer_type, "(?i)T\\d++[a-z]|Gleason \\d+")) |>
   select(-cancer_type)
+```
 
+Changing names in radiation_type
+
+```{r}
+change_variable_names2 <- c(
+  "Adjuvant EBRT s/p prostatectomy for a pT4N0" = "EBRT/Adjuvant",
+  "Adjuvant EBRT s/p prostatectomy with positive LNs" = "EBR/Adjuvant",
+  "EBRT then seeds" = "EBRT",
+  "EBRT, seeds" = "EBRT",
+  "EBRT, seeds, intravescial chemo" = "EBRT",
+  "EBRT, TURP" = "EBRT",
+  "EBRT,brachytherapy,TURBT" = "EBRT/brachytherapy",
+  "EBRT,seed implant, lupron" = "EBRT",
+  "IMRT boost" = "IMRT",
+  "IMRT/tomo" = "IMRT",
+  "Mixed neutron and Photon IMRT" = "mixed_neutron_photon_IMRT",
+  "mixed neutron/photon EBRT" = "mixed_neutron_photon_EBRT",
+  "neutron and photon EBRT, lupron" = "mixed_neutron_photon_EBRT",
+  "Neutron Irradiation and Intensity-Modulated Photon Therapy (IMRT)" = "IMRT",
+  "Neutron/photon IMRT" = "mixed_neutron_photon_IMRT",
+  "photon EBRT" = "mixed_neutron_photon_EBRT",
+  "photon/neutron mixed EBRT" = "mixed_neutron_photon_EBRT",
+  "radical prostactomey, Adjuvant radiation" = "Adjuvant",
+  "Salvage EBRT" = "EBRT/Salvage",
+  "Salvage EBRT 8 years s/p prostatectomy with positive margins for biochemical recurrence" = "EBRT/Salvage"
+)
+
+dat_load1 <- rename(dat_load1, 
+                    any_of(change_variable_names2))
+```
+
+Load wider
+
+```{r}
 dat_load1_wider <- dat_load1 |>
   mutate(comorbidities = gsub("\n", "", comorbidities)) |>
   separate_rows(comorbidities, sep = ",") |>
@@ -117,11 +151,6 @@ dat_load1_wider <- dat_load1_wider |>
   group_by(row_number()) |>
   mutate(hospital_site = make.names(hospital_site, unique = TRUE)) |>
   pivot_wider(names_from = hospital_site, values_from = hospital_site, values_fn = function(x) ifelse(!is.na(x), 1, 0))
-
-
-
-  
-
 ```
 
 ### Save the cleaned data as a TSV file in data folder
