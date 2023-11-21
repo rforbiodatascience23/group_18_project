@@ -8,7 +8,7 @@ editor: visual
 
 ### Principal Component Analysis
 
-By doing a Principal Component Analysis in the data set we will reduce its dimmensionality and figure out if patients cancer organ have similar values in quantitative variables *Grading system, Radiation dosage, Duration of radiation, Number of commorbidities.*
+By doing a Principal Component Analysis in the data set we will reduce its dimmensionality and figure out if patients cancer organ have similar values in quantitative variables *Grading system, Radiation dosage, Duration of radiation, Number of comorbidities.*
 
 First we load the libraries and data set required to perform this analysis.
 
