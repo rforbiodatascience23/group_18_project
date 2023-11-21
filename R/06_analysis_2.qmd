@@ -77,9 +77,17 @@ Look at the data in the PC coordinates.
 Plot the rotation matrix.
 
 ```{r}
+# Load library
+library(knitr)
+
 # extract rotation matrix
-pca_fit |> 
-  tidy(matrix = "rotation")
+rotation_matrix <- pca_fit$rotation
+
+# Rounded rotation matrix
+rotation_matrix <- round(rotation_matrix, digits = 3)
+
+# Print the rotation matrix as a table
+kable(rotation_matrix, caption = "Rotation Matrix in PCA")
 ```
 
 Arrow plot. We should see one arrow per variable included in PCA, so 4. I don't understand it, **maybe we could remove this plot**
@@ -91,9 +99,9 @@ arrow_style <- arrow(
 )
 
 # plot rotation matrix
-pca_fit %>%
-  tidy(matrix = "rotation") %>%
-  pivot_wider(names_from = "PC", names_prefix = "PC", values_from = "value") %>%
+pca_fit |> 
+  tidy(matrix = "rotation") |> 
+  pivot_wider(names_from = "PC", names_prefix = "PC", values_from = "value") |> 
   ggplot(aes(PC1, PC2)) +
   geom_segment(xend = 0, yend = 0, arrow = arrow_style) +
   geom_text(
