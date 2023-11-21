@@ -71,8 +71,7 @@ print(plot_lm)
 
 ```
 
-<<<<<<< HEAD
-Calculate percentage
+\<\<\<\<\<\<\< HEAD Calculate percentage
 
 ```{r}
 # Assuming 'data' is your data frame with columns 'radiation_type' and 'radiation_dosage'
@@ -101,9 +100,10 @@ ggplot(result, aes(x = radiation_type, y = Percentage, fill = dose_category)) +
   theme_classic(base_size = 8) + 
   theme(axis.text.x = element_text(angle = 65, hjust = 1, vjust = 1))
 
-=======
-  
-Plot for comparison of the average time passed since the completion of radiation treatment and the first incident of HC
+
+```
+
+#Plot for comparison of the average time passed since the completion of radiation treatment and the first incident of HC
 
 ```{r warning=FALSE}
 clean_data1 <- read_tsv(
@@ -150,6 +150,5 @@ percentage_df <- clean_data1 |>
 
 # Print the resulting data frame
 print(percentage_df)
->>>>>>> b104fcd48b6cac26af67ca5f50224c5755376559
 
 ```
