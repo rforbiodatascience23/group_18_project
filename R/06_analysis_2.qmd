@@ -16,7 +16,7 @@ First we load the libraries and data set required to perform this analysis.
 # Load libraries
 library(cowplot)
 library(tidyverse)
-library(broom)  # devtools::install_github("tidymodels/broom")
+library(broom)  
 
 # Load data
 hc_patients <- read_tsv(
@@ -54,7 +54,7 @@ pca_biplot<- pca_fit |>
   labs(color = "Cancer organ")+
   xlab("PC1") +
   ylab("PC2") +
-  ggtitle("Principal Component Analysis of patients with cancer and HC") +
+  ggtitle("PCA of patients with cancer and HC") +
   scale_color_manual(
     values = c('prostate' = "#D55E00", 'prostate,bladder' = "#9900b2", 'bladder' = "#0066FF"),
     breaks = c('prostate', 'prostate,bladder', 'bladder'),  
@@ -78,7 +78,7 @@ Plot the rotation matrix.
 
 ```{r}
 # extract rotation matrix
-pca_fit %>%
+pca_fit |> 
   tidy(matrix = "rotation")
 ```
 
