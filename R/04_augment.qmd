@@ -67,6 +67,18 @@ Compute the sum fo hospitalization complications and add is as a new columns cal
 ##help
 ```
 
+### Data Wrangling: Type of Radiation
+
+Minimize the amount of different radiations and group the same ones together
+
+```{r}
+clean_data1 <- clean_data1 |> 
+  mutate(new_radiation_type = case_when(
+    grepl("EBRT", radiation_type) ~ "EBRT",
+    grepl("IMRT", radiation_type) ~ "IMRT",
+    TRUE ~ radiation_type))
+```
+
 ### Save it as a '.tsv' file
 
 ```{r}
