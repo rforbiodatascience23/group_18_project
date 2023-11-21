@@ -10,13 +10,14 @@ editor: visual
 
 ```{r}
 
+# Load data 
+dat_load1 <- read_tsv(
+  file = "~/group_18_project/data/01_dat_load1.tsv",
+  show_col_types = FALSE)
+
 # Remove rows that do not correspond to patients and last column called "Notes" 
 dat_load1 <- dat_load1 |> 
   slice(1:80) |> select(1:28)
-
-# Make variable type as Date
-dat_load1 <- dat_load1 |> 
-  mutate(dob = ymd(dob))
 ```
 
 ### Give shorter names to the variables renaming them
@@ -51,37 +52,55 @@ dat_load1 <- rename(dat_load1,
                     any_of(change_variable_names))
 ```
 
-### Correct mistakes in the variable classes
+### Correct mistakes in some observations 
 
 ```{r}
 
-## ethnicity - make all names lower case, change AA to african american
-dat_load1 <- dat_load1 |> 
-  mutate(ethnicity = ifelse(ethnicity == "AA", "african_american", tolower(ethnicity)))
-
-## hospital_site - remove spaces and separate different hospitals by comas, correct names 
-dat_load1 <- dat_load1 |> 
-  mutate(hospital_site = str_replace_all(hospital_site, " ", ""),
-         hospital_site = str_replace_all(hospital_site, "/", ","),
-         hospital_site = str_replace(hospital_site, "Harperr", "Harper"),
-         hospital_site = str_replace(hospital_site, "Haper", "Harper"))
-
-
-## dat_load1 - remove characters "Gy" make the observatons as num
-dat_load1 <- dat_load1 |> 
-  mutate(radiation_dosage =  str_replace_all(radiation_dosage, "Gy", ""),
-         radiation_dosage = round(as.numeric(radiation_dosage),2)) 
-
-```
-
-Separate cancer site
-
-```{r}
-## cancer_type is separated into new variables and then removed 
 dat_load1 <- dat_load1 |> 
   mutate(
+  
+    # Make variable type as Date
+    date_of_birth = ymd(date_of_birth),
+    
+    # ethnicity - make all names lower case, change AA to african american
+    ethnicity = ifelse(ethnicity == "AA", "african_american", tolower(ethnicity)),
+    
+    # hospital_site - remove spaces and separate different hospitals by comas, correct names 
+    hospital_site = str_replace_all(hospital_site, " ", ""),
+    hospital_site = str_replace_all(hospital_site, "/", ","),
+    hospital_site = str_replace(hospital_site, "Harperr", "Harper"),
+    hospital_site = str_replace(hospital_site, "Haper", "Harper"),
+   
+    # radiation_dosage - remove characters "Gy" make the observatons as num
+    radiation_dosage =  str_replace_all(radiation_dosage, "Gy", ""),
+    radiation_dosage = round(as.numeric(radiation_dosage),2),
+    
+    # comorbidities add "," to allow separation by ",", str_replace did not work
+    comorbidities = ifelse(row_number() == 2, "HTN, A. fib, DM, CHF, tobacco", comorbidities),
+
+    # los_for_each_admission_days replace spaces with comas 
+    los_for_each_admission_days = str_replace_all(los_for_each_admission_days, "\\s+", " "),
+    los_for_each_admission_days = str_replace_all(los_for_each_admission_days, ", ", " "),
+     los_for_each_admission_days = str_replace_all(los_for_each_admission_days, " ", ","),
+    los_for_each_admission_days = ifelse(row_number() == 77, "3,1,4,5,1", los_for_each_admission_days),
+    
+    # hospitalization_complications add coma to replace 'which' and 'and' 
+    hospitalization_complications = str_replace_all(hospitalization_complications, "and", ","),
+    hospitalization_complications = str_replace_all(hospitalization_complications, "which", ","),
+    
+    # surgery_for_urinary_diversion values to yes or no only
+    surgery_for_urinary_diversion = ifelse(tolower(surgery_for_urinary_diversion) == "no", "no", "yes")
+    )
+    
+```
+
+### Clean cancer_type making new columns cancer_site and cancer_stage
+
+```{r}
+dat_load1 <- dat_load1 |>
+  mutate(
     cancer_site = case_when(
-      grepl("prostate", tolower(cancer_type)) & grepl("bladder", tolower(cancer_type)) ~ "both",
+      grepl("prostate", tolower(cancer_type)) & grepl("bladder", tolower(cancer_type)) ~       "prostate,bladder",
       grepl("prostate", tolower(cancer_type)) ~ "prostate",
       grepl("bladder", tolower(cancer_type)) ~ "bladder",
       TRUE ~ NA_character_),
@@ -89,68 +108,58 @@ dat_load1 <- dat_load1 |>
   select(-cancer_type)
 ```
 
-Changing names in radiation_type
+### Changing names in radiation_type so they fit with the ones in dat_load2 and dat_load3
 
 ```{r}
-change_variable_names2 <- c(
-  "Adjuvant EBRT s/p prostatectomy for a pT4N0" = "EBRT/Adjuvant",
-  "Adjuvant EBRT s/p prostatectomy with positive LNs" = "EBR/Adjuvant",
-  "EBRT then seeds" = "EBRT",
-  "EBRT, seeds" = "EBRT",
-  "EBRT, seeds, intravescial chemo" = "EBRT",
-  "EBRT, TURP" = "EBRT",
-  "EBRT,brachytherapy,TURBT" = "EBRT/brachytherapy",
-  "EBRT,seed implant, lupron" = "EBRT",
-  "IMRT boost" = "IMRT",
-  "IMRT/tomo" = "IMRT",
-  "Mixed neutron and Photon IMRT" = "mixed_neutron_photon_IMRT",
-  "mixed neutron/photon EBRT" = "mixed_neutron_photon_EBRT",
-  "neutron and photon EBRT, lupron" = "mixed_neutron_photon_EBRT",
-  "Neutron Irradiation and Intensity-Modulated Photon Therapy (IMRT)" = "IMRT",
-  "Neutron/photon IMRT" = "mixed_neutron_photon_IMRT",
-  "photon EBRT" = "mixed_neutron_photon_EBRT",
-  "photon/neutron mixed EBRT" = "mixed_neutron_photon_EBRT",
-  "radical prostactomey, Adjuvant radiation" = "Adjuvant",
-  "Salvage EBRT" = "EBRT/Salvage",
-  "Salvage EBRT 8 years s/p prostatectomy with positive margins for biochemical recurrence" = "EBRT/Salvage"
-)
 
-dat_load1 <- rename(dat_load1, 
-                    any_of(change_variable_names2))
+dat_load1 <- dat_load1 |>
+  mutate(
+    radiation_type = str_replace(radiation_type,"Adjuvant EBRT s/p prostatectomy for a pT4N0" , "EBRT,adjuvant"),
+    radiation_type = str_replace(radiation_type,"Adjuvant EBRT s/p prostatectomy with positive LNs" , "EBR,adjuvant"),
+    radiation_type = str_replace(radiation_type,"EBRT then seeds" , "EBRT"),
+    radiation_type = str_replace(radiation_type,"EBRT, seeds" , "EBRT"),
+    radiation_type = str_replace(radiation_type,"EBRT, seeds, intravescial chemo" , "EBRT"),
+    radiation_type = str_replace(radiation_type,"EBRT, TURP" , "EBRT"),
+    radiation_type = str_replace(radiation_type,"EBRT,brachytherapy,TURBT" , "EBRT,brachytherapy"),
+    radiation_type = str_replace(radiation_type,"EBRT,seed implant, lupron" , "EBRT"),
+    radiation_type = str_replace(radiation_type,"IMRT boost" , "IMRT"),
+    radiation_type = str_replace(radiation_type,"IMRT/tomo" , "IMRT"),
+    radiation_type = str_replace(radiation_type,"Mixed neutron and Photon IMRT" , "mixed_neutron_photon_IMRT"),
+    radiation_type = str_replace(radiation_type,"mixed neutron/photon EBRT" , "mixed_neutron_photon_EBRT"),
+    radiation_type = str_replace(radiation_type,"Neutron Irradiation and Intensity-Modulated Photon Therapy (IMRT)" , "IMRT"),
+    radiation_type = str_replace(radiation_type,"Neutron/photon IMRT" , "mixed_neutron_photon_IMRT"),
+    radiation_type = str_replace(radiation_type,"photon EBRT" , "mixed_neutron_photon_EBRT"),
+    radiation_type = str_replace(radiation_type,"photon/neutron mixed EBRT" , "mixed_neutron_photon_EBRT"),
+    radiation_type = str_replace(radiation_type,"radical prostactomey, Adjuvant radiation" , "adjuvant"),
+    radiation_type = str_replace(radiation_type,"Salvage EBRT" , "EBRT,salvage"),
+    radiation_type = str_replace(radiation_type,tolower("Neutron and mixed_neutron_photon_EBRT"),"mixed_neutron_photon_EBRT"),
+    # The previous method str_replace did not work with these observations
+    radiation_type = ifelse(row_number() == 19, "IMRT", radiation_type),
+    radiation_type = ifelse(row_number() == 22, "mixed_neutron_photon_IMRT", radiation_type),
+    radiation_type = ifelse(row_number() == 39, "EBRT,adjuvant", radiation_type),
+    radiation_type = ifelse(row_number() == 43, "EBRT,salvage", radiation_type),
+    radiation_type = ifelse(row_number() == 57, "IMRT", radiation_type),
+    radiation_type = ifelse(row_number() == 59, "mixed_neutron_photon_EBRT", radiation_type),
+    radiation_type = ifelse(row_number() == 65, "EBRT", radiation_type),
+    radiation_type = ifelse(row_number() == 68, "mixed_neutron_photon_EBRT", radiation_type),
+    radiation_type = ifelse(row_number() == 72, "adjuvant", radiation_type),
+    radiation_type = ifelse(row_number() == 79, "mixed_neutron_photon_EBRT,adjuvant", radiation_type)
+    )
 ```
 
-Load wider
+### Remove start_end_radiation and dates_of_admissions (too messy)
 
 ```{r}
-dat_load1_wider <- dat_load1 |>
-  mutate(comorbidities = gsub("\n", "", comorbidities)) |>
-  separate_rows(comorbidities, sep = ",") |>
-  mutate(comorbidities = str_trim(comorbidities)) |>
-  group_by(row_number()) |>
-  mutate(comorbidities = make.names(comorbidities, unique = TRUE))|>
-  pivot_wider(names_from = comorbidities, values_from = comorbidities, values_fn = function(x) ifelse(!is.na(x), 1, 0))
+dat_load1 <- dat_load1 |>
+  select(-start_end_radiation, -dates_of_admissions)
+```
 
-dat_load1_wider <- dat_load1_wider |>
-  mutate(CHF.tobacco.abuse = CHF)
+### Move columns 
 
-dat_load1_wider <- dat_load1_wider |> 
-  group_by(date_of_birth) |> 
-  summarise(dat_load1_wider)
+```{r}
 
-dat_load1_wider <- dat_load1_wider |>
-  mutate(hospitalization_complications = gsub("\n", "", hospitalization_complications)) |>
-  separate_rows(hospitalization_complications, sep = ",") |>
-  mutate(hospitalization_complications = str_trim(hospitalization_complications)) |>
-  group_by(row_number()) |>
-  mutate(hospitalization_complications = make.names(hospitalization_complications, unique = TRUE)) |>
-  pivot_wider(names_from = hospitalization_complications, values_from = hospitalization_complications, values_fn = function(x) ifelse(!is.na(x), 1, 0))
-
-dat_load1_wider <- dat_load1_wider |> 
-  separate_rows(hospital_site, sep = ",") |>
-  mutate(hospital_site = str_trim(hospital_site)) |>
-  group_by(row_number()) |>
-  mutate(hospital_site = make.names(hospital_site, unique = TRUE)) |>
-  pivot_wider(names_from = hospital_site, values_from = hospital_site, values_fn = function(x) ifelse(!is.na(x), 1, 0))
+dat_load1 <- dat_load1 |>
+  relocate(c(cancer_site,cancer_stage), .before=grading_system)
 ```
 
 ### Save the cleaned data as a TSV file in data folder
@@ -165,6 +174,18 @@ write.table(x = dat_load1,
 ```
 
 ## Clean patient_data for sheets 2 and 3 - dat_load2 and dat_load3
+
+```{r}
+
+# load data 
+dat_load2 <- read_tsv(
+  file = "~/group_18_project/data/01_dat_load2.tsv",
+  show_col_types = FALSE)
+
+dat_load3 <- read_tsv(
+  file = "~/group_18_project/data/01_dat_load3.tsv",
+  show_col_types = FALSE)
+```
 
 ```{r}
 # Remove column from the variables and columns that don't exist in patient_info2
