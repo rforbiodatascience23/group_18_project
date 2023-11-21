@@ -63,9 +63,6 @@ clean_data1 <- clean_data1 |>
 Compute the sum fo hospitalization complications and add is as a new columns called: " "
 
 ```{r}
-# WRONG CODE
-clean_data1 <- replace(clean_data1:hospitalization_complications, c(', and', ' and '), ',')
 
-print(clean_data1 |> select(hospitalization_complications))
-
+##help
 ```
