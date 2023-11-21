@@ -52,7 +52,7 @@ dat_load1 <- rename(dat_load1,
                     any_of(change_variable_names))
 ```
 
-### Correct mistakes in some observations 
+### Correct mistakes in some observations
 
 ```{r}
 
@@ -143,7 +143,8 @@ dat_load1 <- dat_load1 |>
     radiation_type = ifelse(row_number() == 65, "EBRT", radiation_type),
     radiation_type = ifelse(row_number() == 68, "mixed_neutron_photon_EBRT", radiation_type),
     radiation_type = ifelse(row_number() == 72, "adjuvant", radiation_type),
-    radiation_type = ifelse(row_number() == 79, "mixed_neutron_photon_EBRT,adjuvant", radiation_type)
+    radiation_type = ifelse(row_number() == 79, "mixed_neutron_photon_EBRT,adjuvant", radiation_type),
+    radiation_type = tolower(radiation_type)
     )
 ```
 
@@ -154,7 +155,7 @@ dat_load1 <- dat_load1 |>
   select(-start_end_radiation, -dates_of_admissions)
 ```
 
-### Move columns 
+### Move columns
 
 ```{r}
 
