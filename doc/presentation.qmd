@@ -1,5 +1,27 @@
 ---
-title: "presentation"
-format: html
-editor: visual
+title: "Project_group18"
+author: "group 18"
+format: revealjs
 ---
+
+## Introduction (slide 1)
+
+-   Include intrduction
+
+-   Graphical representation of your process going from raw to analysis-ready data
+
+## Materials and Methods (slide 2)
+
+-   Clean
+
+-   Augment
+
+-   Analysis 1
+
+-   Analysis 2
+
+## Results (And) (slide 3)
+
+-   Add here Plots?
+
+## Discussion (slide 4)
