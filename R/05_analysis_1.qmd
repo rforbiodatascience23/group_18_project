@@ -70,3 +70,36 @@ summary(model)
 print(plot_lm)
 
 ```
+
+Plot for comparison of the average time passed since the completion of radiation treatment and the first incident of HC
+
+```{r warning=FALSE}
+clean_data1 <- read_tsv(
+  file = "~/group_18_project/data/03_dat_aug.tsv",
+  show_col_types = FALSE)
+```
+
+```{r}
+plot2_data <- clean_data1 |>
+  select(new_radiation_type, radiation_completion_to_first_hc) |>
+  mutate(TimePassed = as.numeric(radiation_completion_to_first_hc)) |>
+  filter(!is.na(TimePassed)) |> 
+  filter(!is.na(new_radiation_type)) 
+
+result <- plot2_data |>
+  group_by(new_radiation_type) |>
+  summarize(
+    AvgTimePassed = mean(TimePassed),
+    MedianTimePassed = median(TimePassed),
+    TotalObservations = n())
+
+plot2 <- 
+  ggplot(result, aes(x = new_radiation_type, y = AvgTimePassed, fill = new_radiation_type)) +
+  geom_bar(stat = "identity", position = "dodge", color = "black") +
+  labs(title = "Comparison of Average Time Since Radiation and Time to HC",
+       x = "Type of Radiation",
+       y = "Average Time Since Radiation (months)") +
+  theme_minimal()
+
+print(plot2)
+```
