@@ -46,7 +46,7 @@ Now, we plot the data in PC coordinates. In this step, we combine the PC coordin
 We select the first two PC given that they are the ones which contain a highest variation explained. This will be justified later with a scree plot.
 
 ```{r}
-pca_fit |> 
+pca_biplot<- pca_fit |> 
   augment(hc_patients_clean) |>  # add original dataset back in
   drop_na() |>  
   ggplot(aes(.fittedPC1, .fittedPC2, color = cancer_organ)) + 
@@ -63,6 +63,13 @@ pca_fit |>
   theme_half_open(12) + background_grid() + 
   theme(
    plot.title = element_text(hjust = 0))
+
+# Save the plot in Results directory
+ggsave(
+  filename = 'biplot_pca.png',
+  plot = pca_biplot,
+  path = "~/group_18_project/results"
+)
 ```
 
 Look at the data in the PC coordinates.
@@ -103,12 +110,11 @@ Lastly we will plot the explained variance of each principal component to asses 
 
 ```{r}
 # Explained variance obtained from the eigenvalues
-pca_fit |> 
+eigenvalues_df <- pca_fit |> 
   tidy(matrix = "eigenvalues")
 
-# PLot
-pca_fit |> 
-  tidy(matrix = "eigenvalues") |> 
+# Scree plot
+scree_plot <- eigenvalues_df |> 
   ggplot(aes(PC, percent)) +
   geom_col(fill = "#56B4E9", alpha = 0.8) +
   xlab("Principal components") +
@@ -122,4 +128,11 @@ pca_fit |>
   theme_minimal_hgrid(12) +
   theme(
    plot.title = element_text(hjust = 0.5))
+
+# Save the plot in Results directory
+ggsave(
+  filename = 'screeplot_pca.png',
+  plot = scree_plot,
+  path = "~/group_18_project/results"
+)
 ```
