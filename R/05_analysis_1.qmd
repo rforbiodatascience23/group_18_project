@@ -65,3 +65,20 @@ summary(model)
 plot_lm
 
 ```
+
+```{r}
+# Assuming you have a data frame named clean_data1 with columns "radiation_type" and "radiation_dosage"
+
+# Calculate the percentage of patients who received low, medium, and high doses for each radiation type
+percentage_df <- clean_data1 |> 
+  group_by(radiation_type)  |> 
+  summarize(
+    Low = sum(radiation_dosage < 50) / n() * 100,
+    Medium = sum(radiation_dosage >= 50 & radiation_dosage < 70) / n() * 100,
+    High = sum(radiation_dosage >= 70) / n() * 100
+  )
+
+# Print the resulting data frame
+print(percentage_df)
+
+```
