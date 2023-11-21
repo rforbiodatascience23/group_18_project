@@ -62,6 +62,6 @@ model <- lm(radiation_dosage ~ BMI, data = clean_data1)
 summary(model)
 
 #Print plot
-plot_lm
+print(plot_lm)
 
 ```
