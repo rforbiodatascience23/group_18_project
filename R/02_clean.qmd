@@ -240,7 +240,7 @@ dat_load1 <- dat_load1 |>
   relocate(num_days_admitted, .after = los_for_each_admission) 
 ```
 
-### Remove data variables that will not be used further
+#### Remove data variables that will not be used further
 
 ```{r}
 dat_load1 <- dat_load1 |>
