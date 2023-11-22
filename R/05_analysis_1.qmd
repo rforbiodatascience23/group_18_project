@@ -294,14 +294,23 @@ clean_data2 <- clean_data2 |>
 
 km_fit <- survfit(Surv(time, event) ~ 1, data = clean_data2)
 
-# Plot the Kaplan-Meier curve 
 plot7 <- plot(km_fit, main = "Kaplan-Meier Curve of HC-Free Survival P. vs Time",
-     xlab = "Time (Months)", ylab = "HC-Free Survival Probability",
-     col = "blue", lwd = 2, conf.int = FALSE)
-     
+              xlab = "Time (Months)", ylab = "HC-Free Survival Probability",
+              col = "blue", lwd = 2, conf.int = FALSE)
 
 # Add a legend
 legend("topright", legend = c("HC-Free Survival"), col = c("blue"), lwd = 2, lty = 1)
+
+#Print plot
+print(plot7)
+
+
+# Save the plot to folder results
+ggsave(filename = "~/group_18_project/results/key_plot_7.png", 
+       plot = last_plot(), 
+       width = 8, 
+       height = 5, 
+       dpi = 300)
 
 ```
 
