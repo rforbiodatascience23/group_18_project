@@ -245,3 +245,30 @@ ggsave(filename = "key_plot_5.png",
       dpi = 300)
 
 ```
+
+Plot number 6
+
+Description:
+
+```{r}
+plot6 <- clean_data1 |> 
+ggplot(aes(x = radiation_completion_to_first_hc, y = BMI, color = ethnicity)) +
+  geom_point() +
+  labs(title = "Scatter Plot of BMI vs Radiation Completion to First HC",
+       x = "Radiation Completion to First HC",
+       y = "BMI")+
+  scale_color_manual(values = c("african_american" = "blue", "caucasian" = "red"))
+
+#Print plot
+print(plot6)
+
+# Save plot to folder called "results"
+ggsave(filename = "key_plot_6.png", 
+      plot = plot6, 
+      path = "~/group_18_project/results",
+      width = 8, 
+      height = 5, 
+      dpi = 300)
+
+
+```
