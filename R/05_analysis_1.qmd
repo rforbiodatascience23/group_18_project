@@ -4,16 +4,26 @@ format: html
 editor: visual
 ---
 
+# Analysis 1
+
+## Load clean data from data folder
+
 ```{r warning=FALSE}
+
+clean_data1 <- read_tsv(
+  file = "~/group_18_project/data/02_dat_clean1.tsv",
+  show_col_types = FALSE)
+
 clean_data2 <- read_tsv(
   file = "~/group_18_project/data/02_dat_clean2.tsv",
   show_col_types = FALSE)
 ```
 
-Analysis 1
+## Plot number 1
+
+Frequency of patients affected with Radiation-Induced Hemorrhagic Cystitis by type of radiation treatment received
 
 ```{r}
-
 
 plot1 <- clean_data2 |> 
   count(treatment, hc_incidence) |>
@@ -38,17 +48,24 @@ plot1 <- clean_data2 |>
                                    hjust = 1,
                                    vjust = 1.1))
 
-plot1
+ggsave(filename = "key_plot_1.png", 
+      plot = plot1, 
+      path = "~/group_18_project/results",
+      width = 8, 
+      height = 5, 
+      dpi = 300)
 ```
 
-Linear Regression:
+## Plot number 2
+
+Linear Regression: please describe the plot here
 
 ```{r}
 # Read data from the TSV file
 data <- read.delim('~/group_18_project/data/02_dat_clean1.tsv')
 
 #Create the plot
-plot_lm <- clean_data1 |> 
+plot2 <- clean_data1 |> 
   na.omit(clean_data1) |> 
   ggplot(aes(x=radiation_dosage, y=BMI)) +
   geom_point() +
@@ -67,13 +84,20 @@ model <- lm(radiation_dosage ~ BMI, data = clean_data1)
 summary(model)
 
 #Print plot
-print(plot_lm)
+print(plot2)
 
 # Save plot to folder called "results"
-ggsave("~/group_18_project/results/plot_lm.png", plot_lm, width = 8, height = 5, dpi = 300)
+ggsave(filename = "key_plot_2.png", 
+      plot = plot2, 
+      path = "~/group_18_project/results",
+      width = 8, 
+      height = 5, 
+      dpi = 300)
 ```
 
-Calculate percentage
+## Plot number 3
+
+Calculate percentage: please describe the plot here
 
 ```{r}
 # Assuming 'data' is your data frame with columns 'radiation_type' and 'radiation_dosage'
@@ -93,7 +117,7 @@ result <- clean_data1 |>
   ungroup()  # Ungroup the data
 
 # Create a grouped bar plot
-plot_rad <- result |> 
+plot3 <- result |> 
   ggplot(aes(x = radiation_type, y = Percentage, fill = dose_category)) +
   geom_bar(stat = "identity", position = "dodge", width = 0.7) +
   labs(title = "Percentage of Radiation Dosage in Each Dose Category by Radiation Type",
@@ -104,19 +128,17 @@ plot_rad <- result |>
   theme(axis.text.x = element_text(angle = 65, hjust = 1, vjust = 1))
 
 # Save plot to the "results" folder
-ggsave("~/group_18_project/results/plot_per_rad_dose.png", plot_rad, width = 8, height = 5, dpi = 300)
-
-
-
+ggsave(filename = "key_plot_3.png", 
+      plot = plot3, 
+      path = "~/group_18_project/results",
+      width = 8, 
+      height = 5, 
+      dpi = 300)
 ```
 
-#Plot for comparison of the average time passed since the completion of radiation treatment and the first incident of HC
+## Plot number 4
 
-```{r warning=FALSE}
-clean_data1 <- read_tsv(
-  file = "~/group_18_project/data/03_dat_aug1.tsv",
-  show_col_types = FALSE)
-```
+Comparison of the average time passed since the completion of radiation treatment and the first incident of HC
 
 ```{r}
 plot2_data <- clean_data1 |>
@@ -132,7 +154,7 @@ result <- plot2_data |>
     MedianTimePassed = median(TimePassed),
     TotalObservations = n())
 
-plot2 <- 
+plot4 <- 
   ggplot(result, aes(x = radiation_type, y = AvgTimePassed, fill = radiation_type)) +
   geom_bar(stat = "identity", position = "dodge", color = "black") +
   labs(title = "Comparison of Average Time Since Radiation and Time to HC",
@@ -140,17 +162,18 @@ plot2 <-
        y = "Average Time Since Radiation (months)") +
   theme_minimal()
 
-print(plot2)
+print(plot4)
 
-# Save the plot in Results directory
-ggsave(
-  filename = 'comparison_radiation_HC.png',
-  plot = comparison_radiation_HC,
-  path = "~/group_18_project/results"
-)
+# Save plot to the "results" folder
+ggsave(filename = "key_plot_4.png", 
+      plot = plot4, 
+      path = "~/group_18_project/results",
+      width = 8, 
+      height = 5, 
+      dpi = 300)
 ```
 
-\_Calculate percentage
+Wasn't this calculated previously?? please check plot 3
 
 ```{r}
 
@@ -168,9 +191,11 @@ print(percentage_df)
 
 ```
 
-```{r}
-library(ggplot2)
+## Plot number 5 
 
+please describe the plot here
+
+```{r}
 # Melt the data frame to long format for easier plotting
 melted_df <- tidyr::gather(percentage_df, key = "DoseCategory", value = "Percentage", -radiation_type)
 
@@ -195,7 +220,7 @@ library(ggplot2)
 melted_df <- tidyr::gather(percentage_df, key = "DoseCategory", value = "Percentage", -radiation_type)
 
 # Create a larger stacked bar plot with extended y-axis range
-ggplot(melted_df, aes(x = radiation_type, y = Percentage, fill = DoseCategory)) +
+plot5 <- ggplot(melted_df, aes(x = radiation_type, y = Percentage, fill = DoseCategory)) +
   geom_bar(stat = "identity", position = "stack", color = "black") +
   labs(
     title = "Percentage of Patients in Low, Medium, and High Dose Categories",
@@ -209,6 +234,12 @@ ggplot(melted_df, aes(x = radiation_type, y = Percentage, fill = DoseCategory)) 
   theme(axis.text.y = element_text(size = 10)) +   # Adjust y-axis text size
   coord_cartesian(ylim = c(0, 150))  # Set y-axis range
 
-```
+# Save plot to the "results" folder
+ggsave(filename = "key_plot_5.png", 
+      plot = plot5, 
+      path = "~/group_18_project/results",
+      width = 8, 
+      height = 5, 
+      dpi = 300)
 
-hi
+```
