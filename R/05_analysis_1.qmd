@@ -253,12 +253,11 @@ Plot number 6
 Description: Relationship Between Body Mass Index (BMI) and time from radiation completion to first incidence of Hemorrhagic Cystitis.
 
 ```{r}
-<<<<<<< HEAD
 #Create a scatter plot
 plot6 <- clean_data1 |> 
-=======
+
 plot6 <- analysis_1 |> 
->>>>>>> 39679ac22a895089b8103b29877183d89384d017
+
 ggplot(aes(x = radiation_completion_to_first_hc, y = BMI, color = ethnicity)) +
   geom_point() +
   labs(title = "BMI vs Radiation Completion to First HC",
