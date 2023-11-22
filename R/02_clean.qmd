@@ -60,6 +60,7 @@ change_variable_names <- c(
   radiation_type = "type_of_radation",
   radiation_dosage = "dose_of_radation_gy",
   start_end_radiation = "start_date_of_radiation_end_date_of_radiation",
+  radiation_duration = "duration_of_radiation_days",
   number_of_admissions_with_urology_consultation = "number_of_admissions_including_er_visits_requiring_urology_consultation",
   number_of_hc_icu_admits = "number_of_icu_admits_with_hemorrhgic_cystits",
   los_for_each_admission = "los_for_each_admission_days",
@@ -112,9 +113,11 @@ dat_load1 <- dat_load1 |>
     hospitalization_complications = str_replace_all(hospitalization_complications, "which", ","),
     
     # surgery_for_urinary_diversion values to yes or no only
-    surgery_for_urinary_diversion = ifelse(tolower(surgery_for_urinary_diversion) == "no", "no", "yes")
-    )
-    
+    surgery_for_urinary_diversion = ifelse(tolower(surgery_for_urinary_diversion) == "no", "no", "yes"),
+
+    # hyperbaric_o2 replace unknown string with NA 
+    hyperbaric_o2 = ifelse(str_detect(tolower(hyperbaric_o2), "unknown"), NA, hyperbaric_o2)
+  )
 ```
 
 ### Clean cancer_type making new columns cancer_type and cancer_stage
@@ -188,7 +191,7 @@ dat_load1 <- dat_load1 |>
   mutate( 
     height_m = height_cm/100,
     BMI = weight_kg/(height_m*2)) |>       
-  relocate(BMI, .after = height_cm) 
+  relocate(BMI, .after = age_at_radiation) 
 ```
 
 #### Data Wrangling II: num_comorbidities
@@ -240,7 +243,7 @@ dat_load1 <- dat_load1 |>
   relocate(num_days_admitted, .after = los_for_each_admission) 
 ```
 
-#### Remove data variables that will not be used further
+#### Remove data variables that will not be used further and correct variable placing 
 
 ```{r}
 dat_load1 <- dat_load1 |>
@@ -255,6 +258,9 @@ dat_load1 <- dat_load1 |>
     -hospitalization_complications,
     -los_for_each_admission
     )
+
+dat_load1 <- dat_load1 |>  
+    relocate(radiation_completion_to_first_hc, .after = radiation_duration) 
 ```
 
 ### Save the data as 02_dat_clean1.tsv in data folder 
