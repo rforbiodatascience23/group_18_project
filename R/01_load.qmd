@@ -38,7 +38,7 @@ dat_load2 <- read_excel(path = file_path, sheet = 2)
 dat_load3 <- read_excel(path = file_path, sheet = 3)
 ```
 
-## Save the data as 01_dat_loadn.tsv in data folder
+## Save the data as 01_dat_load.tsv in data folder
 
 ```{r}
 

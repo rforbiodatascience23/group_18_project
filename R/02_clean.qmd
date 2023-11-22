@@ -6,7 +6,7 @@ editor: visual
 
 # Clean
 
-## Load .tsv files from data folder 
+## Load .tsv files from data folder
 
 ```{r}
 
@@ -23,7 +23,7 @@ dat_load3 <- read_tsv(
   show_col_types = FALSE)
 ```
 
-## 'Clean' variable names with janitor library 
+## 'Clean' variable names with janitor library
 
 ```{r}
 
@@ -39,7 +39,7 @@ dat_load3 <- dat_load3 |>
 
 ## Clean dat_load1 (data from HC patients)
 
-### Remove rows that do not correspond to patients and last column called 'Notes' 
+### Remove rows that do not correspond to patients and last column called 'Notes'
 
 ```{r}
 
@@ -47,7 +47,7 @@ dat_load1 <- dat_load1 |>
   slice(1:80) |> select(1:28)
 ```
 
-### Give shorter names to the variables 
+### Give shorter names to the variables
 
 ```{r}
 
@@ -81,7 +81,7 @@ dat_load1 <- rename(dat_load1,
                     any_of(change_variable_names))
 ```
 
-### Correct spelling mistakes, absence of comas in strings in observations, change data types  
+### Correct spelling mistakes, absence of comas in strings in observations, change data types
 
 ```{r}
 
@@ -180,7 +180,7 @@ dat_load1 <- dat_load1 |>
     )
 ```
 
-### Create new variables and remove variables that won't be used further 
+### Create new variables and remove variables that won't be used further
 
 #### Data Wrangling I: BMI
 
@@ -243,7 +243,7 @@ dat_load1 <- dat_load1 |>
   relocate(num_days_admitted, .after = los_for_each_admission) 
 ```
 
-#### Remove data variables that will not be used further and correct variable placing 
+#### Remove data variables that will not be used further and correct variable placing
 
 ```{r}
 dat_load1 <- dat_load1 |>
@@ -263,7 +263,7 @@ dat_load1 <- dat_load1 |>
     relocate(radiation_completion_to_first_hc, .after = radiation_duration) 
 ```
 
-### Save the data as 02_dat_clean1.tsv in data folder 
+### Save the data as 02_dat_clean1.tsv in data folder
 
 ```{r}
 # Save clean data from sheet 1
@@ -274,7 +274,7 @@ write.table(x = dat_load1,
             row.names = FALSE)
 ```
 
-## Clean dat_load2 and dat_load_3 
+## Clean dat_load2 and dat_load_3
 
 ```{r}
 # Remove column from the variables and columns that don't exist in patient_info2
@@ -319,7 +319,7 @@ combined_dat_load2_load3 <- combined_dat_load2_load3 |>
 
 ```
 
-### Save the combined data as 02_dat_clean2.tsv in data folder 
+### Save the combined data as 02_dat_clean2.tsv in data folder
 
 ```{r}
 # Save combined clean data from sheet 2 and sheet 3
