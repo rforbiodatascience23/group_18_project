@@ -58,7 +58,7 @@ ggsave(filename = "key_plot_1.png",
 
 ## Plot number 2
 
-Linear Regression: please describe the plot here
+Linear Regression Analysis of BMI in relation to radiation dose.
 
 ```{r}
 # Read data from the TSV file
@@ -97,10 +97,9 @@ ggsave(filename = "key_plot_2.png",
 
 ## Plot number 3
 
-Calculate percentage: please describe the plot here
+Analysis of Patient Dose Percentages: Distinguishing Low, Medium, and High Levels across various radiation types.
 
 ```{r}
-# Assuming 'data' is your data frame with columns 'radiation_type' and 'radiation_dosage'
 # Define dose categories based on your research or expert consultation
 low_dose_threshold <- 50
 high_dose_threshold <- 95
@@ -126,6 +125,9 @@ plot3 <- result |>
   scale_fill_manual(values = c('Low Dose' = 'lightblue', 'Medium Dose' = 'lightgreen', 'High Dose' = 'lightcoral', 'NAs'='darkgrey')) +
   theme_classic(base_size = 8) + 
   theme(axis.text.x = element_text(angle = 65, hjust = 1, vjust = 1))
+
+#Print plot
+print(plot3)
 
 # Save plot to the "results" folder
 ggsave(filename = "key_plot_3.png", 
@@ -191,7 +193,7 @@ print(percentage_df)
 
 ```
 
-## Plot number 5 
+## Plot number 5
 
 please describe the plot here
 
