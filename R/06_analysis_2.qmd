@@ -19,7 +19,7 @@ library(tidyverse)
 library(broom)  
 
 # Load data
-hc_patients <- read_tsv(
+analysis_2 <- read_tsv(
   file = "~/group_18_project/data/03_dat_aug1.tsv",
   show_col_types = FALSE)
 ```
@@ -28,15 +28,15 @@ Afterwards, we need to look at the data in PC coordinates. To do this, we select
 
 ```{r}
 # Names of the numeric columns included in PCA
-selected_vars <- c("grading_system", "radiation_dosage", "duration_of_radiation_days", "num_comorbidities")
+selected_vars <- c("hematuria_grade", "radiation_dosage", "radiation_duration", "num_comorbidities")
 
 # Create a subset without NA values
-hc_patients_clean <- hc_patients |> 
-  select(all_of(selected_vars), cancer_organ) |> 
+analysis_2 <- analysis_2 |> 
+  select(all_of(selected_vars), cancer_type) |> 
   drop_na() 
 
 # Use the selected numeric columns for PCA and avoid rows with NA values
-pca_fit <- hc_patients_clean |> 
+pca_fit <- analysis_2 |> 
   select(all_of(selected_vars)) |> 
   prcomp(scale = TRUE)  # Perform PCA on scaled data
 ```
@@ -47,17 +47,17 @@ We select the first two PC given that they are the ones which contain a highest 
 
 ```{r}
 pca_biplot<- pca_fit |> 
-  augment(hc_patients_clean) |>  # add original dataset back in
+  augment(analysis_2) |>  # add original dataset back in
   drop_na() |>  
-  ggplot(aes(.fittedPC1, .fittedPC2, color = cancer_organ)) + 
+  ggplot(aes(.fittedPC1, .fittedPC2, color = cancer_type)) + 
   geom_point(size = 2.5) +
-  labs(color = "Cancer organ")+
+  labs(color = "Cancer type")+
   xlab("PC1") +
   ylab("PC2") +
   ggtitle("PCA of patients with cancer and HC") +
   scale_color_manual(
-    values = c('prostate' = "#D55E00", 'prostate,bladder' = "#9900b2", 'bladder' = "#0066FF"),
-    breaks = c('prostate', 'prostate,bladder', 'bladder'),  
+    values = c('prostate' = "#D55E00", 'both' = "#9900b2", 'bladder' = "#0066FF"),
+    breaks = c('prostate', 'both', 'bladder'),  
     labels = c('Prostate', 'Prostate and Bladder', 'Bladder')
   ) +
   theme_half_open(12) + background_grid() + 
