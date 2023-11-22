@@ -75,7 +75,7 @@ plot2 <- clean_data1 |>
        y = "BMI",              
        title = "Linear Regression between BMI and radiation dose"     
   ) +
-  theme(plot.title = element_text(hjust = 0.5, size = 16))  # Adjust title position and size
+  theme(plot.title = element_text(hjust = 0.5, size = 16))  
 
 # Perform linear regression
 model <- lm(radiation_dosage ~ BMI, data = clean_data1)
@@ -160,10 +160,11 @@ result <- plot2_data |>
 plot4 <- 
   ggplot(result, aes(x = radiation_type, y = AvgTimePassed, fill = radiation_type)) +
   geom_bar(stat = "identity", position = "dodge", color = "black") +
-  labs(title = "Comparison of Average Time Since Radiation and Time to HC",
+  labs(expression(title = "Comparison of Average Time Since Radiation and Time to HC"),
        x = "Type of Radiation",
        y = "Average Time Since Radiation (months)") +
   theme_minimal()
+  
 
 print(plot4)
 
@@ -252,10 +253,11 @@ Plot number 6
 Description: Relationship Between Body Mass Index (BMI) and time from radiation completion to first incidence of Hemorrhagic Cystitis.
 
 ```{r}
+#Create a scatter plot
 plot6 <- clean_data1 |> 
 ggplot(aes(x = radiation_completion_to_first_hc, y = BMI, color = ethnicity)) +
   geom_point() +
-  labs(title = "Scatter Plot of BMI vs Radiation Completion to First HC",
+  labs(title = "BMI vs Radiation Completion to First HC",
        x = "Radiation Completion to First HC",
        y = "BMI")+
   scale_color_manual(values = c("african_american" = "blue", "caucasian" = "red"))+
@@ -275,3 +277,29 @@ ggsave(filename = "key_plot_6.png",
 
 
 ```
+
+Plot number 7
+
+```{r}
+library(survival)
+
+clean_data2 <- clean_data2 |> 
+  mutate(
+    event = as.numeric(hc_incidence == "no"),
+    time = rep(1:562, length.out = n())
+  )
+
+km_fit <- survfit(Surv(time, event) ~ 1, data = clean_data2)
+
+# Plot the Kaplan-Meier curve 
+plot7 <- plot(km_fit, main = "Kaplan-Meier Curve of HC-Free Survival P. vs Time",
+     xlab = "Time (Months)", ylab = "HC-Free Survival Probability",
+     col = "blue", lwd = 2, conf.int = FALSE)
+     
+
+# Add a legend
+legend("topright", legend = c("HC-Free Survival"), col = c("blue"), lwd = 2, lty = 1)
+
+```
+
+bnm
