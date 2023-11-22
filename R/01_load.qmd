@@ -4,7 +4,9 @@ format: html
 editor: visual
 ---
 
-# Load libraries
+# Load
+
+## Load libraries
 
 ```{r message=FALSE}
 library(tidyverse)
@@ -14,43 +16,32 @@ library(dplyr)
 library(janitor)
 library(data.table)
 library(purrr)
+library(cowplot)
+library(broom) 
 ```
 
-# Load dataset
+## Load raw_data.xlsx from \_raw folder
 
 ```{r}
 # Load the data using readxl library and remove missing values present in different formats
 
 file_path = "~/group_18_project/_raw/raw_data.xlsx"
 
+# Load data from sheet 1
 dat_load1 <- read_xlsx(path = file_path, na = c("unknown", "Unknown", "N/A", "Unkown", "unkown", "None", "none", "" ), sheet = 1)
 
+# Load data from sheet 2
 dat_load2 <- read_excel(path = file_path, sheet = 2)
 
+# Load data from sheet 3
 dat_load3 <- read_excel(path = file_path, sheet = 3)
 ```
 
-Use janitor library to fix the variable names
+## Save the data as 01_dat_loadn.tsv in data folder
 
 ```{r}
 
-# Remove spaces from variable names 
-dat_load1 <- dat_load1 |> 
-  clean_names()
-
-# Remove spaces from variable names 
-dat_load2 <- dat_load2 |> 
-    clean_names()
-
-dat_load3 <- dat_load3 |> 
-    clean_names()
-```
-
-### Save the raw_data as a TSV file in data folder
-
-```{r}
-
-# Save data from sheet 1
+# Save data from sheet 1 
 write.table(x = dat_load1, "~/group_18_project/data/01_dat_load1.tsv", 
             sep = "\t", 
             quote = TRUE,
@@ -63,7 +54,7 @@ write.table(x = dat_load2,
             quote = TRUE,
             row.names = FALSE)
 
-# Save data from sheet 
+# Save data from sheet 3 
 write.table(x = dat_load3, 
             file = "~/group_18_project/data/01_dat_load3.tsv", 
             sep = "\t", 

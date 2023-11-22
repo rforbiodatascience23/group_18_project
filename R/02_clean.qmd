@@ -4,37 +4,65 @@ format: html
 editor: visual
 ---
 
-# Clean Data
+# Clean
 
-## Clean HC patient data from sheet1 - dat_load1
+## Load .tsv files from data folder 
 
 ```{r}
 
-# Load data 
 dat_load1 <- read_tsv(
   file = "~/group_18_project/data/01_dat_load1.tsv",
   show_col_types = FALSE)
 
-# Remove rows that do not correspond to patients and last column called "Notes" 
+dat_load2 <- read_tsv(
+  file = "~/group_18_project/data/01_dat_load2.tsv",
+  show_col_types = FALSE)
+
+dat_load3 <- read_tsv(
+  file = "~/group_18_project/data/01_dat_load3.tsv",
+  show_col_types = FALSE)
+```
+
+## 'Clean' variable names with janitor library 
+
+```{r}
+
+dat_load1 <- dat_load1 |> 
+  clean_names()
+
+dat_load2 <- dat_load2 |> 
+    clean_names()
+
+dat_load3 <- dat_load3 |> 
+    clean_names()
+```
+
+## Clean dat_load1 (data from HC patients)
+
+### Remove rows that do not correspond to patients and last column called 'Notes' 
+
+```{r}
+
 dat_load1 <- dat_load1 |> 
   slice(1:80) |> select(1:28)
 ```
 
-### Give shorter names to the variables renaming them
+### Give shorter names to the variables 
 
 ```{r}
 
 # Rename variables 
 change_variable_names <- c(
   date_of_birth = "dob",
-  grading_system = "ctcae_4_0_hematuria_grade",
+  hematuria_grade = "ctcae_4_0_hematuria_grade",
   comorbidities = "comorbidities_dm_stroke_pvd_cirrhosis_drug_abuse_alcoholism_tobacco_hx_mi_last_6mo_chf_copd_esrd",
-  cancer_type = "type_bladder_prostate_pathologic_clinial_staging_of_cancer",
+  clinical_cancer = "type_bladder_prostate_pathologic_clinial_staging_of_cancer",
   radiation_type = "type_of_radation",
   radiation_dosage = "dose_of_radation_gy",
   start_end_radiation = "start_date_of_radiation_end_date_of_radiation",
-  number_of_admissions = "number_of_admissions_including_er_visits_requiring_urology_consultation",
-  number_of_icu_admits = "number_of_icu_admits_with_hemorrhgic_cystits",
+  number_of_admissions_with_urology_consultation = "number_of_admissions_including_er_visits_requiring_urology_consultation",
+  number_of_hc_icu_admits = "number_of_icu_admits_with_hemorrhgic_cystits",
+  los_for_each_admission = "los_for_each_admission_days",
   radiation_completion_to_first_hc = "time_passed_since_completion_of_radiation_treatment_months_and_first_incidence_hc",
   number_of_cystoscopies = "number_of_cystoscopies_with_clot_evacuation_and_or_fulguration_of_bleeders",
   formalin_instillation = "number_of_times_requiring_formalin_instillation",
@@ -45,14 +73,14 @@ change_variable_names <- c(
   surgery_for_urinary_diversion = "surgery_for_urinary_diversion_required_if_yes_what_type",
   number_transfusions = "number_of_units_of_p_rb_cs_tranfused",
   hospitalization_complications = "complications_during_hospitalization_uti_pyelonephritis_urosepsis_hydronephrosis_aki_other"
-)
+  )
 
 
 dat_load1 <- rename(dat_load1, 
                     any_of(change_variable_names))
 ```
 
-### Correct mistakes in some observations
+### Correct spelling mistakes, absence of comas in strings in observations, change data types  
 
 ```{r}
 
@@ -65,12 +93,6 @@ dat_load1 <- dat_load1 |>
     # ethnicity - make all names lower case, change AA to african american
     ethnicity = ifelse(ethnicity == "AA", "african_american", tolower(ethnicity)),
     
-    # hospital_site - remove spaces and separate different hospitals by comas, correct names 
-    hospital_site = str_replace_all(hospital_site, " ", ""),
-    hospital_site = str_replace_all(hospital_site, "/", ","),
-    hospital_site = str_replace(hospital_site, "Harperr", "Harper"),
-    hospital_site = str_replace(hospital_site, "Haper", "Harper"),
-   
     # radiation_dosage - remove characters "Gy" make the observatons as num
     radiation_dosage =  str_replace_all(radiation_dosage, "Gy", ""),
     radiation_dosage = round(as.numeric(radiation_dosage),2),
@@ -79,11 +101,11 @@ dat_load1 <- dat_load1 |>
     comorbidities = ifelse(row_number() == 2, "HTN, A. fib, DM, CHF, tobacco", comorbidities),
 
     # los_for_each_admission_days replace spaces with comas 
-    los_for_each_admission_days = str_replace_all(los_for_each_admission_days, "\\s+", " "),
-    los_for_each_admission_days = str_replace_all(los_for_each_admission_days, ", ", " "),
-     los_for_each_admission_days = str_replace_all(los_for_each_admission_days, " ", ","),
-        los_for_each_admission_days = ifelse(row_number() == 20, "1", los_for_each_admission_days),
-    los_for_each_admission_days = ifelse(row_number() == 77, "3,1,4,5,1", los_for_each_admission_days),
+    los_for_each_admission = str_replace_all(los_for_each_admission, "\\s+", " "),
+    los_for_each_admission = str_replace_all(los_for_each_admission, ", ", " "),
+    los_for_each_admission = str_replace_all(los_for_each_admission, " ", ","),
+    los_for_each_admission = ifelse(row_number() == 20, "1", los_for_each_admission),
+    los_for_each_admission = ifelse(row_number() == 77, "3,1,4,5,1", los_for_each_admission),
 
     # hospitalization_complications add coma to replace 'which' and 'and' 
     hospitalization_complications = str_replace_all(hospitalization_complications, "and", ","),
@@ -95,21 +117,24 @@ dat_load1 <- dat_load1 |>
     
 ```
 
-### Clean cancer_type making new columns cancer_site and cancer_stage
+### Clean cancer_type making new columns cancer_type and cancer_stage
 
 ```{r}
 dat_load1 <- dat_load1 |>
   mutate(
-    cancer_site = case_when(
-      grepl("prostate", tolower(cancer_type)) & grepl("bladder", tolower(cancer_type)) ~       "prostate,bladder",
-      grepl("prostate", tolower(cancer_type)) ~ "prostate",
-      grepl("bladder", tolower(cancer_type)) ~ "bladder",
+    cancer_type = case_when(
+      grepl("prostate", tolower(clinical_cancer)) & grepl("bladder", tolower(clinical_cancer)) ~ "both",
+      grepl("prostate", tolower(clinical_cancer)) ~ "prostate",
+      grepl("bladder", tolower(clinical_cancer)) ~ "bladder",
       TRUE ~ NA_character_),
-    cancer_stage = str_extract(cancer_type, "(?i)T\\d++[a-z]|Gleason \\d+")) |>
-  select(-cancer_type)
+    cancer_stage = str_extract(clinical_cancer, "(?i)T\\d++[a-z]|Gleason \\d+")) |>
+  select(-clinical_cancer)
+  
+dat_load1 <- dat_load1 |>  
+  relocate(c(cancer_type,cancer_stage), .before=hematuria_grade)
 ```
 
-### Changing names in radiation_type so they fit with the ones in dat_load2 and dat_load3
+### Change names in radiation_type so they fit with the naming in dat_load2 and dat_load3
 
 ```{r}
 
@@ -134,6 +159,7 @@ dat_load1 <- dat_load1 |>
     radiation_type = str_replace(radiation_type,"radical prostactomey, Adjuvant radiation" , "adjuvant"),
     radiation_type = str_replace(radiation_type,"Salvage EBRT" , "EBRT,salvage"),
     radiation_type = str_replace(radiation_type,tolower("Neutron and mixed_neutron_photon_EBRT"),"mixed_neutron_photon_EBRT"),
+    
     # The previous method str_replace did not work with these observations
     radiation_type = ifelse(row_number() == 19, "IMRT", radiation_type),
     radiation_type = ifelse(row_number() == 22, "mixed_neutron_photon_IMRT", radiation_type),
@@ -145,26 +171,93 @@ dat_load1 <- dat_load1 |>
     radiation_type = ifelse(row_number() == 68, "mixed_neutron_photon_EBRT", radiation_type),
     radiation_type = ifelse(row_number() == 72, "adjuvant", radiation_type),
     radiation_type = ifelse(row_number() == 79, "mixed_neutron_photon_EBRT,adjuvant", radiation_type),
+    
+    # have the naming into lower caps to fit the other datasets 
     radiation_type = tolower(radiation_type)
     )
 ```
 
-### Remove start_end_radiation and dates_of_admissions (too messy)
+### Create new variables and remove variables that won't be used further 
+
+#### Data Wrangling I: BMI
+
+Compute the Body Mass Index (BMI) using the Height and Weight columns. The BMI will be added in a new column named: 'BMI'.
+
+```{r}
+dat_load1 <- dat_load1 |>   
+  mutate( 
+    height_m = height_cm/100,
+    BMI = weight_kg/(height_m*2)) |>       
+  relocate(BMI, .after = height_cm) 
+```
+
+#### Data Wrangling II: num_comorbidities
+
+Counting the number of comorbidities presented bye each patient. The number is added in a new column named: 'num_comorbidities'.
+
+If comorbidities appears like 'NA' a 0 is assigned to 'num_comorbidities'.
+
+```{r}
+dat_load1 <- dat_load1 |>   
+  mutate(
+    num_comorbidities = ifelse(is.na(comorbidities), 0, 
+                               str_count(comorbidities, pattern = ",") + 1)) |>     
+  relocate(num_comorbidities, .after = comorbidities) 
+```
+
+#### Data Wrangling III: num_hosp_complications
+
+Compute the sum fo hospitalization complications and add is as a new columns called: 'num_hosp_complications'
 
 ```{r}
 dat_load1 <- dat_load1 |>
-  select(-start_end_radiation, -dates_of_admissions)
+  mutate(num_hosp_complications = ifelse(is.na(hospitalization_complications), 0, 
+                                    str_count(hospitalization_complications, pattern = ",") + 1)) |>     
+  relocate(num_hosp_complications, .after = hospitalization_complications) 
 ```
 
-### Move columns
+#### Data Wrangling IV: num_days_admited
+
+Sum the lenght of stay per admission (los_for_each_admission) to a total of days admitted and add to a new column called: 'num_days_admitted'
 
 ```{r}
+# Function to sum values in a string 
+sum_values <- function(string) {
+  if (string != "") {
+    values <- as.numeric(unlist(strsplit(string, ",")))
+    return(sum(values))
+  } else {
+    return(0)
+  }
+}
 
-dat_load1 <- dat_load1 |>
-  relocate(c(cancer_site,cancer_stage), .before=grading_system)
+
+dat_load1 <- dat_load1 |>    
+  mutate(
+    los_for_each_admission = ifelse(is.na(los_for_each_admission), 0, 
+                                    los_for_each_admission),  
+    num_days_admitted = sapply(los_for_each_admission, sum_values)) |>   
+  relocate(num_days_admitted, .after = los_for_each_admission) 
 ```
 
-### Save the cleaned data as a TSV file in data folder
+### Remove data variables that will not be used further
+
+```{r}
+dat_load1 <- dat_load1 |>
+  select(
+    -height_m, 
+    -height_cm,
+    -weight_kg, 
+    -hospital_site,
+    -start_end_radiation, 
+    -dates_of_admissions,
+    -comorbidities,
+    -hospitalization_complications,
+    -los_for_each_admission
+    )
+```
+
+### Save the data as 02_dat_clean1.tsv in data folder 
 
 ```{r}
 # Save clean data from sheet 1
@@ -175,19 +268,7 @@ write.table(x = dat_load1,
             row.names = FALSE)
 ```
 
-## Clean patient_data for sheets 2 and 3 - dat_load2 and dat_load3
-
-```{r}
-
-# load data 
-dat_load2 <- read_tsv(
-  file = "~/group_18_project/data/01_dat_load2.tsv",
-  show_col_types = FALSE)
-
-dat_load3 <- read_tsv(
-  file = "~/group_18_project/data/01_dat_load3.tsv",
-  show_col_types = FALSE)
-```
+## Clean dat_load2 and dat_load_3 
 
 ```{r}
 # Remove column from the variables and columns that don't exist in patient_info2
@@ -232,10 +313,9 @@ combined_dat_load2_load3 <- combined_dat_load2_load3 |>
 
 ```
 
-### Save the cleaned data as a TSV file in data folder
+### Save the combined data as 02_dat_clean2.tsv in data folder 
 
 ```{r}
-
 # Save combined clean data from sheet 2 and sheet 3
 write.table(x = combined_dat_load2_load3,
             file = "~/group_18_project/data/02_dat_clean2.tsv", 
