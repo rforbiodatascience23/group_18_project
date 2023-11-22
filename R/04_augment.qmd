@@ -13,49 +13,104 @@ dat_clean1 <- read_tsv(
   file = "~/group_18_project/data/02_dat_clean1.tsv",
   show_col_types = FALSE)
 
-dat_clean2 <- read_tsv(
-  file = "~/group_18_project/data/02_dat_clean2.tsv",
-  show_col_types = FALSE)
+# Only if we augment dat_clean2
+#dat_clean2 <- read_tsv(
+  #file = "~/group_18_project/data/02_dat_clean2.tsv",
+  #show_col_types = FALSE)
 ```
 
-\
-Data augmentation for a TSV (Tab-Separated Values) dataset typically involves creating new variations of the existing data by applying transformations that preserve the tabular structure. Some common techniques for augmenting TSV datasets include:
+### Create new variables and remove variables that won't be used further
 
-1.  **Row-wise Perturbations:**
+#### Data Wrangling I: BMI
 
-    -   Introduce noise or perturbations to the values within individual rows, such as adding random noise to numeric columns or perturbing categorical values.
+Compute the Body Mass Index (BMI) using the Height and Weight columns. The BMI will be added in a new column named: 'BMI'.
 
-2.  **Column-wise Transformations:**
+```{r}
+dat_clean1 <- dat_clean1 |>     
+  mutate(height_m = height_cm/100,     
+         BMI = weight_kg/(height_m*2)) |>          
+  relocate(BMI, .after = age_at_radiation) 
+```
 
-    -   Apply transformations to entire columns, like scaling numeric values, one-hot encoding categorical variables, or shuffling the order of rows.
+#### Data Wrangling II: num_comorbidities
 
-3.  **Duplicate and Shuffle:**
+Counting the number of comorbidities presented bye each patient. The number is added in a new column named: 'num_comorbidities'.
 
-    -   Duplicate rows and shuffle the order of rows in the dataset to create new permutations of the existing data.
+If comorbidities appears like 'NA' a 0 is assigned to 'num_comorbidities'.
 
-4.  **Random Subsetting:**
+```{r}
+dat_clean1 <- dat_clean1 |>     
+  mutate(num_comorbidities = ifelse(is.na(comorbidities), 0,                      
+                                    str_count(comorbidities, pattern = ",") + 1)) |>
+  relocate(num_comorbidities, .after = comorbidities) 
+```
 
-    -   Randomly select a subset of rows or columns to create variations in the dataset.
+#### Data Wrangling III: num_hosp_complications
 
-5.  **Missing Values:**
+Compute the sum fo hospitalization complications and add is as a new columns called: 'num_hosp_complications'
 
-    -   Introduce missing values in a controlled manner, simulating scenarios where data might be incomplete.
+```{r}
+dat_clean1 <- dat_clean1 |>   
+  mutate(num_hosp_complications = ifelse(is.na(hospitalization_complications), 0,     
+                                         str_count(hospitalization_complications, pattern = ",") + 1)) |>        
+  relocate(num_hosp_complications, .after = hospitalization_complications) 
+```
 
-The key is to ensure that the augmented data retains the structure and statistical characteristics of the original dataset, preserving the relationships between features. Careful consideration is necessary to choose augmentation techniques that make sense for the specific characteristics of the data and the goals of the machine learning task. Additionally, the impact of data augmentation on model performance should be validated through proper evaluation procedures.
+#### Data Wrangling IV: num_days_admited
+
+Sum the lenght of stay per admission (los_for_each_admission) to a total of days admitted and add to a new column called: 'num_days_admitted'
+
+```{r}
+# Function to sum values in a string  
+# Function to sum values in a string
+sum_values <- function(string) {
+  if (string != "") {
+    values <- as.numeric(unlist(strsplit(string, ",")))
+    return(sum(values))
+  } else {
+    return(0)
+  }
+}
+
+dat_clean1 <- dat_clean1 |>       
+  mutate(los_for_each_admission = ifelse(is.na(los_for_each_admission), 0,        
+                                         los_for_each_admission),     
+         num_days_admitted = sapply(los_for_each_admission, sum_values)) |>     
+  relocate(num_days_admitted, .after = los_for_each_admission) 
+```
+
+#### Remove data variables that will not be used further and correct variable placing
+
+```{r}
+dat_clean1 <- dat_clean1 |>   
+  select(
+    -height_m,      
+    -height_cm,    
+    -weight_kg,     
+    -hospital_site,     
+    -start_end_radiation,    
+    -dates_of_admissions,    
+    -comorbidities,     
+    -hospitalization_complications,    
+    -los_for_each_admission)  
+
+dat_clean1 <- dat_clean1 |> relocate(radiation_completion_to_first_hc, .after = radiation_duration) 
+```
 
 ### Save the augmented data as 03_dat_aug.tsv in data folder
 
 ```{r}
 
-write.table(x = clean_data1,
+write.table(x = dat_clean1,
             file = "~/group_18_project/data/03_dat_aug1.tsv", 
             sep = "\t", 
             quote = TRUE,
             row.names = FALSE)
 
-write.table(x = clean_data2,
-            file = "~/group_18_project/data/03_dat_aug2.tsv", 
-            sep = "\t", 
-            quote = TRUE,
-            row.names = FALSE)
+# Only if we add something to dat_clean2
+#write.table(x = dat_clean2,
+            #file = "~/group_18_project/data/03_dat_aug2.tsv", 
+            #sep = "\t", 
+            #quote = TRUE,
+            #row.names = FALSE)
 ```

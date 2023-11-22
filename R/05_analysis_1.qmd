@@ -10,8 +10,8 @@ editor: visual
 
 ```{r warning=FALSE}
 
-clean_data1 <- read_tsv(
-  file = "~/group_18_project/data/02_dat_clean1.tsv",
+dat_aug1 <- read_tsv(
+  file = "~/group_18_project/data/03_dat_aug1.tsv",
   show_col_types = FALSE)
 
 clean_data2 <- read_tsv(
@@ -65,8 +65,8 @@ Linear Regression Analysis of BMI in relation to radiation dose.
 data <- read.delim('~/group_18_project/data/02_dat_clean1.tsv')
 
 #Create the plot
-plot2 <- clean_data1 |> 
-  na.omit(clean_data1) |> 
+plot2 <- dat_aug1 |> 
+  na.omit(dat_aug1) |> 
   ggplot(aes(x=radiation_dosage, y=BMI)) +
   geom_point() +
   geom_smooth(method = "lm", se = FALSE, color = "blue") +
@@ -78,7 +78,7 @@ plot2 <- clean_data1 |>
   theme(plot.title = element_text(hjust = 0.5, size = 16))  # Adjust title position and size
 
 # Perform linear regression
-model <- lm(radiation_dosage ~ BMI, data = clean_data1)
+model <- lm(radiation_dosage ~ BMI, data = dat_aug1)
 
 # Print regression summary
 summary(model)
@@ -105,15 +105,15 @@ low_dose_threshold <- 70
 high_dose_threshold <- 85
 
 # Categorize doses using mutate
-clean_data1 <- mutate(clean_data1, 
+dat_aug1 <- mutate(dat_aug1, 
                       dose_category = cut(radiation_dosage, 
                                           breaks = c(-Inf,low_dose_threshold, high_dose_threshold, Inf),
                                           labels = c('Low Dose', 'Medium Dose', 'High Dose')))
 
 # Calculate percentages for each type of radiation using summarise
-result <- clean_data1 |> 
+result <- dat_aug1 |> 
   group_by(radiation_type, dose_category) |> 
-  summarise(Percentage = n() / nrow(clean_data1) * 100) |> 
+  summarise(Percentage = n() / nrow(dat_aug1) * 100) |> 
   ungroup()  # Ungroup the data
 
 # Create a grouped bar plot
@@ -144,7 +144,7 @@ ggsave(filename = "key_plot_3.png",
 Comparison of the average time passed since the completion of radiation treatment and the first incident of HC
 
 ```{r}
-plot2_data <- clean_data1 |>
+plot2_data <- dat_aug1 |>
   select(radiation_type, radiation_completion_to_first_hc) |>
   mutate(TimePassed = as.numeric(radiation_completion_to_first_hc)) |>
   filter(!is.na(TimePassed)) |> 
@@ -181,7 +181,7 @@ Wasn't this calculated previously?? please check plot 3
 ```{r}
 
 # Calculate the percentage of patients who received low, medium, and high doses for each radiation type
-percentage_df <- clean_data1 |> 
+percentage_df <- dat_aug1 |> 
   group_by(radiation_type)  |> 
   summarize(
     Low = sum(radiation_dosage < 50) / n() * 100,
@@ -252,7 +252,7 @@ Plot number 6
 Description: Relationship Between Body Mass Index (BMI) and time from radiation completion to first incidence of Hemorrhagic Cystitis.
 
 ```{r}
-plot6 <- clean_data1 |> 
+plot6 <- dat_aug1 |> 
 ggplot(aes(x = radiation_completion_to_first_hc, y = BMI, color = ethnicity)) +
   geom_point() +
   labs(title = "Scatter Plot of BMI vs Radiation Completion to First HC",
