@@ -100,19 +100,20 @@ ggsave(filename = "key_plot_2.png",
 Analysis of Patient Dose Percentages: Distinguishing Low, Medium, and High Levels across various radiation types.
 
 ```{r}
-# Define dose categories based on your research or expert consultation
-low_dose_threshold <- 50
-high_dose_threshold <- 95
+# Define dose categories based on paper
+low_dose_threshold <- 70
+high_dose_threshold <- 85
 
 # Categorize doses using mutate
-clean_data1 <- clean_data1 |> 
-  mutate(dose_category = cut(radiation_dosage, breaks = c(-Inf, low_dose_threshold, high_dose_threshold, Inf),
-                             labels = c('Low Dose', 'Medium Dose', 'High Dose')))
+clean_data1 <- mutate(clean_data1, 
+                      dose_category = cut(radiation_dosage, 
+                                          breaks = c(-Inf,low_dose_threshold, high_dose_threshold, Inf),
+                                          labels = c('Low Dose', 'Medium Dose', 'High Dose')))
 
 # Calculate percentages for each type of radiation using summarise
 result <- clean_data1 |> 
   group_by(radiation_type, dose_category) |> 
-  summarise(Percentage = n() / nrow(clean_data1) * 100, .groups = 'drop') |> 
+  summarise(Percentage = n() / nrow(clean_data1) * 100) |> 
   ungroup()  # Ungroup the data
 
 # Create a grouped bar plot
@@ -248,7 +249,7 @@ ggsave(filename = "key_plot_5.png",
 
 Plot number 6
 
-Description:
+Description: Relationship Between Body Mass Index (BMI) and time from radiation completion to first incidence of Hemorrhagic Cystitis.
 
 ```{r}
 plot6 <- clean_data1 |> 
@@ -257,7 +258,9 @@ ggplot(aes(x = radiation_completion_to_first_hc, y = BMI, color = ethnicity)) +
   labs(title = "Scatter Plot of BMI vs Radiation Completion to First HC",
        x = "Radiation Completion to First HC",
        y = "BMI")+
-  scale_color_manual(values = c("african_american" = "blue", "caucasian" = "red"))
+  scale_color_manual(values = c("african_american" = "blue", "caucasian" = "red"))+
+  theme_minimal(base_size = 12)
+  
 
 #Print plot
 print(plot6)
