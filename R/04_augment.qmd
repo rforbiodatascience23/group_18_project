@@ -107,9 +107,6 @@ dat_clean1 <- dat_clean1 |>
     -height_m,      
     -height_cm,    
     -weight_kg,     
-    -hospital_site,     
-    -start_end_radiation,    
-    -dates_of_admissions,    
     -comorbidities,     
     -hospitalization_complications,    
     -los_for_each_admission)  
