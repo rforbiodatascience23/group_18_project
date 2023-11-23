@@ -66,7 +66,7 @@ pca_biplot<- pca_fit |>
 
 # Save the plot in Results directory
 ggsave(
-  filename = 'biplot_pca.png',
+  filename = 'key_plot_10.png',
   plot = pca_biplot,
   path = "~/group_18_project/results"
 )
@@ -90,7 +90,7 @@ rotation_matrix <- round(rotation_matrix, digits = 3)
 kable(rotation_matrix, caption = "Rotation Matrix in PCA")
 ```
 
-Arrow plot. We should see one arrow per variable included in PCA, so 4. I don't understand it, **maybe we could remove this plot**
+Arrow plot.
 
 ```{r}
 # define arrow style for plotting
@@ -112,6 +112,13 @@ pca_fit |>
   xlim(-1.25, .5) + ylim(-.5, 1) +
   coord_fixed() + # fix aspect ratio to 1:1
   theme_minimal_grid(12)
+
+# Save the plot in Results directory
+ggsave(
+  filename = 'key_plot_11.png',
+  plot = pca_fit,
+  path = "~/group_18_project/results"
+)
 ```
 
 Lastly we will plot the explained variance of each principal component to asses the significance of the PCA obtained before.
@@ -139,7 +146,7 @@ scree_plot <- eigenvalues_df |>
 
 # Save the plot in Results directory
 ggsave(
-  filename = 'screeplot_pca.png',
+  filename = 'key_plot_12.png',
   plot = scree_plot,
   path = "~/group_18_project/results"
 )
