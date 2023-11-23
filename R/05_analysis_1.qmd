@@ -330,4 +330,40 @@ print(boxplot_plot)
 
 ```
 
-nm
+plot 9:
+
+```{r}
+# Faceted Scatter Plot
+faceted_scatter_plot <- ggplot(data, aes(x = radiation_dosage, y = radiation_duration, color = radiation_type)) +
+  geom_point() +
+  facet_grid(. ~ cancer_type) +
+  labs(title = "Faceted Scatter Plot of Radiation Dosage vs. Duration by Cancer Type",
+       x = "Radiation Dosage",
+       y = "Radiation Duration")
+
+# Display the faceted scatter plot
+print(faceted_scatter_plot)
+
+```
+
+Plot 9 :3D plot: Radiation type, Radiation dosage, Radiation duration and Cancer type.
+
+```{r}
+install.packages("plotly")
+```
+
+```{r}
+# Install and load necessary packages
+# install.packages("plotly")
+library(plotly)
+
+# 3D Scatter Plot
+scatter_3d <- plot_ly(data, x = ~radiation_dosage, y = ~radiation_duration, z = ~cancer_type, color = ~radiation_type, type = "scatter3d", mode = "markers") %>%
+  layout(scene = list(xaxis = list(title = "Radiation Dosage"),
+                      yaxis = list(title = "Radiation Duration"),
+                      zaxis = list(title = "Cancer Type")))
+
+# Display the 3D scatter plot
+print(scatter_3d)
+
+```
