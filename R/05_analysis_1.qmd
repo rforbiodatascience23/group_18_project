@@ -256,7 +256,7 @@ Relationship Between Body Mass Index (BMI) and time from radiation completion to
 
 ```{r}
 #Create a scatter plot
-plot6 <- clean_data1 |> 
+plot6 <- analysis_1 |> 
 
 ggplot(aes(x = radiation_completion_to_first_hc, y = BMI, color = ethnicity)) +
   geom_point() +
@@ -289,13 +289,13 @@ Kaplan Meier curve showing the probability of HC-free survival over time (n=562 
 library(survival)
 
 #Create a new data frame to add columns "event" and "time"
-event_time <- clean_data2 |> 
+event_time <- analysis_2 |> 
   mutate(
     event = as.numeric(hc_incidence == "no"),
     time = rep(1:562, length.out = n())
   )
 # Fit a Kaplan-Meier survival curve using the function: survfit
-km_fit <- survfit(Surv(time, event) ~ 1, data = clean_data2)
+km_fit <- survfit(Surv(time, event) ~ 1, data= event_time)
 
 # Create the survival plot
 plot7 <- plot(km_fit, main = "Kaplan-Meier Curve of HC-Free Survival P. vs Time",
@@ -332,7 +332,7 @@ plot8 <- ggplot(analysis_1, aes(x = radiation_type, y = radiation_duration, fill
   theme(axis.text.x = element_text(angle = 45, hjust = 1))  # Rotate x-axis labels
 
 # Display the boxplot
-print(boxplot_plot)
+print(plot8)
 
 # Save the plot to folder results
 ggsave(filename = "key_plot_8.png", 
