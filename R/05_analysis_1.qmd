@@ -348,6 +348,8 @@ print(faceted_scatter_plot)
 
 Plot 9 :3D plot: Radiation type, Radiation dosage, Radiation duration and Cancer type.
 
+(Just for the group)
+
 ```{r}
 install.packages("plotly")
 ```
