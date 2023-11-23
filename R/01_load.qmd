@@ -19,6 +19,7 @@ library(purrr)
 library(cowplot)
 library(broom) 
 library(ggplot2)
+library("table1")
 ```
 
 ## Load raw_data.xlsx from \_raw folder

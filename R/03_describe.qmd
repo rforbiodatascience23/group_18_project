@@ -4,4 +4,39 @@ format: html
 editor: visual
 ---
 
-Describe
+# Describe
+
+paste your description here Nova
+
+## Load dat_clean from data folder
+
+```{r}
+dat_clean1 <- read_tsv(
+  file = "~/group_18_project/data/02_dat_clean1.tsv",
+  show_col_types = FALSE)
+
+dat_clean2 <- read_tsv(
+  file = "~/group_18_project/data/02_dat_clean2.tsv",
+  show_col_types = FALSE)
+```
+
+## The group of patients used for the study
+
+```{r}
+
+dat_clean2 <- as_tibble(dat_clean2)
+table_dat_clean2 <- dat_clean2 |> 
+  filter(prostate_cancer == "yes" | bladder_cancer == "yes") |>
+  table1(x = formula(~ prostate_cancer + bladder_cancer + treatment | hc_incidence),
+         data = _) |>
+
+```
+
+## The group of patient with HC used for the study
+
+```{r}
+#dat_clean1 |>
+ # mutate(hematuria_grade = factor(hematuria_grade)) |>
+  #table1(x = formula(~ age_at_radiation + ethnicity + radiation_type | treat),
+   #      data = _)
+```
