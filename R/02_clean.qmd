@@ -120,23 +120,6 @@ dat_load1 <- dat_load1 |>
   )
 ```
 
-### Clean cancer_type making new columns cancer_type and cancer_stage
-
-```{r}
-dat_load1 <- dat_load1 |>
-  mutate(
-    cancer_type = case_when(
-      grepl("prostate", tolower(clinical_cancer)) & grepl("bladder", tolower(clinical_cancer)) ~ "both",
-      grepl("prostate", tolower(clinical_cancer)) ~ "prostate",
-      grepl("bladder", tolower(clinical_cancer)) ~ "bladder",
-      TRUE ~ NA_character_),
-    cancer_stage = str_extract(clinical_cancer, "(?i)T\\d++[a-z]|Gleason \\d+")) |>
-  select(-clinical_cancer)
-  
-dat_load1 <- dat_load1 |>  
-  relocate(c(cancer_type,cancer_stage), .before=hematuria_grade)
-```
-
 ### Change names in radiation_type so they fit with the naming in dat_load2 and dat_load3
 
 ```{r}
