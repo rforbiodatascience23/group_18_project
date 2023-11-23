@@ -28,7 +28,7 @@ dat_clean2 <- as_tibble(dat_clean2)
 table_dat_clean2 <- dat_clean2 |> 
   filter(prostate_cancer == "yes" | bladder_cancer == "yes") |>
   table1(x = formula(~ prostate_cancer + bladder_cancer + treatment | hc_incidence),
-         data = _) |>
+         data = _) 
 
 ```
 
