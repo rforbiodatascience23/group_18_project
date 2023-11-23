@@ -314,19 +314,17 @@ ggsave(filename = "~/group_18_project/results/key_plot_7.png",
 
 bnm
 
-Plot 8: The distribution of radiation durations among different types of radiation.
+Plot 8: The distribution of radiation duration among different types of radiation and diseases.
 
 ```{r}
-# Boxplot
-boxplot_plot <- ggplot(analysis_1, aes(x = radiation_type, y = radiation_duration, fill = radiation_type)) +
-  geom_boxplot() +
-  labs(title = "Boxplot of Radiation Durations",
-       x = "Radiation Type",
-       y = "Radiation Duration") +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))  # Rotate x-axis labels
+library(ggplot2)
 
-# Display the boxplot
-print(boxplot_plot)
+ggplot(data, aes(x = category, fill = radiation_type)) +
+  geom_bar(position = "dodge") +
+  ggtitle("Radiation Duration vs Health Factors") +
+  xlab("Health Factors") +
+  ylab("Radiation Duration") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
 ```
 
