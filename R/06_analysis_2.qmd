@@ -32,7 +32,7 @@ selected_vars <- c("hematuria_grade", "radiation_dosage", "radiation_duration", 
 
 # Create a subset without NA values
 analysis_2 <- analysis_2 |> 
-  select(all_of(selected_vars), clinical_cancer) |> 
+  select(all_of(selected_vars), cancer_type) |> 
   drop_na() 
 
 # Use the selected numeric columns for PCA and avoid rows with NA values
@@ -49,7 +49,7 @@ We select the first two PC given that they are the ones which contain a highest 
 pca_biplot<- pca_fit |> 
   augment(analysis_2) |>  # add original dataset back in
   drop_na() |>  
-  ggplot(aes(.fittedPC1, .fittedPC2, color = clinical_cancer)) + 
+  ggplot(aes(.fittedPC1, .fittedPC2, color = cancer_type)) + 
   geom_point(size = 2.5) +
   labs(color = "Cancer type")+
   xlab("PC1") +

@@ -85,7 +85,7 @@ Clean cancer_type making new columns cancer_type and cancer_stage
 
 ```{r}
 
-dat_load1 <- dat_load1 |>
+dat_clean1 <- dat_clean1 |>
   mutate(
     cancer_type = case_when(
       grepl("prostate", tolower(clinical_cancer)) & grepl("bladder", tolower(clinical_cancer)) ~ "both",
@@ -95,7 +95,7 @@ dat_load1 <- dat_load1 |>
     cancer_stage = str_extract(clinical_cancer, "(?i)T\\d++[a-z]|Gleason \\d+")) |>
   select(-clinical_cancer)
   
-dat_load1 <- dat_load1 |>  
+dat_clean1 <- dat_clean1 |>  
   relocate(c(cancer_type,cancer_stage), .before=hematuria_grade)
 ```
 
