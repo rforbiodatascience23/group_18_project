@@ -6,7 +6,7 @@ editor: visual
 
 # Describe
 
-paste your description here Nova
+Add a short intro to the dataset from article (what is dat_clean 1 and dat_clean 2 about) - hc patients/all patients in the study
 
 ## Load dat_clean from data folder
 
@@ -20,23 +20,39 @@ dat_clean2 <- read_tsv(
   show_col_types = FALSE)
 ```
 
-## The group of patients used for the study
+## Inspect the dat_clean1
 
 ```{r}
 
-dat_clean2 <- as_tibble(dat_clean2)
-table_dat_clean2 <- dat_clean2 |> 
-  filter(prostate_cancer == "yes" | bladder_cancer == "yes") |>
-  table1(x = formula(~ prostate_cancer + bladder_cancer + treatment | hc_incidence),
-         data = _) |>
-
+dat_clean1 |> head(10)
 ```
 
-## The group of patient with HC used for the study
+Describe the data from dat_clean1 here (total number of patients in dataset and the more important variables we want to study)
 
 ```{r}
-#dat_clean1 |>
- # mutate(hematuria_grade = factor(hematuria_grade)) |>
-  #table1(x = formula(~ age_at_radiation + ethnicity + radiation_type | treat),
-   #      data = _)
+dat_clean1 |>
+  mutate(hematuria_grade = factor(hematuria_grade)) |>
+  table1(x = formula(~ age_at_radiation + ethnicity + radiation_type | hematuria_grade),
+         data = _)
+```
+
+## Inspect the dat_clean2
+
+```{r}
+
+dat_clean2 |> head(10)
+```
+
+Describe the data from dat_clean2 here (total number of patients in dataset and the more important variables we want to study)
+
+```{r}
+dat_clean2 |>
+  table1(x = formula(~ treatment + bladder_cancer | prostate_cancer),
+         data = _)
+```
+
+```{}
+```
+
+```{}
 ```

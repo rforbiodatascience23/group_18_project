@@ -81,7 +81,7 @@ dat_load1 <- rename(dat_load1,
                     any_of(change_variable_names))
 ```
 
-### Correct spelling mistakes, absence of comas in strings in observations, change data types
+### Correct spelling mistakes, absence of comas in strings in observations, change data types, remove messy columns
 
 ```{r}
 
@@ -116,8 +116,11 @@ dat_load1 <- dat_load1 |>
     surgery_for_urinary_diversion = ifelse(tolower(surgery_for_urinary_diversion) == "no", "no", "yes"),
 
     # hyperbaric_o2 replace unknown string with NA 
-    hyperbaric_o2 = ifelse(str_detect(tolower(hyperbaric_o2), "unknown"), NA, hyperbaric_o2)
-  )
+    hyperbaric_o2 = ifelse(str_detect(tolower(hyperbaric_o2), "unknown"), NA, hyperbaric_o2)) |>
+  select(
+    -hospital_site,     
+    -start_end_radiation,    
+    -dates_of_admissions)
 ```
 
 ### Change names in radiation_type so they fit with the naming in dat_load2 and dat_load3
@@ -210,6 +213,7 @@ combined_dat_load2_load3 <- combined_dat_load2_load3 |>
               names_to = "treatment", 
               values_to = "values",
               values_drop_na = TRUE) |>
+  distinct(hospital_id, .keep_all = TRUE) |>
   select(-values)
 
 # Replace NA and Xs for 0 and 1s but yes

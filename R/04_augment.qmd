@@ -79,7 +79,7 @@ dat_clean1 <- dat_clean1 |>
   relocate(num_days_admitted, .after = los_for_each_admission) 
 ```
 
-#### Data Wrangling V: cancer_type 
+#### Data Wrangling V: cancer_type
 
 Clean cancer_type making new columns cancer_type and cancer_stage
 
