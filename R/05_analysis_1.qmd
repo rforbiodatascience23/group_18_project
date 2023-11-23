@@ -58,7 +58,7 @@ ggsave(filename = "key_plot_1.png",
 
 ## Plot number 2
 
-Linear Regression Analysis of BMI in relation to radiation dose.
+Linear Regression Analysis of Body Mass Index (BMI) in relation to radiation dose.
 
 ```{r}
 # Read data from the TSV file
@@ -250,7 +250,7 @@ ggsave(filename = "key_plot_5.png",
 
 Plot number 6
 
-Description: Relationship Between Body Mass Index (BMI) and time from radiation completion to first incidence of Hemorrhagic Cystitis.
+Relationship Between Body Mass Index (BMI) and time from radiation completion to first incidence of Hemorrhagic Cystitis.
 
 ```{r}
 #Create a scatter plot
@@ -281,17 +281,21 @@ ggsave(filename = "key_plot_6.png",
 
 Plot number 7
 
+Kaplan Meier curve showing the probability of HC-free survival over time (n=562 months).
+
 ```{r}
 library(survival)
 
-clean_data2 <- clean_data2 |> 
+#Create a new data frame to add columns "event" and "time"
+event_time <- clean_data2 |> 
   mutate(
     event = as.numeric(hc_incidence == "no"),
     time = rep(1:562, length.out = n())
   )
-
+# Fit a Kaplan-Meier survival curve using the function: survfit
 km_fit <- survfit(Surv(time, event) ~ 1, data = clean_data2)
 
+#Create plot
 plot7 <- plot(km_fit, main = "Kaplan-Meier Curve of HC-Free Survival P. vs Time",
               xlab = "Time (Months)", ylab = "HC-Free Survival Probability",
               col = "blue", lwd = 2, conf.int = FALSE)
@@ -312,9 +316,9 @@ ggsave(filename = "~/group_18_project/results/key_plot_7.png",
 
 ```
 
-bnm
+bn
 
-Plot 8: The distribution of radiation durations among different types of radiation.
+Plot 8: The distribution of radiation duration among different types of radiation.
 
 ```{r}
 # Boxplot
