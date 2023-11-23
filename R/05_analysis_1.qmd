@@ -19,9 +19,9 @@ analysis_2 <- read_tsv(
   show_col_types = FALSE)
 ```
 
-## Plot number 1
+## Plot 1 
 
-Frequency of patients affected with Radiation-Induced Hemorrhagic Cystitis by type of radiation treatment received
+Description: The presented plot illustrates the distribution of patients who experienced radiation-induced Hemorrhagic Cystitis (HC) based on the type of treatment received. Utilizing proportions in this visualization offers a comparative view of how different treatments are distributed relative to the total number of cases with HC incidence. Each bar represents the proportion of patients receiving a specific treatment within the categories of HC incidence, providing valuable insights into the treatment patterns in the context of radiation-induced HC.
 
 ```{r}
 
@@ -39,7 +39,7 @@ plot1 <- analysis_2 |>
   geom_hline(yintercept = 0) +
   labs(x = "Treatment Received",    
        y = "Proportion",              
-       fill = "Radiation-Induced Hemorrhagic Cystitis"     
+       fill = "Study of Radiation-Induced Hemorrhagic Cystitis"     
   ) +
   theme_minimal(base_size = 12) +
   theme(legend.position = "top",
@@ -56,7 +56,7 @@ ggsave(filename = "key_plot_1.png",
       dpi = 300)
 ```
 
-## Plot number 2
+## Plot 2
 
 Linear Regression Analysis of Body Mass Index (BMI) in relation to radiation dose.
 
@@ -95,7 +95,7 @@ ggsave(filename = "key_plot_2.png",
       dpi = 300)
 ```
 
-## Plot number 3
+## Plot 3
 
 Analysis of Patient Dose Percentages: Distinguishing Low, Medium, and High Levels across various radiation types.
 
@@ -139,7 +139,7 @@ ggsave(filename = "key_plot_3.png",
       dpi = 300)
 ```
 
-## Plot number 4
+## Plot 4
 
 Comparison of the average time passed since the completion of radiation treatment and the first incident of HC
 
@@ -197,7 +197,7 @@ print(percentage_df)
 
 ```
 
-## Plot number 5
+## Plot 5
 
 please describe the plot here
 
@@ -250,7 +250,7 @@ ggsave(filename = "key_plot_5.png",
 
 ```
 
-Plot number 6
+## Plot 6
 
 Relationship Between Body Mass Index (BMI) and time from radiation completion to first incidence of Hemorrhagic Cystitis.
 
@@ -281,7 +281,7 @@ ggsave(filename = "key_plot_6.png",
 
 ```
 
-Plot number 7
+## Plot 7
 
 Kaplan Meier curve showing the probability of HC-free survival over time (n=562 months).
 
@@ -318,9 +318,7 @@ ggsave(filename = "key_plot_7.png",
       dpi = 300)
 ```
 
-bn
-
-Plot 8: The distribution of radiation duration among different types of radiation.
+## Plot 8: The distribution of radiation duration among different types of radiation.
 
 ```{r}
 # Boxplot
@@ -344,7 +342,7 @@ ggsave(filename = "key_plot_8.png",
 
 ```
 
-plot 9:
+## Plot 9
 
 ```{r}
 # Faceted Scatter Plot
@@ -381,5 +379,4 @@ scatter_3d <- plot_ly(data, x = ~radiation_dosage, y = ~radiation_duration, z = 
 
 # Display the 3D scatter plot
 print(scatter_3d)
-
 ```
