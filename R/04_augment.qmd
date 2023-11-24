@@ -79,6 +79,26 @@ dat_clean1 <- dat_clean1 |>
   relocate(num_days_admitted, .after = los_for_each_admission) 
 ```
 
+#### Data Wrangling V: cancer_type
+
+Clean cancer_type making new columns cancer_type and cancer_stage
+
+```{r}
+
+dat_clean1 <- dat_clean1 |>
+  mutate(
+    cancer_type = case_when(
+      grepl("prostate", tolower(clinical_cancer)) & grepl("bladder", tolower(clinical_cancer)) ~ "both",
+      grepl("prostate", tolower(clinical_cancer)) ~ "prostate",
+      grepl("bladder", tolower(clinical_cancer)) ~ "bladder",
+      TRUE ~ NA_character_),
+    cancer_stage = str_extract(clinical_cancer, "(?i)T\\d++[a-z]|Gleason \\d+")) |>
+  select(-clinical_cancer)
+  
+dat_clean1 <- dat_clean1 |>  
+  relocate(c(cancer_type,cancer_stage), .before=hematuria_grade)
+```
+
 #### Remove data variables that will not be used further and correct variable placing
 
 ```{r}
@@ -87,9 +107,6 @@ dat_clean1 <- dat_clean1 |>
     -height_m,      
     -height_cm,    
     -weight_kg,     
-    -hospital_site,     
-    -start_end_radiation,    
-    -dates_of_admissions,    
     -comorbidities,     
     -hospitalization_complications,    
     -los_for_each_admission)  
