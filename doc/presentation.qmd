@@ -4,28 +4,30 @@ author: "group 18"
 format: revealjs
 ---
 
-## Introduction (slide 1)
+## (Slide 1): Introduction 
 
 -   Include introduction
 
 -   Graphical representation of your process going from raw to analysis-ready data
 
-## Materials and Methods 
+## #Materials and Methods
 
-### 1. Clean (slide 2) (slide 3)
+## (Slide 2): Clean 
 
-### 2. Aug (Slide 4)
+## (Slide 3): Clean
 
-### 3. Analysis 1(Slide 5)
+## (Slide 4): Aug 
 
-### 4. Analysis 2 (Slide 6)
+## (Slide 5): Analysis 1
 
-## **Results** 
+## (Slide 6): Analysis 2 
 
-### General statistics / description of the dataset (Slide 7)
+## **#Results** 
 
-### Add plots from analysis 1  (Slide 8)
+## (Slide 7): General statistics / description of the dataset
 
-### Add plots from analysis 2  (Slide 9)
+## (Slide 8): Add plots from analysis 1 
 
-### **Discussion (Slide 10)**
+## (Slide 9): Add plots from analysis 2
+
+## **(Slide 10): Discussion** 
