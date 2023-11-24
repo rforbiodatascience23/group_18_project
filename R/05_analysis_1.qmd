@@ -182,6 +182,20 @@ ggsave(filename = "key_plot_4.png",
 please describe the plot here
 
 ```{r}
+ #Calculate the percentage of patients who received low, medium, and high doses for each radiation type
+percentage_df <- clean_data1 |> 
+  group_by(radiation_type)  |> 
+  summarize(
+    Low = sum(radiation_dosage < 50) / n() * 100,
+    Medium = sum(radiation_dosage >= 50 & radiation_dosage < 70) / n() * 100,
+    High = sum(radiation_dosage >= 70) / n() * 100
+  )
+
+# Print the resulting data frame
+print(percentage_df)
+```
+
+```{r}
 library(ggplot2)
 
 # Melt the data frame to long format for easier plotting
@@ -291,9 +305,6 @@ ggplot(data, aes(x = category, fill = radiation_type)) +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
 
-
-# Save plot to folder called "results"
-
 ```
 
 plot 9:
@@ -321,8 +332,6 @@ install.packages("plotly")
 ```
 
 ```{r}
-# Install and load necessary packages
-# install.packages("plotly")
 library(plotly)
 
 # 3D Scatter Plot
@@ -334,14 +343,4 @@ scatter_3d <- plot_ly(data, x = ~radiation_dosage, y = ~radiation_duration, z = 
 # Display the 3D scatter plot
 print(scatter_3d)
 
-```
-
-```{r}
-# Save plot to folder called "results"
-ggsave(filename = "key_plot_6.png", 
-      plot = plot6, 
-      path = "~/group_18_project/results",
-      width = 8, 
-      height = 5, 
-      dpi = 300)
 ```
