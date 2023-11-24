@@ -66,7 +66,7 @@ pca_biplot<- pca_fit |>
 
 # Save the plot in Results directory
 ggsave(
-  filename = 'biplot_pca.png',
+  filename = 'key_plot_2.1.png',
   plot = pca_biplot,
   path = "~/group_18_project/results"
 )
@@ -90,7 +90,7 @@ rotation_matrix <- round(rotation_matrix, digits = 3)
 kable(rotation_matrix, caption = "Rotation Matrix in PCA")
 ```
 
-Arrow plot. We should see one arrow per variable included in PCA, so 4. I don't understand it, **maybe we could remove this plot**
+Arrow plot.
 
 ```{r}
 # define arrow style for plotting
@@ -124,7 +124,10 @@ eigenvalues_df <- pca_fit |>
 # Scree plot
 scree_plot <- eigenvalues_df |> 
   ggplot(aes(PC, percent)) +
-  geom_col(fill = "#56B4E9", alpha = 0.8) +
+  geom_col(position = position_dodge(
+    preserve = "single"),
+    colour = "black",
+    alpha = 0.5) +
   xlab("Principal components") +
   ylab("Explained variance (%)") +
   ggtitle("PC explained variance") +
@@ -134,13 +137,70 @@ scree_plot <- eigenvalues_df |>
     expand = expansion(mult = c(0, 0.01))
   ) +
   theme_minimal_hgrid(12) +
-  theme(
-   plot.title = element_text(hjust = 0.5))
+  theme(plot.title = element_text(hjust = 0.5))
 
 # Save the plot in Results directory
 ggsave(
-  filename = 'screeplot_pca.png',
+  filename = 'key_plot_2.2.png',
   plot = scree_plot,
   path = "~/group_18_project/results"
 )
 ```
+
+### Correlation Analysis
+
+Description: The plot depicts the correlation between chosen pairs of variables (above a selected threshold), allowing a simple understanding of their relationships. The intensity of the colour indicates the strength and direction of the correlation.
+
+```{r}
+ 
+# Get correlation between numeric variables
+cor_matrix <- analysis_2 |>
+  select_if(is.numeric) |> 
+  cor()
+
+# Select a threshold 
+threshold <- 0.1
+
+# Check the variables that have correlation values above the threshold
+high_correlation_pairs <- which(abs(cor_matrix) > 
+                                  threshold & cor_matrix != 1,arr.ind = TRUE)
+
+# Display the variable pairs with high correlation
+#high_correlation_pairs
+
+# Extract variable pairs with high correlation
+variable_pairs <- high_correlation_pairs[, c("row", "col")]
+
+# Get variable names with high correlation
+variable_names <- colnames(cor_matrix)
+
+high_correlation_pairs_names <- variable_names[variable_pairs[, 1]]
+
+# Select variables with high correlation
+high_correlation_data <- analysis_2[, high_correlation_pairs_names]
+
+# Create a new correlation matrix for variables with high correlation
+high_correlation_matrix <- cor(high_correlation_data)
+
+# Melt the high correlation matrix
+high_correlation_df <- melt(high_correlation_matrix)
+
+# Create a ggplot scatterplot with color representing correlation
+correlation_plot <- 
+  ggplot(data = high_correlation_df, 
+         aes(Var1, Var2, fill = value)) +
+  geom_tile() +
+  scale_fill_gradientn(colors = brewer.pal(7, "YlGnBu"), name = "Correlation") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+        axis.text.y = element_text(angle = 45, hjust = 1))
+
+print(correlation_plot)
+ggsave(filename = "key_plot_2.3.png", 
+       plot = correlation_plot,
+       path = "~/group_18_project/results", 
+       width = 8, height = 6,
+       dpi = 300)
+```
+
+### 
