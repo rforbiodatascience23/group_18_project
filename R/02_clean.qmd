@@ -130,7 +130,7 @@ dat_load1 <- dat_load1 |>
 dat_load1 <- dat_load1 |>
   mutate(
     radiation_type = str_replace(radiation_type,"Adjuvant EBRT s/p prostatectomy for a pT4N0" , "EBRT,adjuvant"),
-    radiation_type = str_replace(radiation_type,"Adjuvant EBRT s/p prostatectomy with positive LNs" , "EBR,adjuvant"),
+    radiation_type = str_replace(radiation_type,"Adjuvant EBRT s/p prostatectomy with positive LNs" , "EBRT,adjuvant"),
     radiation_type = str_replace(radiation_type,"EBRT then seeds" , "EBRT"),
     radiation_type = str_replace(radiation_type,"EBRT, seeds" , "EBRT"),
     radiation_type = str_replace(radiation_type,"EBRT, seeds, intravescial chemo" , "EBRT"),
