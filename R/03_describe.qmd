@@ -6,7 +6,13 @@ editor: visual
 
 # Describe
 
-Add a short intro to the dataset from article (what is dat_clean 1 and dat_clean 2 about) - hc patients/all patients in the study
+##### *Add a short intro to the dataset from article (what is dat_clean 1 and dat_clean 2 about) - hc patients/all patients in the study*
+
+The dataset under consideration originates from an in-depth exploration of medical records pertaining to individuals who underwent radiation therapy for prostate cancer within the timeframe of January 2000 to September 2015, specifically within two Detroit Medical Center hospitals. The dataset encompasses information on 709 patients. The primary objective of this investigation was to assess the frequency and severity of radiation-induced hemorrhagic cystitis (HC) in patients subjected to radiation therapy.
+
+The findings reveal that approximately 11.1% of the patients in the dataset developed HC subsequent to their radiation therapy. The analysis delved into various factors, including the type of radiation administered, the overall health status of the patients, and the specifics of their treatment. Interestingly, no significant discrepancy was observed based on the type of radiation. On average, the onset of HC occurred around 79 months post-radiation, accompanied by considerable medical complexities such as multiple hospital visits, blood transfusions, and, in certain instances, intricate medical procedures.
+
+Demographically, the majority of these patients were of African American descent, with an average age of around 69 at the time of radiation. The spectrum of complications ranged from urinary tract infections to more severe conditions like kidney issues, bladder ruptures, and unfortunately, instances of mortality.
 
 ## Load dat_clean from data folder
 
