@@ -20,6 +20,10 @@ format: revealjs
 
 ## (Slide 5): Analysis 1
 
+![](images/key_plot_1.4.png){fig-align="left" width="400"}
+
+![](images/key_plot_1.6.png){fig-align="right" width="500"}
+
 ## (Slide 6): Analysis 2
 
 ## **#Results**
