@@ -10,18 +10,20 @@ format: revealjs
 
 -   Graphical representation of your process going from raw to analysis-ready data
 
-## Materials and Methods (slide 2)
+## Materials and Methods 
 
--   Clean
+### 1. Clean (slide 2) (slide 3)
 
--   Augment
+### 2. Aug (Slide 4)
 
--   Analysis 1
+### 3. Analysis 1(Slide 5)
 
--   Analysis 2
+### 4. Analysis 2 (Slide 6)
 
-## Results (And) (slide 3)
+## **Results** 
 
--   Add here Plots?
+### General statistics / description of the dataset (Slide 7)
 
-## Discussion (slide 4)
+### Add plots from analysis 1  (Slide 8)
+
+### Add plots from analysis 2  (Slide 9)
