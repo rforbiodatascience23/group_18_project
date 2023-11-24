@@ -106,9 +106,7 @@ dat_clean1 <- dat_clean1 |>
   select(
     -height_m,      
     -height_cm,    
-    -weight_kg,     
-    -comorbidities,     
-    -hospitalization_complications,    
+    -weight_kg,      
     -los_for_each_admission)  
 
 dat_clean1 <- dat_clean1 |> relocate(radiation_completion_to_first_hc, .after = radiation_duration) 
