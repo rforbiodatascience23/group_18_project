@@ -27,7 +27,7 @@ dat_clean2 <- read_tsv(
 dat_clean1 |> head(10)
 ```
 
-Describe the data from dat_clean1 here (total number of patients in dataset and the more important variables we want to study)
+Describe the data from dat_clean1 here (total number of patients in dataset and the more important variables we want to study). Explain maybe some what is hematuria grade and what the types of radiation stand for.
 
 ```{r}
 dat_clean1 |>

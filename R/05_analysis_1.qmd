@@ -6,26 +6,27 @@ editor: visual
 
 # Analysis 1
 
-## Load clean data from data folder
+## Load clean data from data folder  
 
 ```{r warning=FALSE}
 
-analysis_1 <- read_tsv(
+analysis_1.1 <- read_tsv(
   file = "~/group_18_project/data/03_dat_aug1.tsv",
   show_col_types = FALSE)
 
-analysis_2 <- read_tsv(
+analysis_1.2  <- read_tsv(
   file = "~/group_18_project/data/02_dat_clean2.tsv",
   show_col_types = FALSE)
 ```
 
-## Plot 1 
+## Plot 1
 
 Description: The presented plot illustrates the distribution of patients who experienced radiation-induced Hemorrhagic Cystitis (HC) based on the type of treatment received. Utilizing proportions in this visualization offers a comparative view of how different treatments are distributed relative to the total number of cases with HC incidence. Each bar represents the proportion of patients receiving a specific treatment within the categories of HC incidence, providing valuable insights into the treatment patterns in the context of radiation-induced HC.
 
 ```{r}
 
-plot1 <- analysis_2 |> 
+plot1 <- 
+  analysis_1.2 |> 
   count(treatment, hc_incidence) |>
   group_by(treatment) |>
   mutate(freq = n / sum(n)) |>
@@ -48,7 +49,7 @@ plot1 <- analysis_2 |>
                                    hjust = 1,
                                    vjust = 1.1))
 
-ggsave(filename = "key_plot_1.png", 
+ggsave(filename = "key_plot_1.1.png", 
       plot = plot1, 
       path = "~/group_18_project/results",
       width = 8, 
@@ -61,24 +62,24 @@ ggsave(filename = "key_plot_1.png",
 Linear Regression Analysis of Body Mass Index (BMI) in relation to radiation dose.
 
 ```{r}
-# Read data from the TSV file
-data <- read.delim('~/group_18_project/data/02_dat_clean1.tsv')
-
 #Create the plot
-plot2 <- analysis_1 |> 
-  na.omit(analysis_1) |> 
-  ggplot(aes(x=radiation_dosage, y=BMI)) +
+plot2 <- 
+  analysis_1.1 |> 
+  na.omit(analysis_1.1) |> 
+  ggplot(aes(x=radiation_dosage,
+             y=BMI)) +
   geom_point() +
-  geom_smooth(method = "lm", se = FALSE, color = "blue") +
+  geom_smooth(method = "lm", 
+              se = FALSE, 
+              color = "blue") +
   theme_minimal(base_size = 16) +
   labs(x = "Radiation Dose",    
        y = "BMI",              
-       title = "Linear Regression between BMI and radiation dose"     
-  ) +
+       title = "Linear Regression between BMI and radiation dose") +
   theme(plot.title = element_text(hjust = 0.5, size = 16))  
 
 # Perform linear regression
-model <- lm(radiation_dosage ~ BMI, data = analysis_1)
+model <- lm(radiation_dosage ~ BMI, data = analysis_1.1)
 
 # Print regression summary
 summary(model)
@@ -87,7 +88,7 @@ summary(model)
 print(plot2)
 
 # Save plot to folder called "results"
-ggsave(filename = "key_plot_2.png", 
+ggsave(filename = "key_plot_1.2.png", 
       plot = plot2, 
       path = "~/group_18_project/results",
       width = 8, 
@@ -105,33 +106,50 @@ low_dose_threshold <- 70
 high_dose_threshold <- 85
 
 # Categorize doses using mutate
-analysis_1 <- mutate(analysis_1, 
-                      dose_category = cut(radiation_dosage, 
-                                          breaks = c(-Inf,low_dose_threshold, high_dose_threshold, Inf),
-                                          labels = c('Low Dose', 'Medium Dose', 'High Dose')))
+analysis_1.1 <- 
+  mutate(analysis_1.1, 
+         dose_category = cut(radiation_dosage, 
+                             breaks = c(-Inf,low_dose_threshold, high_dose_threshold, Inf),
+                             labels = c('Low Dose', 'Medium Dose', 'High Dose')))
 
 # Calculate percentages for each type of radiation using summarise
-result <- analysis_1 |> 
+result_3 <- 
+  analysis_1.1 |> 
   group_by(radiation_type, dose_category) |> 
-  summarise(Percentage = n() / nrow(analysis_1) * 100) |> 
-  ungroup()  # Ungroup the data
+  summarise(Proportion = n()/nrow(analysis_1.1)) |> 
+  filter(!is.na(dose_category) & !is.na(radiation_type) & !is.na(Proportion)) |>  
+  ungroup()
 
 # Create a grouped bar plot
-plot3 <- result |> 
-  ggplot(aes(x = radiation_type, y = Percentage, fill = dose_category)) +
-  geom_bar(stat = "identity", position = "dodge", width = 0.7) +
-  labs(title = "Percentage of Radiation Dosage in Each Dose Category by Radiation Type",
-       x = "Radiation Type",
-       y = "Percentage") +
-  scale_fill_manual(values = c('Low Dose' = 'lightblue', 'Medium Dose' = 'lightgreen', 'High Dose' = 'lightcoral', 'NAs'='darkgrey')) +
-  theme_classic(base_size = 8) + 
-  theme(axis.text.x = element_text(angle = 65, hjust = 1, vjust = 1))
+plot3 <- 
+  ggplot(data = result_3,
+         aes(x = radiation_type, 
+             y = Proportion, 
+             fill = dose_category)) +
+  geom_col(position = position_dodge(
+    preserve = "single"),
+    colour = "black",
+    alpha = 0.5) + 
+  geom_hline(yintercept = 0) +
+  labs(title = "Radiation Dosage Category" ,
+       subtitle = "Radiation Type and corresponding dosage category",
+       #x = "Type of Radiation",
+       y = "Proportion",
+       fill = "Radiation Dosage Category") +
+  theme_minimal(base_size = 12) +
+  theme(legend.position = "right",
+        panel.grid.major.x = element_blank(),
+        axis.text.x = element_text(angle = 45,
+                                   hjust = 1,
+                                   vjust = 1.08),
+        axis.title.x = element_blank()
+        )
 
 #Print plot
 print(plot3)
 
 # Save plot to the "results" folder
-ggsave(filename = "key_plot_3.png", 
+ggsave(filename = "key_plot_1.3.png", 
       plot = plot3, 
       path = "~/group_18_project/results",
       width = 8, 
@@ -144,13 +162,15 @@ ggsave(filename = "key_plot_3.png",
 Comparison of the average time passed since the completion of radiation treatment and the first incident of HC
 
 ```{r}
-plot2_data <- analysis_1 |>
+plot4_data <- 
+  analysis_1.1 |>
   select(radiation_type, radiation_completion_to_first_hc) |>
   mutate(TimePassed = as.numeric(radiation_completion_to_first_hc)) |>
   filter(!is.na(TimePassed)) |> 
   filter(!is.na(radiation_type)) 
 
-result <- plot2_data |>
+result_4 <- 
+  plot4_data |>
   group_by(radiation_type) |>
   summarize(
     AvgTimePassed = mean(TimePassed),
@@ -158,20 +178,23 @@ result <- plot2_data |>
     TotalObservations = n())
 
 plot4 <- 
-  ggplot(result, aes(x = radiation_type, y = AvgTimePassed, fill = radiation_type)) +
-  geom_bar(stat = "identity", position = "dodge", color = "black") +
+  ggplot(data = result_4, 
+         aes(x = radiation_type,
+             y = AvgTimePassed, 
+             fill = radiation_type)) +
+  geom_bar(stat = "identity", position = "dodge", color = "black", alpha = 0.5) +
   labs(expression(title = "Comparison of Average Time Since Radiation and Time to HC"),
        x = "Type of Radiation",
-       y = "Average Time Since Radiation (months)") +
+       y = "Average Time Since Radiation\n(months)",
+       fill = "Type of Radiation") +
   theme_minimal()+
-   theme(axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1))
+   theme(axis.text.x = element_blank())
 
-  
 
 print(plot4)
 
 # Save plot to the "results" folder
-ggsave(filename = "key_plot_4.png", 
+ggsave(filename = "key_plot_1.4.png", 
       plot = plot4, 
       path = "~/group_18_project/results",
       width = 8, 
@@ -184,7 +207,7 @@ Wasn't this calculated previously?? please check plot 3
 ```{r}
 
 # Calculate the percentage of patients who received low, medium, and high doses for each radiation type
-percentage_df <- analysis_1 |> 
+percentage_df <- analysis_1.1 |> 
   group_by(radiation_type)  |> 
   summarize(
     Low = sum(radiation_dosage < 50) / n() * 100,
@@ -203,45 +226,53 @@ please describe the plot here
 
 ```{r}
 # Melt the data frame to long format for easier plotting
-melted_df <- tidyr::gather(percentage_df, key = "DoseCategory", value = "Percentage", -radiation_type)
+melted_df_5.1 <- tidyr::gather(percentage_df, key = "DoseCategory", value = "Percentage", -radiation_type)
 
 # Create a stacked bar plot
-ggplot(melted_df, aes(x = radiation_type, y = Percentage, fill = DoseCategory)) +
-  geom_bar(stat = "identity", position = "stack", color = "black") +
-  labs(
-    title = "Percentage of Patients in Low, Medium, and High Dose Categories",
-    x = "Radiation Type",
-    y = "Percentage"
-  ) +
-  scale_fill_manual(values = c("Low" = "skyblue", "Medium" = "lightcoral", "High" = "gold")) +
+ggplot(data = melted_df_5.1,
+       aes(x = radiation_type, y = Percentage, fill = DoseCategory)) +
+  geom_bar(stat = "identity", 
+           position = "stack", 
+           color = "black") +
+  labs(title = "Percentage of Patients in Low, Medium, and High Dose Categories",
+       x = "Radiation Type",
+       y = "Percentage") +
+  scale_fill_manual(values = c("Low" = "skyblue", 
+                               "Medium" = "lightcoral", 
+                               "High" = "gold")) +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
 ```
 
 ```{r}
-library(ggplot2)
 
 # Melt the data frame to long format for easier plotting
-melted_df <- tidyr::gather(percentage_df, key = "DoseCategory", value = "Percentage", -radiation_type)
+melted_df_5.2 <- tidyr::gather(percentage_df, key = "DoseCategory", value = "Percentage", -radiation_type)
 
 # Create a larger stacked bar plot with extended y-axis range
-plot5 <- ggplot(melted_df, aes(x = radiation_type, y = Percentage, fill = DoseCategory)) +
-  geom_bar(stat = "identity", position = "stack", color = "black") +
-  labs(
-    title = "Percentage of Patients in Low, Medium, and High Dose Categories",
-    x = "Radiation Type",
-    y = "Percentage"
-  ) +
-  scale_fill_manual(values = c("Low" = "skyblue", "Medium" = "lightcoral", "High" = "gold")) +
+plot5 <-
+  ggplot(data = melted_df_5.2, 
+         aes(x = radiation_type, 
+             y = Percentage, 
+             fill = DoseCategory)) +
+  geom_bar(stat = "identity", 
+           position = "stack", 
+           color = "black") +
+  labs(title = "Percentage of Patients in Low, Medium, and High Dose Categories",
+       x = "Radiation Type",
+       y = "Percentage") +
+  scale_fill_manual(values = c("Low" = "skyblue", 
+                               "Medium" = "lightcoral", 
+                               "High" = "gold")) +
   theme_minimal() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
-  theme(axis.title.y = element_text(size = 12)) +  # Adjust y-axis title size
-  theme(axis.text.y = element_text(size = 10)) +   # Adjust y-axis text size
+  theme(axis.text.x = element_text(angle = 45, hjust = 1), 
+        axis.title.y = element_text(size = 12),  # Adjust y-axis title size
+        axis.text.y = element_text(size = 10)) +   # Adjust y-axis text size
   coord_cartesian(ylim = c(0, 150))  # Set y-axis range
 
 # Save plot to the "results" folder
-ggsave(filename = "key_plot_5.png", 
+ggsave(filename = "key_plot_1.5.png", 
       plot = plot5, 
       path = "~/group_18_project/results",
       width = 8, 
@@ -256,14 +287,17 @@ Relationship Between Body Mass Index (BMI) and time from radiation completion to
 
 ```{r}
 #Create a scatter plot
-plot6 <- analysis_1 |> 
-
-ggplot(aes(x = radiation_completion_to_first_hc, y = BMI, color = ethnicity)) +
+plot6 <- 
+  ggplot(data = analysis_1.1,
+         aes(x = radiation_completion_to_first_hc, 
+             y = BMI, 
+             color = ethnicity)) +
   geom_point() +
   labs(title = "BMI vs Radiation Completion to First HC",
        x = "Radiation Completion to First HC",
        y = "BMI")+
-  scale_color_manual(values = c("african_american" = "blue", "caucasian" = "red"))+
+  scale_color_manual(values = c("african_american" = "blue",
+                                "caucasian" = "red"))+
   theme_minimal(base_size = 12)
   
 
@@ -271,7 +305,7 @@ ggplot(aes(x = radiation_completion_to_first_hc, y = BMI, color = ethnicity)) +
 print(plot6)
 
 # Save plot to folder called "results"
-ggsave(filename = "key_plot_6.png", 
+ggsave(filename = "key_plot_1.6.png", 
       plot = plot6, 
       path = "~/group_18_project/results",
       width = 8, 
@@ -286,31 +320,38 @@ ggsave(filename = "key_plot_6.png",
 Kaplan Meier curve showing the probability of HC-free survival over time (n=562 months).
 
 ```{r}
-library(survival)
-
 #Create a new data frame to add columns "event" and "time"
-event_time <- analysis_2 |> 
-  mutate(
-    event = as.numeric(hc_incidence == "no"),
-    time = rep(1:562, length.out = n())
-  )
+event_time <- 
+  analysis_1.2 |> 
+  mutate(event = as.numeric(hc_incidence == "no"), # andf for hc patients?
+         time = rep(1:562, length.out = n())
+         )
 # Fit a Kaplan-Meier survival curve using the function: survfit
 km_fit <- survfit(Surv(time, event) ~ 1, data= event_time)
 
 # Create the survival plot
-plot7 <- plot(km_fit, main = "Kaplan-Meier Curve of HC-Free Survival P. vs Time",
-              xlab = "Time (Months)", ylab = "HC-Free Survival Probability",
-              col = "blue", lwd = 2, conf.int = FALSE, ylim = c(0, 1))
+plot7 <- 
+  plot(km_fit, 
+       main = "Kaplan-Meier Curve of HC-Free Survival P. vs Time",
+       xlab = "Time (Months)", ylab = "HC-Free Survival Probability",
+       col = "blue", 
+       lwd = 2,
+       conf.int = FALSE, 
+       ylim = c(0, 1))
 
 # Add a legend
-legend("topright", legend = c("HC-Free Survival"), col = c("blue"), lwd = 2, lty = 1)
+legend("topright",
+       legend = c("HC-Free Survival"), 
+       col = c("blue"),
+       lwd = 2, 
+       lty = 1)
 
 #Print plot
 print(plot7)
 
 
 # Save the plot to folder results
-ggsave(filename = "key_plot_7.png", 
+ggsave(filename = "key_plot_1.7.png", 
       plot = plot7, 
       path = "~/group_18_project/results",
       width = 8, 
@@ -322,7 +363,10 @@ ggsave(filename = "key_plot_7.png",
 
 ```{r}
 # Boxplot
-plot8 <- ggplot(analysis_1, aes(x = radiation_type, y = radiation_duration, fill = radiation_type)) +
+plot8 <- ggplot(data = analysis_1.1, 
+                aes(x = radiation_type,
+                    y = radiation_duration, 
+                    fill = radiation_type)) +
   geom_boxplot() +
   labs(title = "Boxplot of Radiation Durations",
        x = "Radiation Type",
@@ -333,7 +377,7 @@ plot8 <- ggplot(analysis_1, aes(x = radiation_type, y = radiation_duration, fill
 print(plot8)
 
 # Save the plot to folder results
-ggsave(filename = "key_plot_8.png", 
+ggsave(filename = "key_plot_1.8.png", 
       plot = plot8, 
       path = "~/group_18_project/results",
       width = 8, 
@@ -346,7 +390,11 @@ ggsave(filename = "key_plot_8.png",
 
 ```{r}
 # Faceted Scatter Plot
-faceted_scatter_plot <- ggplot(data, aes(x = radiation_dosage, y = radiation_duration, color = radiation_type)) +
+faceted_scatter_plot <-
+  ggplot(data = analysis_1.1, 
+         aes(x = radiation_dosage, 
+             y = radiation_duration, 
+             color = radiation_type)) +
   geom_point() +
   facet_grid(. ~ cancer_type) +
   labs(title = "Faceted Scatter Plot of Radiation Dosage vs. Duration by Cancer Type",
@@ -372,7 +420,14 @@ install.packages("plotly")
 library(plotly)
 
 # 3D Scatter Plot
-scatter_3d <- plot_ly(data, x = ~radiation_dosage, y = ~radiation_duration, z = ~cancer_type, color = ~radiation_type, type = "scatter3d", mode = "markers") %>%
+scatter_3d <- 
+  plot_ly(data,
+          x = ~radiation_dosage, 
+          y = ~radiation_duration, 
+          z = ~cancer_type, 
+          color = ~radiation_type, 
+          type = "scatter3d",
+          mode = "markers") %>%
   layout(scene = list(xaxis = list(title = "Radiation Dosage"),
                       yaxis = list(title = "Radiation Duration"),
                       zaxis = list(title = "Cancer Type")))
@@ -380,3 +435,56 @@ scatter_3d <- plot_ly(data, x = ~radiation_dosage, y = ~radiation_duration, z = 
 # Display the 3D scatter plot
 print(scatter_3d)
 ```
+
+## Plot 10 
+
+Description: The boxplot is used to visualize the distribution of the normalized values for various variables obtained for patient that developed HC. Each box represents the interquartile range (IQR), with the median depicted as a horizontal line inside the box. The plot provides a concise summary of the central tendency, spread, and potential outliers in the normalized data across different variables.
+
+```{r}
+box_plot_data <- 
+  analysis_1.1 |>
+  select(age_at_radiation,
+         BMI, 
+         num_comorbidities, 
+         num_days_admitted, 
+         num_hosp_complications, 
+         number_of_admissions_with_urology_consultation, 
+         number_of_cystoscopies, 
+         number_transfusions, radiation_dosage,
+         radiation_duration, 
+         radiation_completion_to_first_hc) |>
+  mutate_all(scale)
+
+# Reshape data into long format
+long_data <- 
+  gather(box_plot_data, 
+                    key = "Variable",
+                    value = "Value")
+
+# Create boxplots with normalized data, customized variable names
+plot10 <- 
+  ggplot(data =long_data, 
+         aes(x = Variable, 
+             y = Value, 
+             fill = Variable)) +
+  geom_boxplot(color = "black",
+               alpha = 0.5) +
+  labs(title = "Box plot visualization of selected variables",
+       x = "Variables", 
+       y = "Normalized Values") +
+  theme_minimal() +
+  theme(axis.text.x = element_blank()) 
+
+print(plot10)
+
+# Save the plot to folder results
+ggsave(filename = "key_plot_1.10.png", 
+      plot = plot10, 
+      path = "~/group_18_project/results",
+      width = 8, 
+      height = 5, 
+      dpi = 300)
+
+```
+
+\

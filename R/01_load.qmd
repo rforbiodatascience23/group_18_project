@@ -20,6 +20,10 @@ library(cowplot)
 library(broom) 
 library(ggplot2)
 library("table1")
+library(reshape2)
+library(RColorBrewer)
+library(survival)
+library(survminer)
 ```
 
 ## Load raw_data.xlsx from \_raw folder
