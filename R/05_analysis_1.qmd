@@ -206,14 +206,12 @@ ggsave(filename = "key_plot_1.4.png",
 
 please describe the plot here
 
-<<<<<<< HEAD
 ```{r}
  #Calculate the percentage of patients who received low, medium, and high doses for each radiation type
 percentage_df <- clean_data1 |> 
-=======
+
 # Calculate the percentage of patients who received low, medium, and high doses for each radiation type
 percentage_df <- analysis_1.1 |> 
->>>>>>> 6b02913e2e59a0b8993acd3ce343f1fe1c9b4ae6
   group_by(radiation_type)  |> 
   summarize(
     Low = sum(radiation_dosage < 50) / n() * 100,
@@ -223,8 +221,7 @@ percentage_df <- analysis_1.1 |>
 
 # Print the resulting data frame
 print(percentage_df)
-<<<<<<< HEAD
-=======
+
 
 ```
 
@@ -253,7 +250,6 @@ ggplot(data = melted_df_5.1,
 
 
 
-```{r}
 
 # Melt the data frame to long format for easier plotting
 melted_df_5.2 <- tidyr::gather(percentage_df, key = "DoseCategory", value = "Percentage", -radiation_type)
@@ -382,10 +378,9 @@ ggplot(data, aes(x = category, fill = radiation_type)) +
   ylab("Radiation Duration") +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
-=======
 ## Plot 8: The distribution of radiation duration among different types of radiation.
 
-```{r}
+
 # Boxplot
 plot8 <- ggplot(data = analysis_1.1, 
                 aes(x = radiation_type,
@@ -407,7 +402,6 @@ ggsave(filename = "key_plot_1.8.png",
       width = 8, 
       height = 5, 
       dpi = 300)
->>>>>>> 6b02913e2e59a0b8993acd3ce343f1fe1c9b4ae6
 
 ```
 
