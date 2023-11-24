@@ -4,7 +4,7 @@ author: "group 18"
 format: revealjs
 ---
 
-## (Slide 1): Introduction 
+## (Slide 1): Introduction
 
 -   Include introduction
 
@@ -12,22 +12,22 @@ format: revealjs
 
 ## #Materials and Methods
 
-## (Slide 2): Clean 
+## (Slide 2): Clean
 
 ## (Slide 3): Clean
 
-## (Slide 4): Aug 
+## (Slide 4): Aug
 
 ## (Slide 5): Analysis 1
 
-## (Slide 6): Analysis 2 
+## (Slide 6): Analysis 2
 
-## **#Results** 
+## **#Results**
 
 ## (Slide 7): General statistics / description of the dataset
 
-## (Slide 8): Add plots from analysis 1 
+## (Slide 8): Add plots from analysis 1
 
 ## (Slide 9): Add plots from analysis 2
 
-## **(Slide 10): Discussion** 
+## **(Slide 10): Discussion**
