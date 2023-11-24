@@ -147,7 +147,6 @@ dat_load1 <- dat_load1 |>
     radiation_type = str_replace(radiation_type,"photon/neutron mixed EBRT" , "mixed_neutron_photon_EBRT"),
     radiation_type = str_replace(radiation_type,"radical prostactomey, Adjuvant radiation" , "adjuvant"),
     radiation_type = str_replace(radiation_type,"Salvage EBRT" , "EBRT,salvage"),
-    #radiation_type = str_replace(radiation_type,tolower("Neutron and mixed_neutron_photon_EBRT", "mixed_neutron_photon_EBRT")),
     
     # The previous method str_replace did not work with these observations
     radiation_type = ifelse(row_number() == 19, "IMRT", radiation_type),
