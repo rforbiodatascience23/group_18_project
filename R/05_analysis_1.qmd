@@ -227,95 +227,13 @@ ggsave(filename = "key_plot_1.4.png",
 
 ## Plot number 5
 
-please describe the plot here
-
-```{r}
- #Calculate the percentage of patients who received low, medium, and high doses for each radiation type
-percentage_df <- clean_data1 |> 
-
-# Calculate the percentage of patients who received low, medium, and high doses for each radiation type
-percentage_df <- analysis_1.1 |> 
-
-
-  group_by(radiation_type)  |> 
-  summarize(
-    Low = sum(radiation_dosage < 50) / n() * 100,
-    Medium = sum(radiation_dosage >= 50 & radiation_dosage < 70) / n() * 100,
-    High = sum(radiation_dosage >= 70) / n() * 100
-  )
-
-# Print the resulting data frame
-print(percentage_df)
-
-
-```
-
-## Plot 5
-
-please describe the plot here
-
-```{r}
-# Melt the data frame to long format for easier plotting
-melted_df_5.1 <- tidyr::gather(percentage_df, key = "DoseCategory", value = "Percentage", -radiation_type)
-
-# Create a stacked bar plot
-ggplot(data = melted_df_5.1,
-       aes(x = radiation_type, y = Percentage, fill = DoseCategory)) +
-  geom_bar(stat = "identity", 
-           position = "stack", 
-           color = "black") +
-  labs(title = "Percentage of Patients in Low, Medium, and High Dose Categories",
-       x = "Radiation Type",
-       y = "Percentage") +
-  scale_fill_manual(values = c("Low" = "skyblue", 
-                               "Medium" = "lightcoral", 
-                               "High" = "gold")) +
-  theme_minimal() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
-
-
-
-# Melt the data frame to long format for easier plotting
-melted_df_5.2 <- tidyr::gather(percentage_df, key = "DoseCategory", value = "Percentage", -radiation_type)
-
-# Create a larger stacked bar plot with extended y-axis range
-plot5 <-
-  ggplot(data = melted_df_5.2, 
-         aes(x = radiation_type, 
-             y = Percentage, 
-             fill = DoseCategory)) +
-  geom_bar(stat = "identity", 
-           position = "stack", 
-           color = "black") +
-  labs(title = "Percentage of Patients in Low, Medium, and High Dose Categories",
-       x = "Radiation Type",
-       y = "Percentage") +
-  scale_fill_manual(values = c("Low" = "skyblue", 
-                               "Medium" = "lightcoral", 
-                               "High" = "gold")) +
-  theme_minimal() +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1), 
-        axis.title.y = element_text(size = 12),  # Adjust y-axis title size
-        axis.text.y = element_text(size = 10)) +   # Adjust y-axis text size
-  coord_cartesian(ylim = c(0, 150))  # Set y-axis range
-
-# Save plot to the "results" folder
-ggsave(filename = "key_plot_1.5.png", 
-      plot = plot5, 
-      path = "~/group_18_project/results",
-      width = 8, 
-      height = 5, 
-      dpi = 300)
-
-```
-
-## Plot 6
+please describe the plot herePlot 5
 
 Relationship Between Body Mass Index (BMI) and time from radiation completion to first incidence of Hemorrhagic Cystitis.
 
 ```{r}
 #Create a scatter plot
-plot6 <- 
+plot5 <- 
   ggplot(data = analysis_1.1,
          aes(x = radiation_completion_to_first_hc, 
              y = BMI, 
@@ -330,11 +248,11 @@ plot6 <-
   
 
 #Print plot
-print(plot6)
+print(plot5)
 
 # Save plot to folder called "results"
-ggsave(filename = "key_plot_1.6.png", 
-      plot = plot6, 
+ggsave(filename = "key_plot_1.5.png", 
+      plot = plot5, 
       path = "~/group_18_project/results",
       width = 8, 
       height = 5, 
@@ -343,7 +261,7 @@ ggsave(filename = "key_plot_1.6.png",
 
 ```
 
-## Plot 7
+## Plot 6
 
 Kaplan Meier curve showing the probability of HC-free survival over time (n=562 months).
 
@@ -360,7 +278,7 @@ event_time <-
 km_fit <- survfit(Surv(time, event) ~ 1, data = event_time)
 
 # Create the survival plot
-plot7 <- ggsurvplot(
+plot6 <- ggsurvplot(
   km_fit,
   main = "Kaplan-Meier Curve of HC-Free Survival P. vs Time",
   xlab = "Time (Months)", 
@@ -376,12 +294,12 @@ plot7 <- ggsurvplot(
 )
 
 #Print plot
-print(plot7)
+print(plot6)
 
 
 # Save the plot to folder results
 ggsave(
-  filename = "~/group_18_project/results/key_plot_1.7.png", 
+  filename = "~/group_18_project/results/key_plot_1.6.png", 
   plot = ggplot2::last_plot(),  
   width = 8, 
   height = 5, 
@@ -389,54 +307,11 @@ ggsave(
 )
 ```
 
-bnm
-
-## Plot 8
-
-The distribution of radiation duration among different types of radiation and diseases.
-
-```{r}
-library(ggplot2)
-
-ggplot(data, aes(x = category, fill = radiation_type)) +
-  geom_bar(position = "dodge") +
-  ggtitle("Radiation Duration vs Health Factors") +
-  xlab("Health Factors") +
-  ylab("Radiation Duration") +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
-
-## Plot 8: The distribution of radiation duration among different types of radiation.
-
-
-# Boxplot
-plot8 <- ggplot(data = analysis_1.1, 
-                aes(x = radiation_type,
-                    y = radiation_duration, 
-                    fill = radiation_type)) +
-  geom_boxplot() +
-  labs(title = "Boxplot of Radiation Durations",
-       x = "Radiation Type",
-       y = "Radiation Duration") +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))  # Rotate x-axis labels
-
-# Display the boxplot
-print(plot8)
-
-# Save the plot to folder results
-ggsave(filename = "key_plot_1.8.png", 
-      plot = plot8, 
-      path = "~/group_18_project/results",
-      width = 8, 
-      height = 5, 
-      dpi = 300)
-
-```
-
-## Plot 9
+## Plot 7
 
 ```{r}
 # Faceted Scatter Plot
-plot9 <- ggplot(data = analysis_1.1, 
+plot7 <- ggplot(data = analysis_1.1, 
          aes(x = radiation_dosage, 
              y = radiation_duration, 
              color = radiation_type)) +
@@ -447,11 +322,11 @@ plot9 <- ggplot(data = analysis_1.1,
        y = "Radiation Duration")
 
 # Display the faceted scatter plot
-print(plot9)
+print(plot7)
 
 # Save the plot to folder results
-ggsave(filename = "key_plot_1.9.png", 
-      plot = plot9, 
+ggsave(filename = "key_plot_1.7.png", 
+      plot = plot7, 
       path = "~/group_18_project/results",
       width = 8, 
       height = 5, 
@@ -460,35 +335,7 @@ ggsave(filename = "key_plot_1.9.png",
 
 ```
 
-Plot 9 :3D plot: Radiation type, Radiation dosage, Radiation duration and Cancer type.
-
-(Just for the group)
-
-```{r}
-install.packages("plotly")
-```
-
-```{r}
-library(plotly)
-
-# 3D Scatter Plot
-scatter_3d <- 
-  plot_ly(data,
-          x = ~radiation_dosage, 
-          y = ~radiation_duration, 
-          z = ~cancer_type, 
-          color = ~radiation_type, 
-          type = "scatter3d",
-          mode = "markers") %>%
-  layout(scene = list(xaxis = list(title = "Radiation Dosage"),
-                      yaxis = list(title = "Radiation Duration"),
-                      zaxis = list(title = "Cancer Type")))
-
-# Display the 3D scatter plot
-print(scatter_3d)
-```
-
-## Plot 10
+## Plot 8
 
 Description: The boxplot is used to visualize the distribution of the normalized values for various variables obtained for patient that developed HC. Each box represents the interquartile range (IQR), with the median depicted as a horizontal line inside the box. The plot provides a concise summary of the central tendency, spread, and potential outliers in the normalized data across different variables.
 
@@ -514,7 +361,7 @@ long_data <-
                     value = "Value")
 
 # Create boxplots with normalized data, customized variable names
-plot10 <- 
+plot8 <- 
   ggplot(data =long_data, 
          aes(x = Variable, 
              y = Value, 
@@ -527,10 +374,10 @@ plot10 <-
   theme_minimal() +
   theme(axis.text.x = element_blank()) 
 
-print(plot10)
+print(plot8)
 
 # Save the plot to folder results
-ggsave(filename = "key_plot_1.10.png", 
+ggsave(filename = "key_plot_1.8.png", 
       plot = plot10, 
       path = "~/group_18_project/results",
       width = 8, 
