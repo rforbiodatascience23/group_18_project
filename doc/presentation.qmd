@@ -1,20 +1,18 @@
 ---
-title: "Project_group18"
+title: "Project_Group18"
 author: "group 18"
 format: revealjs
 ---
 
 ## (Slide 1): Introduction
 
--   \- Prostate cancer is a major global health concern.
+\- Prostate cancer is a major global health concern.
 
-    \- Radiation therapy is a common treatment but can lead to complications like hemorrhagic cystitis (HC).
+\- Radiation therapy is a common treatment but can lead to complications like hemorrhagic cystitis (HC).
 
-    \- HC symptoms include bleeding and bladder pain.
+\- HC symptoms include bleeding and bladder pain.
 
-    \- A 15-year study with 709 patients examines the impact of different radiotherapy types on HC development.
-
-    \- The study underscores the importance of advocating strategies to inform patients and reduce HC's impact.
+\- A 15-year study with 709 patients examines the impact of different radiotherapy types on HC development.
 
 -   Graphical representation of your process going from raw to analysis-ready data
 
@@ -28,20 +26,36 @@ format: revealjs
 
 ## (Slide 5): Analysis 1
 
-![***ggplot \# Faceted Scatter Plot***](images/key_plot_1.9.png){width="300"}
+-   Load two datasets (**`analysis_1.1`** and **`analysis_1.2`**) from TSV files.
+
+-   Insights into the distribution of patients with HC, relationships between variables:
+
+    BMI and radiation dose, dose percentages, time-related comparisons, survival probabilities, and the distribution of key variables among patients who developed HC.
 
 ## (Slide 6): Analysis 2
 
-**##Results**
+#Principal Component Analysis
+
+#Correlation Analysis
 
 ## (Slide 7): General statistics / description of the dataset
 
 ## (Slide 8): Add plots from analysis 1
 
-![](images/key_plot_1.4-01.png){width="350"}
+![](images/key_plot_1.9-01.png){fig-align="right" width="320"}
 
-![](images/key_plot_1.8-01.png){fig-align="right" width="336"}
+**Data Manipulation with dplyr**: group_by, and mutate functions
+
+**Plotting with ggplot2**: ggplot, aes, geom_col & geom_hline
+
+**Plot Customization ggplot2**: labs, theme_minimal and theme
+
+![](images/key_plot_1.8-01.png){fig-align="right" width="340"}
 
 ## (Slide 9): Add plots from analysis 2
+
+![](images/key_plot_2.1.png){fig-align="left" width="300"}
+
+![](images/key_plot_2.3.png){fig-align="right" width="340"}
 
 ## **(Slide 10): Discussion**
