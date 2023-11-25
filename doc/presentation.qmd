@@ -42,11 +42,11 @@ format: revealjs
 
 ## (Slide 8): Add plots from analysis 1
 
-![](images/key_plot_1.9-01.png){fig-align="right" width="320"}
+![](images/key_plot_1.9-01.png){fig-align="left" width="350"}
 
 **dplyr & ggplot2**
 
-![](images/key_plot_1.8-01.png){fig-align="right" width="340"}
+![](images/key_plot_1.8-01.png){fig-align="center" width="350"}
 
 ## (Slide 9): Add plots from analysis 2
 
@@ -56,4 +56,4 @@ format: revealjs
 
 ## **(Slide 10): Discussion**
 
-Unveiling potential underreporting in healthcare cases despite radiation therapy advancements. Study limitations include its retrospective nature and regional focus on Detroit, cautioning broad extrapolation. Nevertheless, our findings offer valuable insights, shaping future medical considerations. 🌟
+Unveiling potential underreporting in healthcare cases despite radiation therapy advancements. Study limitations include its retrospective nature and regional focus on Detroit, cautioning broad extrapolation. Nevertheless, our findings offer valuable insights, shaping future medical considerations.
