@@ -24,6 +24,8 @@ library(reshape2)
 library(RColorBrewer)
 library(survival)
 library(survminer)
+library(gridExtra)
+library(viridis)
 ```
 
 ## Load raw_data.xlsx from \_raw folder

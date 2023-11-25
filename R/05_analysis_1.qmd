@@ -105,7 +105,7 @@ ggsave(filename = "key_plot_1.2.png",
 
 ## Plot 3
 
-Analysis of Patient Dose Percentages: Distinguishing Low, Medium, and High Levels across various radiation types.
+Description: This boxplot shows the Analysis of Patient Dose Percentages. A standardized threshold has been added distinguishing Low, Medium, and High Levels across various radiation types. Analysing this plot could give insights into the distribution of radiation dosage.
 
 ```{r}
 # Define dose categories based on paper
@@ -127,7 +127,7 @@ result_3 <-
   filter(!is.na(dose_category) & !is.na(radiation_type) & !is.na(Proportion)) |>  
   ungroup()
 
-# Create a grouped bar plot
+# Create a grouped bar plot with viridis color scheme
 plot3 <- result_3 |> 
   ggplot(aes(x = radiation_type, 
              y = Proportion, 
@@ -142,6 +142,7 @@ plot3 <- result_3 |>
        #x = "Type of Radiation",
        y = "Proportion",
        fill = "Radiation Dosage Category") +
+  scale_fill_viridis_d() +  # Add viridis color scheme
   theme_minimal(base_size = 12) +
   theme(legend.position = "right",
         panel.grid.major.x = element_blank(),
@@ -151,8 +152,9 @@ plot3 <- result_3 |>
         axis.title.x = element_blank()
         )
 
-#Print plot
+# Print the plot
 print(plot3)
+
 
 # Save plot to the "results" folder
 ggsave(filename = "key_plot_1.3.png", 
@@ -165,7 +167,7 @@ ggsave(filename = "key_plot_1.3.png",
 
 ## Plot 4
 
-Comparison of the average time passed since the completion of radiation treatment and the first incident of HC
+Description: This boxplot compares the average time passed since the completion of radiation treatment and the first incident of HC. For this the mean of the time passed since the completion of radiation treatment and first incident of HC is calculated and presented on the y-axis while on the x-axis the different types of radiation is shown. This could give an insight of the impact of the radiation type on the occurrence of HC in the patients.
 
 ```{r}
 # Create the plot data
@@ -585,7 +587,7 @@ grid.arrange(plot_age, plot_bmi, plot_comorbidities, plot_hosp_comp,  ncol = 2)
 
 ## Plot 12
 
-Description: The boxplot shows the amount of patients with HC and the different types of comorbidities that occured.
+Description: The boxplot shows the amount of patients with HC and the different types of comorbidities that occured, while on the y-axis the amount of those comorbidities are shown. Only the cases with more than 1 comorbidity were taken into account
 
 ```{r}
 # Separate hospitalization complications into distinct rows
@@ -614,7 +616,7 @@ ggplot(df_filtered, aes(x = comorbidities, fill = comorbidities)) +
 
 ## Plot 13
 
-Description: The boxplot shows the amount of patients with HC and the hospital complications they experienced. Only the patients with more than 1 compilation are shown.
+Description: The boxplot shows the amount of patients with HC and the hospital complications they experienced, while on the y-axis the number of hospital compilations are presented. Only the patients with more than 1 compilation are shown.
 
 ```{r}
 # Create a new column with fixed hospitalization complications
