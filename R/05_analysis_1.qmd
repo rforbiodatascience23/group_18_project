@@ -568,4 +568,33 @@ plot_hosp_comp <-
 grid.arrange(plot_age, plot_bmi, plot_comorbidities, plot_hosp_comp,  ncol = 2)
 ```
 
-##  
+## Plot 12
+
+Description: The boxplot shows the amount of patients with HC and the different types of comorbidities that occured.
+
+```{r}
+# Separate hospitalization complications into distinct rows
+df_comorbidities <- df %>%
+  separate_rows(comorbidities, sep = ", ") %>%
+  filter(!is.na(comorbidities)) %>%
+  mutate(comorbidities = str_to_upper(comorbidities))  # Convert to uppercase
+
+# Filter for complications that occurred in more than one person
+df_filtered <- df_comorbidities %>%
+  group_by(comorbidities) %>%
+  filter(n() > 1) %>%
+  ungroup()
+
+# Create a bar plot for the count of complications, colored by type of complication
+ggplot(df_filtered, aes(x = comorbidities, fill = comorbidities)) +
+  geom_bar(stat = "count", position = "dodge", color = "black", alpha = 0.5) +
+  labs(title = "Count of Comorbidities (Cases with >1 comorbidity)",
+       x = "Comorbidities",
+       y = "Count",
+       fill = "Comorbidities") +
+  theme_minimal() +
+  theme(axis.text.x = element_blank()) +  # Remove x-axis labels labels for better readability
+  scale_fill_viridis_d()  
+```
+
+\
