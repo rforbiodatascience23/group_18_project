@@ -87,8 +87,7 @@ dat_load1 <- rename(dat_load1,
 
 ### Correct spelling mistakes, absence of comas in strings in observations, change data types, remove messy columns
 
-The `mutate` function from the `dplyr` package was used to create new variables for the data corrections and transformations. This included converting 'date_of_birth' to a standardized Date format using the `ymd` function from the `lubridate` package. The `str_replace_all` function from the `stringr` package refined string patterns, such as
-removing "Gy" from 'radiation_dosage' and replacing specific phrases in 'hospitalization_complications'. Additionally, the `ifelse` function was used for precise adjustments, such as standardizing 'ethnicity' and handling specific conditions within the dataset. All these functions created an accurate data representation and standardized formatting to prepare for the analysis.
+The `mutate` function from the `dplyr` package was used to create new variables for the data corrections and transformations. This included converting 'date_of_birth' to a standardized Date format using the `ymd` function from the `lubridate` package. The `str_replace_all` function from the `stringr` package refined string patterns, such as removing "Gy" from 'radiation_dosage' and replacing specific phrases in 'hospitalization_complications'. Additionally, the `ifelse` function was used for precise adjustments, such as standardizing 'ethnicity' and handling specific conditions within the dataset. All these functions created an accurate data representation and standardized formatting to prepare for the analysis.
 
 ```{r}
 

@@ -34,8 +34,7 @@ dat_clean1 <- dat_clean1 |>
 
 #### Data Wrangling II: num_comorbidities
 
-For counting the number of comorbidities, the `ifelse` function, along with `str_count` from `stringr`, was used to process and quantify these variables. `mutate` was used again to create a new column named: 'num_comorbidities'. In
-cases where the data appeared as 'NA,' we assigned a value of 0 to 'num_comorbidities'.
+For counting the number of comorbidities, the `ifelse` function, along with `str_count` from `stringr`, was used to process and quantify these variables. `mutate` was used again to create a new column named: 'num_comorbidities'. In cases where the data appeared as 'NA,' we assigned a value of 0 to 'num_comorbidities'.
 
 ```{r}
 dat_clean1 <- dat_clean1 |>     
