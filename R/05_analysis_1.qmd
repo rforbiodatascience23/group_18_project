@@ -225,7 +225,7 @@ ggsave(filename = "key_plot_1.4.png",
 
 ```
 
-## Plot number 5
+## Plot 5
 
 please describe the plot herePlot 5
 
@@ -386,7 +386,7 @@ ggsave(filename = "key_plot_1.8.png",
 
 ```
 
-## Plot 11
+## Plot 9
 
 Description: the 4 box plots each show the number of patients with HC that had the following variables: Age distribution at radiation treatment for Head and Neck Cancer (HC) patients, BMI distribution of HC patients, Distribution of the number of comorbidities in HC patients and finally the distribution of the number of hospital complications in HC patients.
 
@@ -432,7 +432,7 @@ plot_hosp_comp <-
 grid.arrange(plot_age, plot_bmi, plot_comorbidities, plot_hosp_comp,  ncol = 2)
 ```
 
-## Plot 12
+## Plot 10
 
 Description: The boxplot shows the amount of patients with HC and the different types of comorbidities that occured, while on the y-axis the amount of those comorbidities are shown. Only the cases with more than 1 comorbidity were taken into account
 
@@ -461,7 +461,7 @@ ggplot(df_filtered, aes(x = comorbidities, fill = comorbidities)) +
   scale_fill_viridis_d()  
 ```
 
-## Plot 13
+## Plot 11
 
 Description: The boxplot shows the amount of patients with HC and the hospital complications they experienced, while on the y-axis the number of hospital compilations are presented. Only the patients with more than 1 compilation are shown.
 
