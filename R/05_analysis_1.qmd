@@ -168,6 +168,7 @@ ggsave(filename = "key_plot_1.3.png",
 Comparison of the average time passed since the completion of radiation treatment and the first incident of HC
 
 ```{r}
+# Select relevant columns and filter out rows with missing values
 plot4_data <- 
   analysis_1.1 |>
   select(radiation_type, radiation_completion_to_first_hc) |>
@@ -175,6 +176,7 @@ plot4_data <-
   filter(!is.na(TimePassed)) |> 
   filter(!is.na(radiation_type)) 
 
+# Group the data by radiation type and calculate summary statistics
 result_4 <- 
   plot4_data |>
   group_by(radiation_type) |>
@@ -183,6 +185,7 @@ result_4 <-
     MedianTimePassed = median(TimePassed),
     TotalObservations = n())
 
+# Create a bar plot comparing average time since radiation for different types
 plot4 <- 
   ggplot(data = result_4, 
          aes(x = radiation_type,
@@ -193,11 +196,13 @@ plot4 <-
        x = "Type of Radiation",
        y = "Average Time Since Radiation\n(months)",
        fill = "Type of Radiation") +
-  theme_minimal()+
-   theme(axis.text.x = element_blank())
+  theme_minimal() +
+  theme(axis.text.x = element_blank()) +
+  scale_fill_viridis_d()
 
-
+# Print the plot
 print(plot4)
+
 
 # Save plot to the "results" folder
 ggsave(filename = "key_plot_1.4.png", 
