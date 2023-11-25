@@ -51,7 +51,7 @@ dat_clean1 |>
          data = _)
 ```
 
-The table shows the key statistics of the different variables. The dataset includes patients with a mean age at radiation of 68.7 years, a median age of 68.5 years, which ranges from 48 to 89 years. The ethnicity information is available for 90% of patients, with the majority being African American (92.5%) while Caucasians make up 7.5% of the dataset. The most common type of radiation is EBRT at 55% and different combinations of radiation types are also present, with varying frequencies. Missing data is observed for 7.5% of the cases.
+The table shows the key statistics of the variables `age_at_radiation`, `ethnicity` and `radiation_type`. The dataset includes patients with a mean age at radiation of 68.7 years, a median age of 68.5 years, which ranges from 48 to 89 years. The ethnicity information is available for 90% of patients, with the majority being African American (92.5%) while Caucasians make up 7.5% of the dataset. The most common type of radiation is EBRT at 55% and different combinations of radiation types are also present, with varying frequencies. Missing data is observed for 7.5% of the cases.
 
 ## Inspect the dat_clean2
 
@@ -67,3 +67,5 @@ dat_clean2 |>
   table1(x = formula(~ treatment + bladder_cancer | prostate_cancer),
          data = _)
 ```
+
+The table shows the key statistics of the variables `treatment` and `bladder_cancer`. The most common treatments are EBRT at 34.1% and Brachytherapy at 6.0%. Other treatments include Adjuvant therapy (3.7%), IMRT (14.7%), Unknown treatments (25.2%), and a combination of Neutron/Photon therapies with EBRT or IMRT. The majority of individuals (95.0%) in the dataset do not have bladder cancer, while a smaller proportion (5.0%) has bladder cancer.
