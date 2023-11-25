@@ -168,6 +168,7 @@ ggsave(filename = "key_plot_1.3.png",
 Comparison of the average time passed since the completion of radiation treatment and the first incident of HC
 
 ```{r}
+# Create the plot data
 plot4_data <- 
   analysis_1.1 |>
   select(radiation_type, radiation_completion_to_first_hc) |>
@@ -175,6 +176,7 @@ plot4_data <-
   filter(!is.na(TimePassed)) |> 
   filter(!is.na(radiation_type)) 
 
+# Summarize the data
 result_4 <- 
   plot4_data |>
   group_by(radiation_type) |>
@@ -183,6 +185,7 @@ result_4 <-
     MedianTimePassed = median(TimePassed),
     TotalObservations = n())
 
+# Create the plot
 plot4 <- 
   ggplot(data = result_4, 
          aes(x = radiation_type,
@@ -193,19 +196,20 @@ plot4 <-
        x = "Type of Radiation",
        y = "Average Time Since Radiation\n(months)",
        fill = "Type of Radiation") +
-  theme_minimal()+
-   theme(axis.text.x = element_blank())
+  theme_minimal(base_size = 12) + 
+  theme(axis.text.x = element_blank())
 
-
+# Print the plot
 print(plot4)
 
-# Save plot to the "results" folder
+# Save the plot to the "results" folder
 ggsave(filename = "key_plot_1.4.png", 
       plot = plot4, 
       path = "~/group_18_project/results",
       width = 8, 
       height = 5, 
       dpi = 300)
+
 ```
 
 ## Plot number 5
