@@ -6,13 +6,13 @@ format: revealjs
 
 ## (Slide 1): Introduction
 
-\- Prostate cancer is a major global health concern.
+-   Prostate cancer is a major global health concern.
 
-\- Radiation therapy is a common treatment but can lead to complications like hemorrhagic cystitis (HC).
+-   Radiation therapy is a common treatment but can lead to complications like hemorrhagic cystitis (HC).
 
-\- HC symptoms include bleeding and bladder pain.
+-   HC symptoms include bleeding and bladder pain.
 
-\- A 15-year study with 709 patients examines the impact of different radiotherapy types on HC development.
+-   15-year study with 709 patients examines the impact of different radiotherapy types on HC development.
 
 -   Graphical representation of your process going from raw to analysis-ready data
 
