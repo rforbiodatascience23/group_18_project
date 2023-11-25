@@ -20,9 +20,7 @@ format: revealjs
 
 ## (Slide 5): Analysis 1
 
-![](images/key_plot_1.4.png){fig-align="left" width="352"}
-
-![](images/key_plot_1.6.png){fig-align="center" width="500"}
+![](images/key_plot_1.9.png){width="400"}
 
 ## (Slide 6): Analysis 2
 
@@ -31,6 +29,12 @@ format: revealjs
 ## (Slide 7): General statistics / description of the dataset
 
 ## (Slide 8): Add plots from analysis 1
+
+![](images/key_plot_1.4-01.png){width="350"}
+
+![](images/key_plot_1.8-01.png){fig-align="right" width="400"}
+
+![](images/key_plot_1.1.png){fig-align="left" width="350"}
 
 ## (Slide 9): Add plots from analysis 2
 
