@@ -62,17 +62,22 @@ ggsave(filename = "key_plot_1.1.png",
 Linear Regression Analysis of Body Mass Index (BMI) in relation to radiation dose.
 
 ```{r}
-#Create the plot
+# Create the plot
 plot2 <- 
   analysis_1.1 |> 
   na.omit(analysis_1.1) |> 
-  ggplot(aes(x=radiation_dosage,
-             y=BMI)) +
+  ggplot(aes(x = radiation_dosage,
+             y = BMI)) +
   geom_point() +
   geom_smooth(method = "lm", 
               se = FALSE, 
               color = "blue") +
-  theme_minimal(base_size = 16) +
+  theme_minimal(base_size = 12) +  # Adjusted base_size to match the previous code
+  theme(legend.position = "top",
+        panel.grid.major.x = element_blank(),
+        axis.text.x = element_text(angle = 45,
+                                   hjust = 1,
+                                   vjust = 1.1)) +  # Applied the previous theme adjustments
   labs(x = "Radiation Dose",    
        y = "BMI",              
        title = "Linear Regression between BMI and radiation dose") +
@@ -84,6 +89,7 @@ model <- lm(radiation_dosage ~ BMI, data = analysis_1.1)
 # Print regression summary
 summary(model)
 
+
 #Print plot
 print(plot2)
 
@@ -94,6 +100,7 @@ ggsave(filename = "key_plot_1.2.png",
       width = 8, 
       height = 5, 
       dpi = 300)
+
 ```
 
 ## Plot 3
