@@ -25,6 +25,8 @@ dat_load3 <- read_tsv(
 
 ## 'Clean' variable names with janitor library
 
+The `janitor` package was used to enhance the quality of the dataset by making sure that the variable names would be clean and consistent. Primarily, the `clean_names()` function was used to simplify and standardize the column names, which would help later on in cleaning the dataset.
+
 ```{r}
 
 dat_load1 <- dat_load1 |> 
@@ -48,6 +50,8 @@ dat_load1 <- dat_load1 |>
 ```
 
 ### Give shorter names to the variables
+
+The `clean_names()` function from `janitor` was used again to change the column headers to create standardized names and an easier to use structure.
 
 ```{r}
 
