@@ -6,7 +6,7 @@ editor: visual
 
 # Analysis 1
 
-## Load clean data from data folder  
+## Load clean data from data folder
 
 ```{r warning=FALSE}
 
@@ -363,7 +363,6 @@ ggsave(filename = "key_plot_1.7.png",
       dpi = 300)
 ```
 
-
 bnm
 
 Plot 8: The distribution of radiation duration among different types of radiation and diseases.
@@ -409,8 +408,7 @@ ggsave(filename = "key_plot_1.8.png",
 
 ```{r}
 # Faceted Scatter Plot
-faceted_scatter_plot <-
-  ggplot(data = analysis_1.1, 
+plot9 <- ggplot(data = analysis_1.1, 
          aes(x = radiation_dosage, 
              y = radiation_duration, 
              color = radiation_type)) +
@@ -421,7 +419,16 @@ faceted_scatter_plot <-
        y = "Radiation Duration")
 
 # Display the faceted scatter plot
-print(faceted_scatter_plot)
+print(plot9)
+
+# Save the plot to folder results
+ggsave(filename = "key_plot_1.9.png", 
+      plot = plot9, 
+      path = "~/group_18_project/results",
+      width = 8, 
+      height = 5, 
+      dpi = 300)
+
 
 ```
 
@@ -453,7 +460,7 @@ scatter_3d <-
 print(scatter_3d)
 ```
 
-## Plot 10 
+## Plot 10
 
 Description: The boxplot is used to visualize the distribution of the normalized values for various variables obtained for patient that developed HC. Each box represents the interquartile range (IQR), with the median depicted as a horizontal line inside the box. The plot provides a concise summary of the central tendency, spread, and potential outliers in the normalized data across different variables.
 
