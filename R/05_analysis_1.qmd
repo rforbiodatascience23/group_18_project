@@ -587,7 +587,7 @@ grid.arrange(plot_age, plot_bmi, plot_comorbidities, plot_hosp_comp,  ncol = 2)
 
 ## Plot 12
 
-Description: The boxplot shows the amount of patients with HC and the different types of comorbidities that occured.
+Description: The boxplot shows the amount of patients with HC and the different types of comorbidities that occured, while on the y-axis the amount of those comorbidities are shown. Only the cases with more than 1 comorbidity were taken into account
 
 ```{r}
 # Separate hospitalization complications into distinct rows
@@ -616,7 +616,7 @@ ggplot(df_filtered, aes(x = comorbidities, fill = comorbidities)) +
 
 ## Plot 13
 
-Description: The boxplot shows the amount of patients with HC and the hospital complications they experienced. Only the patients with more than 1 compilation are shown.
+Description: The boxplot shows the amount of patients with HC and the hospital complications they experienced, while on the y-axis the number of hospital compilations are presented. Only the patients with more than 1 compilation are shown.
 
 ```{r}
 # Create a new column with fixed hospitalization complications
