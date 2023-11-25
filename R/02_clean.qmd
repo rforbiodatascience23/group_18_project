@@ -87,6 +87,9 @@ dat_load1 <- rename(dat_load1,
 
 ### Correct spelling mistakes, absence of comas in strings in observations, change data types, remove messy columns
 
+The `mutate` function from the `dplyr` package was used to create new variables for the data corrections and transformations. This included converting 'date_of_birth' to a standardized Date format using the `ymd` function from the `lubridate` package. The `str_replace_all` function from the `stringr` package refined string patterns, such as
+removing "Gy" from 'radiation_dosage' and replacing specific phrases in 'hospitalization_complications'. Additionally, the `ifelse` function was used for precise adjustments, such as standardizing 'ethnicity' and handling specific conditions within the dataset. All these functions created an accurate data representation and standardized formatting to prepare for the analysis.
+
 ```{r}
 
 dat_load1 <- dat_load1 |> 
@@ -128,6 +131,8 @@ dat_load1 <- dat_load1 |>
 ```
 
 ### Change names in radiation_type so they fit with the naming in dat_load2 and dat_load3
+
+The `str_replace` function from `stringr` was used to standardize the names in the radiation_type column. `ifelse` was then used for the rows that did not work with str_replace, to precisely adjust these names correctly.
 
 ```{r}
 
@@ -182,6 +187,8 @@ write.table(x = dat_load1,
 ```
 
 ## Clean dat_load2 and dat_load_3
+
+The `select` and `rename` functions from `dplyr` were used to remove irrelevant columns, after which the `bind_rows` function was applied to merge datasets (`dat_load2` and `dat_load3`) and handled missing values. Then, the `pivot_longer` function from `tidyverse` was used to create a 'treatment' column, to represent the different types of treatments in a unified way.
 
 ```{r}
 # Remove column from the variables and columns that don't exist in patient_info2
