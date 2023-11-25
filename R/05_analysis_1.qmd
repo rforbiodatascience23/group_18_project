@@ -6,7 +6,7 @@ editor: visual
 
 # Analysis 1
 
-## Load clean data from data folder  
+## Load clean data from data folder
 
 ```{r warning=FALSE}
 
@@ -206,14 +206,13 @@ ggsave(filename = "key_plot_1.4.png",
 
 please describe the plot here
 
-<<<<<<< HEAD
 ```{r}
  #Calculate the percentage of patients who received low, medium, and high doses for each radiation type
 percentage_df <- clean_data1 |> 
-=======
+
 # Calculate the percentage of patients who received low, medium, and high doses for each radiation type
 percentage_df <- analysis_1.1 |> 
->>>>>>> 6b02913e2e59a0b8993acd3ce343f1fe1c9b4ae6
+
   group_by(radiation_type)  |> 
   summarize(
     Low = sum(radiation_dosage < 50) / n() * 100,
@@ -223,8 +222,7 @@ percentage_df <- analysis_1.1 |>
 
 # Print the resulting data frame
 print(percentage_df)
-<<<<<<< HEAD
-=======
+
 
 ```
 
@@ -253,7 +251,7 @@ ggplot(data = melted_df_5.1,
 
 
 
-```{r}
+
 
 # Melt the data frame to long format for easier plotting
 melted_df_5.2 <- tidyr::gather(percentage_df, key = "DoseCategory", value = "Percentage", -radiation_type)
@@ -331,42 +329,43 @@ Kaplan Meier curve showing the probability of HC-free survival over time (n=562 
 #Create a new data frame to add columns "event" and "time"
 event_time <- 
   analysis_1.2 |> 
-  mutate(event = as.numeric(hc_incidence == "no"), # andf for hc patients?
-         time = rep(1:562, length.out = n())
-         )
+  mutate(
+    event = as.numeric(hc_incidence == "no"), 
+    time = rep(1:562, length.out = n())
+  )
+
 # Fit a Kaplan-Meier survival curve using the function: survfit
-km_fit <- survfit(Surv(time, event) ~ 1, data= event_time)
+km_fit <- survfit(Surv(time, event) ~ 1, data = event_time)
 
 # Create the survival plot
-plot7 <- 
-  plot(km_fit, 
-       main = "Kaplan-Meier Curve of HC-Free Survival P. vs Time",
-       xlab = "Time (Months)", ylab = "HC-Free Survival Probability",
-       col = "blue", 
-       lwd = 2,
-       conf.int = FALSE, 
-       ylim = c(0, 1))
-
-# Add a legend
-legend("topright",
-       legend = c("HC-Free Survival"), 
-       col = c("blue"),
-       lwd = 2, 
-       lty = 1)
+plot7 <- ggsurvplot(
+  km_fit,
+  main = "Kaplan-Meier Curve of HC-Free Survival P. vs Time",
+  xlab = "Time (Months)", 
+  ylab = "HC-Free Survival Probability",
+  palette = "blue", 
+  lwd = 2,
+  conf.int = FALSE, 
+  ylim = c(0, 1),
+  legend.title = "",
+  legend.labs = "HC-Free Survival",
+  legend = "right",
+  theme = theme_minimal()
+)
 
 #Print plot
 print(plot7)
 
 
 # Save the plot to folder results
-ggsave(filename = "key_plot_1.7.png", 
-      plot = plot7, 
-      path = "~/group_18_project/results",
-      width = 8, 
-      height = 5, 
-      dpi = 300)
+ggsave(
+  filename = "~/group_18_project/results/key_plot_1.7.png", 
+  plot = ggplot2::last_plot(),  
+  width = 8, 
+  height = 5, 
+  dpi = 300
+)
 ```
-
 
 bnm
 
@@ -385,7 +384,6 @@ ggplot(data, aes(x = category, fill = radiation_type)) +
 =======
 ## Plot 8: The distribution of radiation duration among different types of radiation.
 
-```{r}
 # Boxplot
 plot8 <- ggplot(data = analysis_1.1, 
                 aes(x = radiation_type,
@@ -407,7 +405,7 @@ ggsave(filename = "key_plot_1.8.png",
       width = 8, 
       height = 5, 
       dpi = 300)
->>>>>>> 6b02913e2e59a0b8993acd3ce343f1fe1c9b4ae6
+
 
 ```
 
@@ -459,7 +457,7 @@ scatter_3d <-
 print(scatter_3d)
 ```
 
-## Plot 10 
+## Plot 10
 
 Description: The boxplot is used to visualize the distribution of the normalized values for various variables obtained for patient that developed HC. Each box represents the interquartile range (IQR), with the median depicted as a horizontal line inside the box. The plot provides a concise summary of the central tendency, spread, and potential outliers in the normalized data across different variables.
 
