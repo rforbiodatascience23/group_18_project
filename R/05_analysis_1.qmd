@@ -121,9 +121,8 @@ result_3 <-
   ungroup()
 
 # Create a grouped bar plot
-plot3 <- 
-  ggplot(data = result_3,
-         aes(x = radiation_type, 
+plot3 <- result_3 |> 
+  ggplot(aes(x = radiation_type, 
              y = Proportion, 
              fill = dose_category)) +
   geom_col(position = position_dodge(
