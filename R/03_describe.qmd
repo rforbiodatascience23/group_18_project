@@ -41,8 +41,7 @@ The dataset `dat_clean1` shows the information on only the 80 patients who devel
 
     -   Neutron Photon: This combines the use of neutrons and photons (X-rays) for radiation treatment. Neutrons have unique properties that may enhance their effectiveness in certain cases and will be used for specific types of cancer.
 
--   **`hematuria_grade`** indicating the severity or grade of hematuria experienced by patients. Hematuria grade is a qualitative assessment of the severity of blood in the urine. It ranges from mild to severe, reflecting the amount and
-    visibility of blood. Understanding hematuria grade provides insights into the severity of complications, especially those induced by radiation therapy.
+-   **`hematuria_grade`** indicating the severity or grade of hematuria experienced by patients. Hematuria grade is a qualitative assessment of the severity of blood in the urine. It ranges from mild to severe, reflecting the amount and visibility of blood. Understanding hematuria grade provides insights into the severity of complications, especially those induced by radiation therapy.
 
 ```{r}
 dat_clean1 |>
