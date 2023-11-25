@@ -169,6 +169,7 @@ Comparison of the average time passed since the completion of radiation treatmen
 
 ```{r}
 # Create the plot data
+# Select relevant columns and filter out rows with missing values
 plot4_data <- 
   analysis_1.1 |>
   select(radiation_type, radiation_completion_to_first_hc) |>
@@ -177,6 +178,7 @@ plot4_data <-
   filter(!is.na(radiation_type)) 
 
 # Summarize the data
+# Group the data by radiation type and calculate summary statistics
 result_4 <- 
   plot4_data |>
   group_by(radiation_type) |>
@@ -186,6 +188,8 @@ result_4 <-
     TotalObservations = n())
 
 # Create the plot
+# Create a bar plot comparing average time since radiation for different types
+
 plot4 <- 
   ggplot(data = result_4, 
          aes(x = radiation_type,
@@ -199,10 +203,17 @@ plot4 <-
   theme_minimal(base_size = 12) + 
   theme(axis.text.x = element_blank())
 
+  theme_minimal() +
+  theme(axis.text.x = element_blank()) +
+  scale_fill_viridis_d()
+
 # Print the plot
 print(plot4)
 
+
 # Save the plot to the "results" folder
+
+# Save plot to the "results" folder
 ggsave(filename = "key_plot_1.4.png", 
       plot = plot4, 
       path = "~/group_18_project/results",
@@ -378,7 +389,9 @@ ggsave(
 
 bnm
 
-Plot 8: The distribution of radiation duration among different types of radiation and diseases.
+## Plot 8
+
+The distribution of radiation duration among different types of radiation and diseases.
 
 ```{r}
 library(ggplot2)
@@ -522,6 +535,124 @@ ggsave(filename = "key_plot_1.10.png",
       height = 5, 
       dpi = 300)
 
+```
+
+## Plot 11
+
+Description: the 4 box plots each show the number of patients with HC that had the following variables: Age distribution at radiation treatment for Head and Neck Cancer (HC) patients, BMI distribution of HC patients, Distribution of the number of comorbidities in HC patients and finally the distribution of the number of hospital complications in HC patients.
+
+```{r}
+library(gridExtra)
+library(viridis)
+
+df = analysis_1.1
+
+# Age Distribution
+plot_age <- 
+  ggplot(df, aes(x = age_at_radiation)) +
+  geom_histogram(binwidth = 5, fill = viridis(10)[1], color = "white", alpha = 0.7) +
+  labs(#title = "Age Distribution of Patients with HC",
+    x = "Age at Radiation") +
+  theme_classic()
+
+# BMI Distribution
+plot_bmi <- 
+  ggplot(df, aes(x = BMI)) +
+  geom_histogram(binwidth = 2, fill = viridis(10)[2], color = "white", alpha = 0.7) +
+  labs(#title = "BMI Distribution of Patients with HC",
+    x = "BMI") +
+  theme_classic()
+
+# Number of Comorbidities Distribution
+plot_comorbidities <- 
+  ggplot(df, aes(x = num_comorbidities)) +
+  geom_histogram(binwidth = 1, fill = viridis(10)[3], color = "white", alpha = 0.7) +
+  labs(#title = "Distribution of Number of Comorbidities among Patients with HC",
+    x = "Number of Comorbidities") +
+  theme_classic()
+
+# Number of Comorbidities Distribution
+plot_hosp_comp <- 
+  ggplot(df, aes(x = num_hosp_complications)) +
+  geom_histogram(binwidth = 1, fill = viridis(10)[4], color = "white", alpha = 0.7) +
+  labs(#title = "Distribution of Number of Comorbidities among Patients with HC",
+    x = "Number of Complications") + 
+  theme_classic()
+
+# Arrange plots in a grid
+grid.arrange(plot_age, plot_bmi, plot_comorbidities, plot_hosp_comp,  ncol = 2)
+```
+
+## Plot 12
+
+Description: The boxplot shows the amount of patients with HC and the different types of comorbidities that occured.
+
+```{r}
+# Separate hospitalization complications into distinct rows
+df_comorbidities <- df %>%
+  separate_rows(comorbidities, sep = ", ") %>%
+  filter(!is.na(comorbidities)) %>%
+  mutate(comorbidities = str_to_upper(comorbidities))  # Convert to uppercase
+
+# Filter for complications that occurred in more than one person
+df_filtered <- df_comorbidities %>%
+  group_by(comorbidities) %>%
+  filter(n() > 1) %>%
+  ungroup()
+
+# Create a bar plot for the count of complications, colored by type of complication
+ggplot(df_filtered, aes(x = comorbidities, fill = comorbidities)) +
+  geom_bar(stat = "count", position = "dodge", color = "black", alpha = 0.5) +
+  labs(title = "Count of Comorbidities (Cases with >1 comorbidity)",
+       x = "Comorbidities",
+       y = "Count",
+       fill = "Comorbidities") +
+  theme_minimal() +
+  theme(axis.text.x = element_blank()) +  # Remove x-axis labels labels for better readability
+  scale_fill_viridis_d()  
+```
+
+## Plot 13
+
+Description: The boxplot shows the amount of patients with HC and the hospital complications they experienced. Only the patients with more than 1 compilation are shown.
+
+```{r}
+# Create a new column with fixed hospitalization complications
+df <- df %>%
+  mutate(
+    hospitalization_complications_fixed = case_when(
+      row_number() %in% c(4, 28) ~ "Urosepsis, death",
+      row_number() == 38 ~ "hydronephrosis requiring nephrostomy tubes, Urosepsis, right hydro requiring stent",
+      row_number() == 31 ~ "ureteral strictures, hydronephrosis",
+      row_number() == 65 ~ "AKI, anemia, prostatic necrosis, death",
+      row_number() == 71 ~ "Bacteremia, PEG tube, death",
+      row_number() == 15 ~ "tardive dyskinesia, AKI, elevation of PT",
+      TRUE ~ as.character(hospitalization_complications)
+    )
+  )
+
+# Separate hospitalization complications into distinct rows
+df_complications <- df %>%
+  separate_rows(hospitalization_complications_fixed, sep = ", ") %>%
+  filter(!is.na(hospitalization_complications_fixed)) %>%
+  mutate(hospitalization_complications_fixed = str_to_upper(hospitalization_complications_fixed))  # Convert to uppercase
+
+# Filter for complications that occurred in more than one person
+df_filtered <- df_complications %>%
+  group_by(hospitalization_complications_fixed) %>%
+  filter(n() > 1) %>%
+  ungroup()
+
+# Create a bar plot for the count of complications, colored by type of complication
+ggplot(df_filtered, aes(x = hospitalization_complications_fixed, fill = hospitalization_complications_fixed)) +
+  geom_bar(stat = "count", position = "dodge", color = "black", alpha = 0.5) +
+  labs(title = "Count of Hospital Complications (Cases with >1 Complication)",
+       x = "Hospital Complications",
+       y = "Count",
+       fill = "Hospitalization complications") +
+  theme_minimal() +
+  theme(axis.text.x = element_blank()) +  # Remove x-axis labels labels for better readability
+  scale_fill_viridis_d()
 ```
 
 \
