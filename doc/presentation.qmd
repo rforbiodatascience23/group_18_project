@@ -44,7 +44,7 @@ format: revealjs
 
 ![](images/key_plot_1.9-01.png){fig-align="right" width="320"}
 
-**Data Manipulation with dplyr**: group_by, and mutate functions **Plotting with ggplot2**: ggplot, aes, geom_col & geom_hline **Plot Customization ggplot2**: labs, theme_minimal and theme
+**dplyr & ggplot2**
 
 ![](images/key_plot_1.8-01.png){fig-align="right" width="340"}
 
@@ -55,3 +55,5 @@ format: revealjs
 ![](images/key_plot_2.3.png){fig-align="right" width="330"}
 
 ## **(Slide 10): Discussion**
+
+Unveiling potential underreporting in healthcare cases despite radiation therapy advancements. Study limitations include its retrospective nature and regional focus on Detroit, cautioning broad extrapolation. Nevertheless, our findings offer valuable insights, shaping future medical considerations. 🌟
