@@ -72,12 +72,11 @@ plot2 <-
   geom_smooth(method = "lm", 
               se = FALSE, 
               color = "blue") +
-  theme_minimal(base_size = 12) +  # Adjusted base_size to match the previous code
+  theme_minimal(base_size = 12) +  
   theme(legend.position = "top",
         panel.grid.major.x = element_blank(),
-        axis.text.x = element_text(angle = 45,
-                                   hjust = 1,
-                                   vjust = 1.1)) +  # Applied the previous theme adjustments
+        axis.text.x = element_text(hjust = 1,
+                                   vjust = 1.1)) +
   labs(x = "Radiation Dose",    
        y = "BMI",              
        title = "Linear Regression between BMI and radiation dose") +
@@ -137,18 +136,17 @@ plot3 <- result_3 |>
     colour = "black",
     alpha = 0.5) + 
   geom_hline(yintercept = 0) +
-  labs(title = "Radiation Dosage Category" ,
-       subtitle = "Radiation Type and corresponding dosage category",
-       #x = "Type of Radiation",
-       y = "Proportion",
-       fill = "Radiation Dosage Category") +
-  scale_fill_viridis_d() +  # Add viridis color scheme
+  labs(title = "Radiation Dosage Category",
+       subtitle = "Radiation Type and corresponding radiation dosage",
+       x = "Radiation Type",
+       y = "Percentage of Radiation Dose") +
+  scale_fill_viridis_d() +  
   theme_minimal(base_size = 12) +
   theme(legend.position = "right",
         panel.grid.major.x = element_blank(),
         axis.text.x = element_text(angle = 45,
                                    hjust = 1,
-                                   vjust = 1.08),
+                                   vjust = 1),
         axis.title.x = element_blank()
         )
 
@@ -372,7 +370,7 @@ plot7 <- ggsurvplot(
   legend.title = "",
   legend.labs = "HC-Free Survival",
   legend = "right",
-  theme = theme_minimal()
+  theme = theme_minimal(base_size = 12)
 )
 
 #Print plot
