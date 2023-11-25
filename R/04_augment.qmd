@@ -23,7 +23,7 @@ dat_clean1 <- read_tsv(
 
 #### Data Wrangling I: BMI
 
-Compute the Body Mass Index (BMI) using the Height and Weight columns. The BMI will be added in a new column named: 'BMI'.
+To calculate the Body Mass Index (BMI) from the height and weight measurements, the following formula was used: BMI = weight (kg) / (height (m))\^2. The `mutate` function from `dplyr` added a new column, 'BMI,' in data.
 
 ```{r}
 dat_clean1 <- dat_clean1 |>     
@@ -34,9 +34,7 @@ dat_clean1 <- dat_clean1 |>
 
 #### Data Wrangling II: num_comorbidities
 
-Counting the number of comorbidities presented bye each patient. The number is added in a new column named: 'num_comorbidities'.
-
-If comorbidities appears like 'NA' a 0 is assigned to 'num_comorbidities'.
+For counting the number of comorbidities, the `ifelse` function, along with `str_count` from `stringr`, was used to process and quantify these variables. `mutate` was used again to create a new column named: 'num_comorbidities'. In cases where the data appeared as 'NA,' we assigned a value of 0 to 'num_comorbidities'.
 
 ```{r}
 dat_clean1 <- dat_clean1 |>     
@@ -47,7 +45,7 @@ dat_clean1 <- dat_clean1 |>
 
 #### Data Wrangling III: num_hosp_complications
 
-Compute the sum fo hospitalization complications and add is as a new columns called: 'num_hosp_complications'
+The same functions for counting the number of comorbidities were used to compute the sum of hospitalization complications. A new column called: 'num_hosp_complications' with the number of hospital complications was added to the data.
 
 ```{r}
 dat_clean1 <- dat_clean1 |>   
@@ -58,10 +56,9 @@ dat_clean1 <- dat_clean1 |>
 
 #### Data Wrangling IV: num_days_admited
 
-Sum the lenght of stay per admission (los_for_each_admission) to a total of days admitted and add to a new column called: 'num_days_admitted'
+To determine the total number of days admitted, the functions `sapply` and the `strsplit`were used. With these functions, the total length of the stay for each admission (los_for_each_admission) was summed and put in a new column called: 'num_days_admitted'.
 
 ```{r}
-# Function to sum values in a string  
 # Function to sum values in a string
 sum_values <- function(string) {
   if (string != "") {
@@ -81,7 +78,7 @@ dat_clean1 <- dat_clean1 |>
 
 #### Data Wrangling V: cancer_type
 
-Clean cancer_type making new columns cancer_type and cancer_stage
+To ensure that the data in the clinical_cancer column was classified correctly, the functions `grepl` and `case_when` were used to categorize the data based on keywords in the column. This created 2 new columns called cancer_type and cancer_stage.
 
 ```{r}
 
