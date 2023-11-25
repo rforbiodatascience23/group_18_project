@@ -213,6 +213,7 @@ percentage_df <- clean_data1 |>
 # Calculate the percentage of patients who received low, medium, and high doses for each radiation type
 percentage_df <- analysis_1.1 |> 
 
+
   group_by(radiation_type)  |> 
   summarize(
     Low = sum(radiation_dosage < 50) / n() * 100,
@@ -248,8 +249,6 @@ ggplot(data = melted_df_5.1,
                                "High" = "gold")) +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
-
-
 
 
 
@@ -381,8 +380,8 @@ ggplot(data, aes(x = category, fill = radiation_type)) +
   ylab("Radiation Duration") +
   theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
-=======
 ## Plot 8: The distribution of radiation duration among different types of radiation.
+
 
 # Boxplot
 plot8 <- ggplot(data = analysis_1.1, 
@@ -406,15 +405,13 @@ ggsave(filename = "key_plot_1.8.png",
       height = 5, 
       dpi = 300)
 
-
 ```
 
 ## Plot 9
 
 ```{r}
 # Faceted Scatter Plot
-faceted_scatter_plot <-
-  ggplot(data = analysis_1.1, 
+plot9 <- ggplot(data = analysis_1.1, 
          aes(x = radiation_dosage, 
              y = radiation_duration, 
              color = radiation_type)) +
@@ -425,7 +422,16 @@ faceted_scatter_plot <-
        y = "Radiation Duration")
 
 # Display the faceted scatter plot
-print(faceted_scatter_plot)
+print(plot9)
+
+# Save the plot to folder results
+ggsave(filename = "key_plot_1.9.png", 
+      plot = plot9, 
+      path = "~/group_18_project/results",
+      width = 8, 
+      height = 5, 
+      dpi = 300)
+
 
 ```
 
