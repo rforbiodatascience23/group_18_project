@@ -597,4 +597,47 @@ ggplot(df_filtered, aes(x = comorbidities, fill = comorbidities)) +
   scale_fill_viridis_d()  
 ```
 
+## Plot 13
+
+Description: The boxplot shows the amount of patients with HC and the hospital complications they experienced. Only the patients with more than 1 compilation are shown.
+
+```{r}
+# Create a new column with fixed hospitalization complications
+df <- df %>%
+  mutate(
+    hospitalization_complications_fixed = case_when(
+      row_number() %in% c(4, 28) ~ "Urosepsis, death",
+      row_number() == 38 ~ "hydronephrosis requiring nephrostomy tubes, Urosepsis, right hydro requiring stent",
+      row_number() == 31 ~ "ureteral strictures, hydronephrosis",
+      row_number() == 65 ~ "AKI, anemia, prostatic necrosis, death",
+      row_number() == 71 ~ "Bacteremia, PEG tube, death",
+      row_number() == 15 ~ "tardive dyskinesia, AKI, elevation of PT",
+      TRUE ~ as.character(hospitalization_complications)
+    )
+  )
+
+# Separate hospitalization complications into distinct rows
+df_complications <- df %>%
+  separate_rows(hospitalization_complications_fixed, sep = ", ") %>%
+  filter(!is.na(hospitalization_complications_fixed)) %>%
+  mutate(hospitalization_complications_fixed = str_to_upper(hospitalization_complications_fixed))  # Convert to uppercase
+
+# Filter for complications that occurred in more than one person
+df_filtered <- df_complications %>%
+  group_by(hospitalization_complications_fixed) %>%
+  filter(n() > 1) %>%
+  ungroup()
+
+# Create a bar plot for the count of complications, colored by type of complication
+ggplot(df_filtered, aes(x = hospitalization_complications_fixed, fill = hospitalization_complications_fixed)) +
+  geom_bar(stat = "count", position = "dodge", color = "black", alpha = 0.5) +
+  labs(title = "Count of Hospital Complications (Cases with >1 Complication)",
+       x = "Hospital Complications",
+       y = "Count",
+       fill = "Hospitalization complications") +
+  theme_minimal() +
+  theme(axis.text.x = element_blank()) +  # Remove x-axis labels labels for better readability
+  scale_fill_viridis_d()
+```
+
 \
