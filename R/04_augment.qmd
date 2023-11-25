@@ -57,10 +57,9 @@ dat_clean1 <- dat_clean1 |>
 
 #### Data Wrangling IV: num_days_admited
 
-Sum the lenght of stay per admission (los_for_each_admission) to a total of days admitted and add to a new column called: 'num_days_admitted'
+To determine the total number of days admitted, the functions `sapply` and the `strsplit`were used. With these functions, the total length of the stay for each admission (los_for_each_admission) was summed and put in a new column called: 'num_days_admitted'.
 
 ```{r}
-# Function to sum values in a string  
 # Function to sum values in a string
 sum_values <- function(string) {
   if (string != "") {
@@ -80,7 +79,7 @@ dat_clean1 <- dat_clean1 |>
 
 #### Data Wrangling V: cancer_type
 
-Clean cancer_type making new columns cancer_type and cancer_stage
+To ensure that the data in the clinical_cancer column was classified correctly, the functions `grepl` and `case_when` were used to categorize the data based on keywords in the column. This created 2 new columns called cancer_type and cancer_stage.
 
 ```{r}
 
