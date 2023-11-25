@@ -374,7 +374,9 @@ ggsave(
 
 bnm
 
-Plot 8: The distribution of radiation duration among different types of radiation and diseases.
+## Plot 8
+
+The distribution of radiation duration among different types of radiation and diseases.
 
 ```{r}
 library(ggplot2)
