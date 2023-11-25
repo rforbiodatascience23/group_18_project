@@ -6,8 +6,6 @@ editor: visual
 
 # Describe
 
-##### *Add a short intro to the dataset from article (what is dat_clean 1 and dat_clean 2 about) - hc patients/all patients in the study*
-
 The dataset under consideration originates from an in-depth exploration of medical records pertaining to individuals who underwent radiation therapy for prostate cancer within the timeframe of January 2000 to September 2015, specifically within two Detroit Medical Center hospitals. The dataset encompasses information on 709 patients. The primary objective of this investigation was to assess the frequency and severity of radiation-induced hemorrhagic cystitis (HC) in patients subjected to radiation therapy.
 
 The findings reveal that approximately 11.1% of the patients in the dataset developed HC subsequent to their radiation therapy. The analysis delved into various factors, including the type of radiation administered, the overall health status of the patients, and the specifics of their treatment. Interestingly, no significant discrepancy was observed based on the type of radiation. On average, the onset of HC occurred around 79 months post-radiation, accompanied by considerable medical complexities such as multiple hospital visits, blood transfusions, and, in certain instances, intricate medical procedures.
@@ -33,7 +31,7 @@ dat_clean2 <- read_tsv(
 dat_clean1 |> head(10)
 ```
 
-The dataset `dat_clean1` shows the information on 80 patients who underwent radiation therapy for prostate cancer between January 2000 and September 2015 in two Detroit Medical Center hospitals. The primary focus of the analysis is to assess the frequency and severity of radiation-induced hemorrhagic cystitis (HC) in these patients. Standard information of each patient is given such as: `date_of_birth`, `ethnicity`, `age_at_radiation`, `height` and `weight`, but the following variables were important to look at:
+The dataset `dat_clean1` shows the information on only the 80 patients who developed HC subsequent to their radiation therapy. The primary focus of the analysis is to assess the frequency and severity of radiation-induced hemorrhagic cystitis (HC) in these patients. Standard information of each patient is given such as: `date_of_birth`, `ethnicity`, `age_at_radiation`, `height` and `weight`, but the following variables were important to look at:
 
 -   **`radiation_type`** representing the types of radiation therapy administered to the patients. These include:
 
@@ -62,16 +60,10 @@ The table shows the key statistics of the different variables. The dataset inclu
 dat_clean2 |> head(10)
 ```
 
-Describe the data from dat_clean2 here (total number of patients in dataset and the more important variables we want to study)
+The data from the dataset `dat_clean2` shows the information of all 739 patients who underwent radiation therapy for prostate cancer, with both the patients who developed HC and the patients who didn't. This dataset has fewer columns, only giving the `hospital_id`, `hc_incidence`, `bladder_cancer`, `prostate_cancer` and the `treatment`. The 2 most important variables in this dataset are the `hc_incidence`, stating if the patient developed HC or not, and the `treatment`, showing the type of radiation or other treatment they went through.
 
 ```{r}
 dat_clean2 |>
   table1(x = formula(~ treatment + bladder_cancer | prostate_cancer),
          data = _)
-```
-
-```         
-```
-
-```         
 ```
