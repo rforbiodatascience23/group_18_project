@@ -165,7 +165,7 @@ ggsave(filename = "key_plot_1.3.png",
 
 ## Plot 4
 
-Comparison of the average time passed since the completion of radiation treatment and the first incident of HC
+Description: This boxplot compares the average time passed since the completion of radiation treatment and the first incident of HC. For this the mean of the time passed since the completion of radiation treatment and first incident of HC is calculated and presented on the y-axis while on the x-axis the different types of radiation is shown. This could give an insight of the impact of the radiation type on the occurance of HC in the patients.
 
 ```{r}
 # Create the plot data
