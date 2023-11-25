@@ -524,6 +524,8 @@ ggsave(filename = "key_plot_1.10.png",
 
 ## Plot 11
 
+Description: the 4 box plots each show the number of patients with HC that had the following variables: Age distribution at radiation treatment for Head and Neck Cancer (HC) patients, BMI distribution of HC patients, Distribution of the number of comorbidities in HC patients and finally the distribution of the number of hospital complications in HC patients.
+
 ```{r}
 library(gridExtra)
 library(viridis)
