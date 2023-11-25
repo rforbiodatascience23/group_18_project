@@ -114,6 +114,8 @@ pca_fit |>
   theme_minimal_grid(12)
 ```
 
+## Plot 2.2
+
 Lastly we will plot the explained variance of each principal component to asses the significance of the PCA obtained before.
 
 ```{r}
@@ -147,7 +149,7 @@ ggsave(
 )
 ```
 
-### Correlation Analysis
+### Plot 2.3 Correlation Analysis
 
 Description: The plot depicts the correlation between chosen pairs of variables (above a selected threshold), allowing a simple understanding of their relationships. The intensity of the colour indicates the strength and direction of the correlation.
 
@@ -203,4 +205,52 @@ ggsave(filename = "key_plot_2.3.png",
        dpi = 300)
 ```
 
-### 
+### Plot 2.4 Model
+
+Description: scatterplot with a linear regression line, using the **`ggplot2`** package. The plot visualizes the relationship between the variables **`age_at_radiation`** and **`num_comorbidities`** with respect to the number of days admitted to the hospital (**`num_days_admitted`**). The plot helps visualize the relationship between age, number of comorbidities, and the predicted number of days admitted. Points that deviate from the regression line may indicate observations with higher or lower than expected days admitted, providing insights into potential patterns or outliers in the data.
+
+```{r}
+# Fit a linear regression model
+
+df <- analysis_1.1
+
+model <- lm(num_days_admitted ~ age_at_radiation + num_comorbidities, data = df)
+
+cor(df$age_at_radiation, df$num_days_admitted)
+
+# Make predictions
+df <- df %>%
+  mutate(predicted_days = predict(model, newdata = df))
+
+# Create a scatterplot with the regression line
+model_plot_days_admitted <-
+ggplot(df, aes(x = age_at_radiation, y = num_comorbidities, color = predicted_days)) +
+  geom_point(aes(size = num_days_admitted)) +
+  geom_smooth(method = "lm", se = FALSE, linetype = "dashed", color = "black") +
+  labs(title = "Comparison of Age, Number of Comorbidities, and Number of Hospitalizations",
+       x = "Age at Radiation",
+       y = "Number of Comorbidities",
+       color = "Predicted Days of Admission",
+       size = "Actual Days of Admission") +
+  scale_color_viridis_c() +  # Choose a color scale
+  theme_minimal()
+
+print(model_plot_days_admitted)
+
+ggsave(filename = "key_plot_2.4.png", 
+       plot = model_plot_days_admitted,
+       path = "~/group_18_project/results", 
+       width = 8, height = 6,
+       dpi = 300)
+```
+
+Residual plots are a crucial diagnostic tool to assess the validity of a linear regression model. They help you evaluate whether the assumptions of the model are met. Here are several types of residual plots you can create and interpret:
+
+```{r}
+# Fit a linear regression model
+model <- lm(num_days_admitted ~ age_at_radiation + num_comorbidities, data = df)
+
+# Check residual plots
+par(mfrow = c(2, 2))  # Set up a 2x2 grid for multiple plots
+plot(model)
+```
