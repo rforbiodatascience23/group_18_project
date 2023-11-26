@@ -1,0 +1,21 @@
+/*-- scss:defaults --*/
+
+$presentation-font-size-root: 30px;
+$presentation-h1-font-size: 2em;
+
+/*-- scss:rules --*/
+
+.img-bg img {
+  background-color: white;
+  border-radius: 10px;
+  
+  box-shadow: 0px 7px 18px 6px rgba(0,0,0,0.51);
+  -webkit-box-shadow: 0px 7px 18px 6px rgba(0,0,0,0.51);
+  -moz-box-shadow: 0px 7px 18px 6px rgba(0,0,0,0.51);
+  
+  padding: 1rem;
+}
+
+#title-slide .quarto-title-author-name {
+  color: rgb(200,200,200);
+}
