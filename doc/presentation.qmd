@@ -78,11 +78,11 @@ Data points aren\'t grouped by cancer organ. 
 
 Why do we get this spared data points?
 
--   Outliers
+-\> Outliers
 
--   Small sample size
+-\> Small sample size
 
--   Low % explained variance
+-\> Low % explained variance
 :::
 
 ::: {.column width="50%"}
