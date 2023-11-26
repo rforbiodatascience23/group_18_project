@@ -74,7 +74,15 @@ dat_load1 <- dat_load1 |>
 ::: {.column width="50%"}
 ![](images/key_plot_2.1.png){width="80%"}
 
-*Description of the left image.*
+Data points aren\'t grouped by cancer organ. 
+
+Why do we get this spared data points?
+
+-   Outliers
+
+-   Small sample size
+
+-   Low % explained variance
 :::
 
 ::: {.column width="50%"}
