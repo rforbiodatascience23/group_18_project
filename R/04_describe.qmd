@@ -161,3 +161,57 @@ ggsave(filename = "key_plot_1.8.png",
       dpi = 300)
 
 ```
+
+## Plot 9
+
+Description: the 4 box plots each show the number of patients with HC that had the following variables: Age distribution at radiation treatment for Head and Neck Cancer (HC) patients, BMI distribution of HC patients, Distribution of the number of comorbidities in HC patients and finally the distribution of the number of hospital complications in HC patients.
+
+```{r}
+library(gridExtra)
+library(viridis)
+
+df = dat_clean1.2
+
+# Age Distribution
+plot_age <- 
+  ggplot(df, aes(x = age_at_radiation)) +
+  geom_histogram(binwidth = 5, fill = viridis(10)[1], color = "white", alpha = 0.7) +
+  labs(#title = "Age Distribution of Patients with HC",
+    x = "Age at Radiation") +
+  theme_classic()
+
+# BMI Distribution
+plot_bmi <- 
+  ggplot(df, aes(x = BMI)) +
+  geom_histogram(binwidth = 2, fill = viridis(10)[2], color = "white", alpha = 0.7) +
+  labs(#title = "BMI Distribution of Patients with HC",
+    x = "BMI") +
+  theme_classic()
+
+# Number of Comorbidities Distribution
+plot_comorbidities <- 
+  ggplot(df, aes(x = num_comorbidities)) +
+  geom_histogram(binwidth = 1, fill = viridis(10)[3], color = "white", alpha = 0.7) +
+  labs(#title = "Distribution of Number of Comorbidities among Patients with HC",
+    x = "Number of Comorbidities") +
+  theme_classic()
+
+# Number of Comorbidities Distribution
+plot_hosp_comp <- 
+  ggplot(df, aes(x = num_hosp_complications)) +
+  geom_histogram(binwidth = 1, fill = viridis(10)[4], color = "white", alpha = 0.7) +
+  labs(#title = "Distribution of Number of Comorbidities among Patients with HC",
+    x = "Number of Complications") + 
+  theme_classic()
+
+# Arrange plots in a grid
+grid.arrange(plot_age, plot_bmi, plot_comorbidities, plot_hosp_comp,  ncol = 2)
+
+# Save the plot to folder results
+ggsave(filename = "key_plot_1.9.png", 
+      plot = plot_bmi, 
+      path = "~/group_18_project/results",
+      width = 8, 
+      height = 5, 
+      dpi = 300)
+```
