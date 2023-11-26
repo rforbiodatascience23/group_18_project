@@ -41,13 +41,13 @@ Our study involved extensive data preparation, including cleaning and augmenting
 ::: {.column width="50%"}
 Left column
 
-![](images/key_plot_1.9-01.png){width="350px"}
+![](images/key_plot_1.9-01.png){width="400"}
 :::
 
 ::: {.column width="50%"}
 Right column
 
-![](images/key_plot_1.8-01.png){width="350px"}
+![](images/key_plot_1.8-01.png){width="400"}
 :::
 :::
 
