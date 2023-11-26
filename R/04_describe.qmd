@@ -1,0 +1,70 @@
+---
+title: "03_describe.qmd"
+format: html
+editor: visual
+---
+
+# Describe
+
+The dataset under consideration originates from an in-depth exploration of medical records pertaining to individuals who underwent radiation therapy for prostate cancer within the timeframe of January 2000 to September 2015, specifically within two Detroit Medical Center hospitals. The dataset encompasses information on 709 patients. The primary objective of this investigation was to assess the frequency and severity of radiation-induced hemorrhagic cystitis (HC) in patients subjected to radiation therapy.
+
+The findings reveal that approximately 11.1% of the patients in the dataset developed HC subsequent to their radiation therapy. The analysis delved into various factors, including the type of radiation administered, the overall health status of the patients, and the specifics of their treatment. Interestingly, no significant discrepancy was observed based on the type of radiation. On average, the onset of HC occurred around 79 months post-radiation, accompanied by considerable medical complexities such as multiple hospital visits, blood transfusions, and, in certain instances, intricate medical procedures.
+
+Demographically, the majority of these patients were of African American descent, with an average age of around 69 at the time of radiation. The spectrum of complications ranged from urinary tract infections to more severe conditions like kidney issues, bladder ruptures, and unfortunately, instances of mortality.
+
+## Load dat_clean from data folder
+
+```{r}
+dat_clean1 <- read_tsv(
+  file = "~/group_18_project/data/02_dat_clean1.tsv",
+  show_col_types = FALSE)
+
+dat_clean2 <- read_tsv(
+  file = "~/group_18_project/data/02_dat_clean2.tsv",
+  show_col_types = FALSE)
+```
+
+## Inspect the dat_clean1
+
+```{r}
+
+dat_clean1 |> head(10)
+```
+
+The dataset `dat_clean1` shows the information on only the 80 patients who developed HC subsequent to their radiation therapy. The primary focus of the analysis is to assess the frequency and severity of radiation-induced hemorrhagic cystitis (HC) in these patients. Standard information of each patient is given such as: `date_of_birth`, `ethnicity`, `age_at_radiation`, `height` and `weight`, but the following variables were important to look at:
+
+-   **`radiation_type`** representing the types of radiation therapy administered to the patients. These include:
+
+    -   EBRT (External Beam Radiation Therapy): high-energy X-rays are directed at the cancerous tissue from outside the body.
+
+    -   IMRT (Intensity-Modulated Radiation Therapy): IMRT is an advanced form of EBRT that adjusts the intensity of the radiation beams.
+
+    -   Neutron Photon: This combines the use of neutrons and photons (X-rays) for radiation treatment. Neutrons have unique properties that may enhance their effectiveness in certain cases and will be used for specific types of cancer.
+
+-   **`hematuria_grade`** indicating the severity or grade of hematuria experienced by patients. Hematuria grade is a qualitative assessment of the severity of blood in the urine. It ranges from mild to severe, reflecting the amount and visibility of blood. Understanding hematuria grade provides insights into the severity of complications, especially those induced by radiation therapy.
+
+```{r}
+dat_clean1 |>
+  mutate(hematuria_grade = factor(hematuria_grade)) |>
+  table1(x = formula(~ age_at_radiation + ethnicity + radiation_type | hematuria_grade),
+         data = _)
+```
+
+The table shows the key statistics of the variables `age_at_radiation`, `ethnicity` and `radiation_type`. The dataset includes patients with a mean age at radiation of 68.7 years, a median age of 68.5 years, which ranges from 48 to 89 years. The ethnicity information is available for 90% of patients, with the majority being African American (92.5%) while Caucasians make up 7.5% of the dataset. The most common type of radiation is EBRT at 55% and different combinations of radiation types are also present, with varying frequencies. Missing data is observed for 7.5% of the cases.
+
+## Inspect the dat_clean2
+
+```{r}
+
+dat_clean2 |> head(10)
+```
+
+The data from the dataset `dat_clean2` shows the information of all 739 patients who underwent radiation therapy for prostate cancer, with both the patients who developed HC and the patients who didn't. This dataset has fewer columns, only giving the `hospital_id`, `hc_incidence`, `bladder_cancer`, `prostate_cancer` and the `treatment`. The 2 most important variables in this dataset are the `hc_incidence`, stating if the patient developed HC or not, and the `treatment`, showing the type of radiation or other treatment they went through.
+
+```{r}
+dat_clean2 |>
+  table1(x = formula(~ treatment + bladder_cancer | prostate_cancer),
+         data = _)
+```
+
+The table shows the key statistics of the variables `treatment` and `bladder_cancer`. The most common treatments are EBRT at 34.1% and Brachytherapy at 6.0%. Other treatments include Adjuvant therapy (3.7%), IMRT (14.7%), Unknown treatments (25.2%), and a combination of Neutron/Photon therapies with EBRT or IMRT. The majority of individuals (95.0%) in the dataset do not have bladder cancer, while a smaller proportion (5.0%) has bladder cancer.
