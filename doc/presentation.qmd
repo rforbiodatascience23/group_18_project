@@ -3,8 +3,8 @@ title: "Project_Group18"
 author: "group 18"
 format: 
   revealjs:
-    theme: "serif"  # You can change this to another theme like "simple", "sky", etc.
-    transition: "slide"  # Options include "slide", "fade", "convex", "concave", etc.
+    theme: "serif"
+    transition: "slide"
     center: true
     footer: "Group_18"
 ---
