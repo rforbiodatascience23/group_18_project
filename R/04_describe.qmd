@@ -22,6 +22,11 @@ dat_clean1 <- read_tsv(
 dat_clean2 <- read_tsv(
   file = "~/group_18_project/data/02_dat_clean2.tsv",
   show_col_types = FALSE)
+
+dat_clean1.2 <- read_tsv(
+  file = "~/group_18_project/data/03_dat_aug1.tsv",
+  show_col_types = FALSE)
+
 ```
 
 ## Inspect the dat_clean1
@@ -104,4 +109,55 @@ ggsave(filename = "key_plot_1.1.png",
       width = 8, 
       height = 5, 
       dpi = 300)
+```
+
+## Plot 8
+
+Description: The boxplot is used to visualize the distribution of the normalized values for various variables obtained for patient that developed HC. Each box represents the interquartile range (IQR), with the median depicted as a horizontal line inside the box. The plot provides a concise summary of the central tendency, spread, and potential outliers in the normalized data across different variables.
+
+```{r}
+box_plot_data <- 
+  dat_clean1.2 |>
+  select(age_at_radiation,
+         BMI, 
+         num_comorbidities, 
+         num_days_admitted, 
+         num_hosp_complications, 
+         number_of_admissions_with_urology_consultation, 
+         number_of_cystoscopies, 
+         number_transfusions, radiation_dosage,
+         radiation_duration, 
+         radiation_completion_to_first_hc) |>
+  mutate_all(scale)
+
+# Reshape data into long format
+long_data <- 
+  gather(box_plot_data, 
+                    key = "Variable",
+                    value = "Value")
+
+# Create boxplots with normalized data, customized variable names
+plot8 <- 
+  ggplot(data =long_data, 
+         aes(x = Variable, 
+             y = Value, 
+             fill = Variable)) +
+  geom_boxplot(color = "black",
+               alpha = 0.5) +
+  labs(title = "Box plot visualization of selected variables",
+       x = "Variables", 
+       y = "Normalized Values") +
+  theme_minimal() +
+  theme(axis.text.x = element_blank()) 
+
+print(plot8)
+
+# Save the plot to folder results
+ggsave(filename = "key_plot_1.8.png", 
+      plot = plot8, 
+      path = "~/group_18_project/results",
+      width = 8, 
+      height = 5, 
+      dpi = 300)
+
 ```
