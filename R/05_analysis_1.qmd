@@ -141,7 +141,6 @@ ggsave(filename = "key_plot_1.3.png",
 Description: This boxplot compares the average time passed since the completion of radiation treatment and the first incident of HC. For this the mean of the time passed since the completion of radiation treatment and first incident of HC is calculated and presented on the y-axis while on the x-axis the different types of radiation is shown. This could give an insight of the impact of the radiation type on the occurrence of HC in the patients.
 
 ```{r}
-# Create the plot data
 # Select relevant columns and filter out rows with missing values
 plot4_data <- 
   analysis_1.1 |>
@@ -150,8 +149,7 @@ plot4_data <-
   filter(!is.na(TimePassed)) |> 
   filter(!is.na(radiation_type)) 
 
-# Summarize the data
-# Group the data by radiation type and calculate summary statistics
+# Group the data by radiation type and calculate mean time passed
 result_4 <- 
   plot4_data |>
   group_by(radiation_type) |>
@@ -160,25 +158,22 @@ result_4 <-
     MedianTimePassed = median(TimePassed),
     TotalObservations = n())
 
-# Create the plot
-# Create a bar plot comparing average time since radiation for different types
-
+# Create a bar plot comparing average time since radiation for different type
 plot4 <- 
   ggplot(data = result_4, 
          aes(x = radiation_type,
              y = AvgTimePassed, 
              fill = radiation_type)) +
   geom_bar(stat = "identity", position = "dodge", color = "black", alpha = 0.5) +
-  labs(expression(title = "Comparison of Average Time Since Radiation and Time to HC"),
+  labs(title = "Average Time of Radiation Completion to First HC Incident",
        x = "Type of Radiation",
-       y = "Average Time Since Radiation\n(months)",
+       y = "Average Time Of Radiation To First HC\n(months)",
        fill = "Type of Radiation") +
   theme_minimal(base_size = 12) + 
   theme(axis.text.x = element_blank())
 
 # Print the plot
 print(plot4)
-
 
 # Save plot to the "results" folder
 ggsave(filename = "key_plot_1.4.png", 
@@ -310,15 +305,15 @@ Description: The boxplot shows the amount of patients with HC and the different 
 
 ```{r}
 # Separate hospitalization complications into distinct rows
-df_comorbidities <- df %>%
-  separate_rows(comorbidities, sep = ", ") %>%
-  filter(!is.na(comorbidities)) %>%
+df_comorbidities <- df |>
+  separate_rows(comorbidities, sep = ", ") |>
+  filter(!is.na(comorbidities)) |>
   mutate(comorbidities = str_to_upper(comorbidities))  # Convert to uppercase
 
 # Filter for complications that occurred in more than one person
-df_filtered <- df_comorbidities %>%
-  group_by(comorbidities) %>%
-  filter(n() > 1) %>%
+df_filtered <- df_comorbidities |>
+  group_by(comorbidities) |>
+  filter(n() > 1) |>
   ungroup()
 
 # Create a bar plot for the count of complications, colored by type of complication
@@ -347,7 +342,7 @@ Description: The boxplot shows the amount of patients with HC and the hospital c
 
 ```{r}
 # Create a new column with fixed hospitalization complications
-df <- df %>%
+df <- df |>
   mutate(
     hospitalization_complications_fixed = case_when(
       row_number() %in% c(4, 28) ~ "Urosepsis, death",
@@ -361,15 +356,15 @@ df <- df %>%
   )
 
 # Separate hospitalization complications into distinct rows
-df_complications <- df %>%
-  separate_rows(hospitalization_complications_fixed, sep = ", ") %>%
-  filter(!is.na(hospitalization_complications_fixed)) %>%
+df_complications <- df |>
+  separate_rows(hospitalization_complications_fixed, sep = ", ") |>
+  filter(!is.na(hospitalization_complications_fixed)) |>
   mutate(hospitalization_complications_fixed = str_to_upper(hospitalization_complications_fixed))  # Convert to uppercase
 
 # Filter for complications that occurred in more than one person
-df_filtered <- df_complications %>%
-  group_by(hospitalization_complications_fixed) %>%
-  filter(n() > 1) %>%
+df_filtered <- df_complications |>
+  group_by(hospitalization_complications_fixed) |>
+  filter(n() > 1) |>
   ungroup()
 
 # Create a bar plot for the count of complications, colored by type of complication
