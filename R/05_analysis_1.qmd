@@ -433,6 +433,14 @@ plot_hosp_comp <-
 
 # Arrange plots in a grid
 grid.arrange(plot_age, plot_bmi, plot_comorbidities, plot_hosp_comp,  ncol = 2)
+
+# Save the plot to folder results
+ggsave(filename = "key_plot_1.9.png", 
+      plot = plot_bmi, 
+      path = "~/group_18_project/results",
+      width = 8, 
+      height = 5, 
+      dpi = 300)
 ```
 
 ## Plot 10
@@ -453,7 +461,7 @@ df_filtered <- df_comorbidities %>%
   ungroup()
 
 # Create a bar plot for the count of complications, colored by type of complication
-ggplot(df_filtered, aes(x = comorbidities, fill = comorbidities)) +
+plot10 <- ggplot(df_filtered, aes(x = comorbidities, fill = comorbidities)) +
   geom_bar(stat = "count", position = "dodge", color = "black", alpha = 0.5) +
   labs(title = "Count of Comorbidities (Cases with >1 comorbidity)",
        x = "Comorbidities",
@@ -462,6 +470,14 @@ ggplot(df_filtered, aes(x = comorbidities, fill = comorbidities)) +
   theme_minimal() +
   theme(axis.text.x = element_blank()) +  # Remove x-axis labels labels for better readability
   scale_fill_viridis_d()  
+
+# Save the plot to folder results
+ggsave(filename = "key_plot_1.10.png", 
+      plot = plot10, 
+      path = "~/group_18_project/results",
+      width = 8, 
+      height = 5, 
+      dpi = 300)
 ```
 
 ## Plot 11
@@ -496,7 +512,7 @@ df_filtered <- df_complications %>%
   ungroup()
 
 # Create a bar plot for the count of complications, colored by type of complication
-ggplot(df_filtered, aes(x = hospitalization_complications_fixed, fill = hospitalization_complications_fixed)) +
+plot11 <- ggplot(df_filtered, aes(x = hospitalization_complications_fixed, fill = hospitalization_complications_fixed)) +
   geom_bar(stat = "count", position = "dodge", color = "black", alpha = 0.5) +
   labs(title = "Count of Hospital Complications (Cases with >1 Complication)",
        x = "Hospital Complications",
@@ -505,6 +521,15 @@ ggplot(df_filtered, aes(x = hospitalization_complications_fixed, fill = hospital
   theme_minimal() +
   theme(axis.text.x = element_blank()) +  # Remove x-axis labels labels for better readability
   scale_fill_viridis_d()
+
+# Save the plot to folder results
+ggsave(filename = "key_plot_1.11.png", 
+      plot = plot11, 
+      path = "~/group_18_project/results",
+      width = 8, 
+      height = 5, 
+      dpi = 300)
+
 ```
 
 \
