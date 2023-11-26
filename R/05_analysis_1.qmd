@@ -61,6 +61,8 @@ ggsave(filename = "key_plot_1.1.png",
 
 Linear Regression Analysis of Body Mass Index (BMI) in relation to radiation dose.
 
+From the plot below, we can observe that the higher the BMI, the higher the radiation dose to the patients. However, the quality of the data is not sufficient to confirm these as we had many NAs in the radiation dosage column.
+
 ```{r}
 # Create the plot
 plot2 <- 
@@ -75,7 +77,7 @@ plot2 <-
   theme_minimal(base_size = 12) +  # Adjusted base_size to match the previous code
   theme(legend.position = "top",
         panel.grid.major.x = element_blank(),
-        axis.text.x = element_text(angle = 45,
+        axis.text.x = element_text(angle = 0,
                                    hjust = 1,
                                    vjust = 1.1)) +  # Applied the previous theme adjustments
   labs(x = "Radiation Dose",    
@@ -105,7 +107,9 @@ ggsave(filename = "key_plot_1.2.png",
 
 ## Plot 3
 
-Description: This boxplot shows the Analysis of Patient Dose Percentages. A standardized threshold has been added distinguishing Low, Medium, and High Levels across various radiation types. Analysing this plot could give insights into the distribution of radiation dosage.
+This plot shows the Analysis of Radiation Dose Percentages in correlation to the different radiation types. According to literature, a standardized threshold has been added distinguishing Low, Medium, and High Levels across various radiation types.
+
+From the plot below, we can observe that high radiation dosages are only used in ebrt,adjuvant and imrt. Also, the two most used radiation therapies are ebrt medium dose and imrt medium dose.
 
 ```{r}
 # Define dose categories based on paper
@@ -123,14 +127,14 @@ analysis_1.1 <-
 result_3 <- 
   analysis_1.1 |> 
   group_by(radiation_type, dose_category) |> 
-  summarise(Percentage = n()/nrow(analysis_1.1)) |> 
-  filter(!is.na(dose_category) & !is.na(radiation_type) & !is.na(Percentage)) |>  
+  summarise(Proportion = n()/nrow(analysis_1.1)) |> 
+  filter(!is.na(dose_category) & !is.na(radiation_type) & !is.na(Proportion)) |>  
   ungroup()
 
-# Create a grouped bar plot with viridis color scheme
+# Create a grouped plot with viridis color scheme
 plot3 <- result_3 |> 
   ggplot(aes(x = radiation_type, 
-             y = Percentage, 
+             y = Proportion, 
              fill = dose_category)) +
   geom_col(position = position_dodge(
     preserve = "single"),
@@ -139,8 +143,8 @@ plot3 <- result_3 |>
   geom_hline(yintercept = 0) +
   labs(title = "Radiation Dosage Category" ,
        subtitle = "Radiation Type and corresponding dosage category",
-       #x = "Type of Radiation",
-       y = "Percentage of radiation dose",
+       x = "Type of Radiation",
+       y = "Proportion",
        fill = "Radiation Dosage Category") +
   scale_fill_viridis_d() +  # Add viridis color scheme
   theme_minimal(base_size = 12) +
@@ -209,7 +213,6 @@ plot4 <-
 print(plot4)
 
 
-
 # Save plot to the "results" folder
 ggsave(filename = "key_plot_1.4.png", 
       plot = plot4, 
@@ -223,6 +226,8 @@ ggsave(filename = "key_plot_1.4.png",
 ## Plot 5
 
 Relationship Between Body Mass Index (BMI) and time from radiation completion to first incidence of Hemorrhagic Cystitis.
+
+From the plot below, we can observe that all Caucasian people developed Hemorrhagic cystitis before 100 months from the end of their cancer therapy. The vast majority of the patients got HC before 200 months and after them the cases of HC were rare.
 
 ```{r}
 #Create a scatter plot
@@ -257,6 +262,8 @@ ggsave(filename = "key_plot_1.5.png",
 ## Plot 6
 
 Kaplan Meier curve showing the probability of HC-free survival over time (n=562 months).
+
+According to the plot below, around 200 months 50% of the patients were HC-free independently of the therapy received. All patients developed HC in around 550 months after the therapy ending.
 
 ```{r}
 #Create a new data frame to add columns "event" and "time"
