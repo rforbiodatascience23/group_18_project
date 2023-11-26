@@ -161,6 +161,7 @@ dat_load1 <- dat_load1 |>
     radiation_type = ifelse(row_number() == 22, "mixed_neutron_photon_IMRT", radiation_type),
     radiation_type = ifelse(row_number() == 39, "EBRT,adjuvant", radiation_type),
     radiation_type = ifelse(row_number() == 43, "EBRT,salvage", radiation_type),
+    radiation_type = ifelse(row_number() == 48, "mixed_neutron_photon_EBRT", radiation_type),
     radiation_type = ifelse(row_number() == 51, "IMRT", radiation_type),
     radiation_type = ifelse(row_number() == 57, "mixed_neutron_photon_EBRT", radiation_type),
     radiation_type = ifelse(row_number() == 59, "mixed_neutron_photon_EBRT", radiation_type),
