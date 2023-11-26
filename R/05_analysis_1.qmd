@@ -430,7 +430,7 @@ grid.arrange(plot_age, plot_bmi, plot_comorbidities, plot_hosp_comp,  ncol = 2)
 
 ## Plot 10
 
-Description: The boxplot shows the amount of patients with HC and the different types of comorbidities that occured, while on the y-axis the amount of those comorbidities are shown. Only the cases with more than 1 comorbidity were taken into account
+Description: The boxplot shows the amount of patients with HC and the different types of comorbidities that occured, while on the y-axis the amount of those comorbidities are shown. Only the cases with more than 1 comorbidity were taken into account.
 
 ```{r}
 # Separate hospitalization complications into distinct rows
