@@ -227,8 +227,6 @@ ggsave(filename = "key_plot_1.4.png",
 
 ## Plot 5
 
-please describe the plot herePlot 5
-
 Relationship Between Body Mass Index (BMI) and time from radiation completion to first incidence of Hemorrhagic Cystitis.
 
 ```{r}
@@ -308,6 +306,8 @@ ggsave(
 ```
 
 ## Plot 7
+
+Description: This plot illustrates the relationship between radiation dosage and duration across different types of cancer. Each cancer type is represented in a separate subplot for easy comparison, and the points are color-coded by radiation type. This visualization effectively displays complex data in a clear and comparative manner, ideal for in-depth analysis.
 
 ```{r}
 # Faceted Scatter Plot
