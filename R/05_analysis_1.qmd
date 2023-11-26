@@ -205,10 +205,6 @@ plot4 <-
   theme_minimal(base_size = 12) + 
   theme(axis.text.x = element_blank())
 
-  theme_minimal() +
-  theme(axis.text.x = element_blank()) +
-  scale_fill_viridis_d()
-
 # Print the plot
 print(plot4)
 
@@ -225,8 +221,6 @@ ggsave(filename = "key_plot_1.4.png",
 ```
 
 ## Plot 5
-
-please describe the plot herePlot 5
 
 Relationship Between Body Mass Index (BMI) and time from radiation completion to first incidence of Hemorrhagic Cystitis.
 
@@ -308,6 +302,8 @@ ggsave(
 ```
 
 ## Plot 7
+
+Description: This plot illustrates the relationship between radiation dosage and duration across different types of cancer. Each cancer type is represented in a separate subplot for easy comparison, and the points are color-coded by radiation type. This visualization effectively displays complex data in a clear and comparative manner, ideal for in-depth analysis.
 
 ```{r}
 # Faceted Scatter Plot

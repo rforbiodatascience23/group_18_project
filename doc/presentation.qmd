@@ -20,9 +20,33 @@ format: revealjs
 
 ## (Slide 2): Clean
 
+```{r}
+#| eval: false
+
+#Load the libraries, which won't show in the slides
+cat(readLines("~/group_18_project/R/00_all_libraries.qmd"), sep = "\n")
+```
+
+```{r}
+#| eval: false
+
+#Load the data, which won't show in the slides
+cat(readLines("~/group_18_project/R/01_load.qmd"), sep = "\n")
+```
+
+```{r}
+#load the clean file
+cat(readLines("~/group_18_project/R/02_clean.qmd"), sep = "\n")
+```
+
 ## (Slide 3): Clean
 
-## (Slide 4): Augument
+## (Slide 4): Augment
+
+```{r}
+#load the augment file
+cat(readLines("~/group_18_project/R/04_augment.qmd"), sep = "\n")
+```
 
 ## (Slide 5): Analysis 1
 
