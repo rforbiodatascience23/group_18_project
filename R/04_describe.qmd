@@ -22,6 +22,11 @@ dat_clean1 <- read_tsv(
 dat_clean2 <- read_tsv(
   file = "~/group_18_project/data/02_dat_clean2.tsv",
   show_col_types = FALSE)
+
+dat_clean1.2 <- read_tsv(
+  file = "~/group_18_project/data/03_dat_aug1.tsv",
+  show_col_types = FALSE)
+
 ```
 
 ## Inspect the dat_clean1
@@ -68,3 +73,145 @@ dat_clean2 |>
 ```
 
 The table shows the key statistics of the variables `treatment` and `bladder_cancer`. The most common treatments are EBRT at 34.1% and Brachytherapy at 6.0%. Other treatments include Adjuvant therapy (3.7%), IMRT (14.7%), Unknown treatments (25.2%), and a combination of Neutron/Photon therapies with EBRT or IMRT. The majority of individuals (95.0%) in the dataset do not have bladder cancer, while a smaller proportion (5.0%) has bladder cancer.
+
+## Plot 1
+
+Description: The presented plot illustrates the distribution of patients who experienced radiation-induced Hemorrhagic Cystitis (HC) based on the type of treatment received. Utilizing proportions in this visualization offers a comparative view of how different treatments are distributed relative to the total number of cases with HC incidence. Each bar represents the proportion of patients receiving a specific treatment within the categories of HC incidence, providing valuable insights into the treatment patterns in the context of radiation-induced HC.
+
+```{r}
+plot1 <- 
+  dat_clean2 |> 
+  count(treatment, hc_incidence) |>
+  group_by(treatment) |>
+  mutate(freq = n / sum(n)) |>
+  ggplot(aes(x = treatment, 
+           y = freq,
+           fill = hc_incidence)) +  
+  geom_col(position = position_dodge(
+    preserve = "single"),
+    colour = "black",
+    alpha = 0.5) +
+  geom_hline(yintercept = 0) +
+  labs(x = "Treatment Received",    
+       y = "Proportion",              
+       fill = "Study of Radiation-Induced Hemorrhagic Cystitis"     
+  ) +
+  theme_minimal(base_size = 12) +
+  theme(legend.position = "top",
+        panel.grid.major.x = element_blank(),
+        axis.text.x = element_text(angle = 45,
+                                   hjust = 1,
+                                   vjust = 1.1))
+
+ggsave(filename = "key_plot_1.1.png", 
+      plot = plot1, 
+      path = "~/group_18_project/results",
+      width = 8, 
+      height = 5, 
+      dpi = 300)
+```
+
+## Plot 8
+
+Description: The boxplot is used to visualize the distribution of the normalized values for various variables obtained for patient that developed HC. Each box represents the interquartile range (IQR), with the median depicted as a horizontal line inside the box. The plot provides a concise summary of the central tendency, spread, and potential outliers in the normalized data across different variables.
+
+```{r}
+box_plot_data <- 
+  dat_clean1.2 |>
+  select(age_at_radiation,
+         BMI, 
+         num_comorbidities, 
+         num_days_admitted, 
+         num_hosp_complications, 
+         number_of_admissions_with_urology_consultation, 
+         number_of_cystoscopies, 
+         number_transfusions, radiation_dosage,
+         radiation_duration, 
+         radiation_completion_to_first_hc) |>
+  mutate_all(scale)
+
+# Reshape data into long format
+long_data <- 
+  gather(box_plot_data, 
+                    key = "Variable",
+                    value = "Value")
+
+# Create boxplots with normalized data, customized variable names
+plot8 <- 
+  ggplot(data =long_data, 
+         aes(x = Variable, 
+             y = Value, 
+             fill = Variable)) +
+  geom_boxplot(color = "black",
+               alpha = 0.5) +
+  labs(title = "Box plot visualization of selected variables",
+       x = "Variables", 
+       y = "Normalized Values") +
+  theme_minimal() +
+  theme(axis.text.x = element_blank()) 
+
+print(plot8)
+
+# Save the plot to folder results
+ggsave(filename = "key_plot_1.8.png", 
+      plot = plot8, 
+      path = "~/group_18_project/results",
+      width = 8, 
+      height = 5, 
+      dpi = 300)
+
+```
+
+## Plot 9
+
+Description: the 4 box plots each show the number of patients with HC that had the following variables: Age distribution at radiation treatment for Head and Neck Cancer (HC) patients, BMI distribution of HC patients, Distribution of the number of comorbidities in HC patients and finally the distribution of the number of hospital complications in HC patients.
+
+```{r}
+library(gridExtra)
+library(viridis)
+
+df = dat_clean1.2
+
+# Age Distribution
+plot_age <- 
+  ggplot(df, aes(x = age_at_radiation)) +
+  geom_histogram(binwidth = 5, fill = viridis(10)[1], color = "white", alpha = 0.7) +
+  labs(#title = "Age Distribution of Patients with HC",
+    x = "Age at Radiation") +
+  theme_classic()
+
+# BMI Distribution
+plot_bmi <- 
+  ggplot(df, aes(x = BMI)) +
+  geom_histogram(binwidth = 2, fill = viridis(10)[2], color = "white", alpha = 0.7) +
+  labs(#title = "BMI Distribution of Patients with HC",
+    x = "BMI") +
+  theme_classic()
+
+# Number of Comorbidities Distribution
+plot_comorbidities <- 
+  ggplot(df, aes(x = num_comorbidities)) +
+  geom_histogram(binwidth = 1, fill = viridis(10)[3], color = "white", alpha = 0.7) +
+  labs(#title = "Distribution of Number of Comorbidities among Patients with HC",
+    x = "Number of Comorbidities") +
+  theme_classic()
+
+# Number of Comorbidities Distribution
+plot_hosp_comp <- 
+  ggplot(df, aes(x = num_hosp_complications)) +
+  geom_histogram(binwidth = 1, fill = viridis(10)[4], color = "white", alpha = 0.7) +
+  labs(#title = "Distribution of Number of Comorbidities among Patients with HC",
+    x = "Number of Complications") + 
+  theme_classic()
+
+# Arrange plots in a grid
+grid.arrange(plot_age, plot_bmi, plot_comorbidities, plot_hosp_comp,  ncol = 2)
+
+# Save the plot to folder results
+ggsave(filename = "key_plot_1.9.png", 
+      plot = plot_bmi, 
+      path = "~/group_18_project/results",
+      width = 8, 
+      height = 5, 
+      dpi = 300)
+```
