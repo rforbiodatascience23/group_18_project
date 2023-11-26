@@ -68,3 +68,40 @@ dat_clean2 |>
 ```
 
 The table shows the key statistics of the variables `treatment` and `bladder_cancer`. The most common treatments are EBRT at 34.1% and Brachytherapy at 6.0%. Other treatments include Adjuvant therapy (3.7%), IMRT (14.7%), Unknown treatments (25.2%), and a combination of Neutron/Photon therapies with EBRT or IMRT. The majority of individuals (95.0%) in the dataset do not have bladder cancer, while a smaller proportion (5.0%) has bladder cancer.
+
+## Plot 1
+
+Description: The presented plot illustrates the distribution of patients who experienced radiation-induced Hemorrhagic Cystitis (HC) based on the type of treatment received. Utilizing proportions in this visualization offers a comparative view of how different treatments are distributed relative to the total number of cases with HC incidence. Each bar represents the proportion of patients receiving a specific treatment within the categories of HC incidence, providing valuable insights into the treatment patterns in the context of radiation-induced HC.
+
+```{r}
+plot1 <- 
+  dat_clean2 |> 
+  count(treatment, hc_incidence) |>
+  group_by(treatment) |>
+  mutate(freq = n / sum(n)) |>
+  ggplot(aes(x = treatment, 
+           y = freq,
+           fill = hc_incidence)) +  
+  geom_col(position = position_dodge(
+    preserve = "single"),
+    colour = "black",
+    alpha = 0.5) +
+  geom_hline(yintercept = 0) +
+  labs(x = "Treatment Received",    
+       y = "Proportion",              
+       fill = "Study of Radiation-Induced Hemorrhagic Cystitis"     
+  ) +
+  theme_minimal(base_size = 12) +
+  theme(legend.position = "top",
+        panel.grid.major.x = element_blank(),
+        axis.text.x = element_text(angle = 45,
+                                   hjust = 1,
+                                   vjust = 1.1))
+
+ggsave(filename = "key_plot_1.1.png", 
+      plot = plot1, 
+      path = "~/group_18_project/results",
+      width = 8, 
+      height = 5, 
+      dpi = 300)
+```
