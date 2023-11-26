@@ -247,18 +247,17 @@ km_fit <- survfit(Surv(time, event) ~ 1, data = event_time)
 # Create the survival plot
 plot6 <- ggsurvplot(
   km_fit,
-  main = "Kaplan-Meier Curve of HC-Free Survival P. vs Time",
   xlab = "Time (Months)", 
   ylab = "HC-Free Survival Probability",
+  legend.title = '',
   palette = "blue", 
   lwd = 2,
   conf.int = FALSE, 
   ylim = c(0, 1),
-  legend.title = "",
   legend.labs = "HC-Free Survival",
   legend = "right",
-  theme = theme_minimal(base_size = 12)
-)
+  theme = theme_minimal(base_size = 12)) +
+  ggtitle("Kaplan-Meier curve of HC-Free Survival P. vs Time")
 
 #Print plot
 print(plot6)
