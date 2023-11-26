@@ -47,7 +47,7 @@ dat_load1 <- dat_load1 |>
 # Describe
 
 ::: columns
-::: {.column .img-bgimage. width="50%"}
+::: {.column .img-bg width="50%"}
 ![Description: The presented plot illustrates the distribution of patients who experienced radiation-induced Hemorrhagic Cystitis (HC) based on the type of treatment received. Utilizing proportions in this visualization offers a comparative view of how different treatments are distributed relative to the total number of cases with HC incidence. Each bar represents the proportion of patients receiving a specific treatment within the categories of HC incidence, providing valuable insights into the treatment patterns in the context of radiation-induced HC.](images/key_plot_1.1-01.png)
 :::
 
@@ -71,8 +71,6 @@ dat_load1 <- dat_load1 |>
 ![This plot shows the Analysis of Radiation Dose Percentages in correlation to the different radiation types. According to literature, a standardized threshold has been added distinguishing Low, Medium, and High Levels across various radiation types. From the plot below, we can observe that high radiation dosages are only used in ebrt,adjuvant and imrt. Also, the two most used radiation therapies are ebrt medium dose and imrt medium dose.](images/key_plot_1.3-01.png)
 :::
 
-![](images/key_plot_1.9-01.png){width="400"}
-=======
 ::: {.column .img-bg width="50%"}
 ![Description: This boxplot compares the average time passed since the completion of radiation treatment and the first incident of HC. For this the mean of the time passed since the completion of radiation treatment and first incident of HC is calculated and presented on the y-axis while on the x-axis the different types of radiation is shown. This could give an insight of the impact of the radiation type on the occurrence of HC in the patients.](images/key_plot_1.4-02.png)
 :::
@@ -88,9 +86,6 @@ dat_load1 <- dat_load1 |>
 ::: {.column .img-bg width="50%"}
 ![Description: The boxplot shows the amount of patients with HC and the hospital complications they experienced, while on the y-axis the number of hospital compilations are presented. Only the patients with more than 1 compilation are shown.](images/key_plot_1.11.png)
 
-
-![](images/key_plot_1.8-01.png){width="400"}
-=======
 *Description of the right image.*
 :::
 :::
@@ -103,7 +98,7 @@ dat_load1 <- dat_load1 |>
 ::: {.column .img-bg width="50%"}
 ![Principal Component Analysis By doing a Principal Component Analysis in the data set we will reduce its dimmensionality and figure out if patients cancer organ have similar values in quantitative variables Grading system, Radiation dosage, Duration of radiation, Number of comorbidities.](images/key_plot_2.1.png){width="80%"}
 
-Data points aren't grouped by cancer organ. 
+Data points aren't grouped by cancer organ. 
 
 Why do we get this spared data points?
 
