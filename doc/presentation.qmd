@@ -25,6 +25,8 @@ format: revealjs
 
 #Load the libraries, which won't show in the slides
 cat(readLines("~/group_18_project/R/00_all_libraries.qmd"), sep = "\n")
+
+#need to use source in stead of cat here to run it
 ```
 
 ```{r}
@@ -32,9 +34,13 @@ cat(readLines("~/group_18_project/R/00_all_libraries.qmd"), sep = "\n")
 
 #Load the data, which won't show in the slides
 cat(readLines("~/group_18_project/R/01_load.qmd"), sep = "\n")
+
+#need to use source in stead of cat here to run it
 ```
 
 ```{r}
+
+#same here, first source and then cat to show the file
 #load the clean file
 cat(readLines("~/group_18_project/R/02_clean.qmd"), sep = "\n")
 ```
