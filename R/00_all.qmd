@@ -14,11 +14,11 @@ editor: visual
 
 ```{r}
 #Load
-rmarkdown::render(input = '01_load_data.qmd',
+rmarkdown::render(input = '01_load.qmd',
 
                   output_dir = '../results')
 #clean
-rmarkdown::render(input = '02_clean_data.qmd',
+rmarkdown::render(input = '02_clean.qmd',
 
                   output_dir = '../results')
 #Describe
