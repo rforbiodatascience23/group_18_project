@@ -7,12 +7,13 @@ editor: visual
 #Run all scripts
 
 ```{r}
+#Run all scripts
+
 #| message: false
 
 #| results: hide
-```
 
-```{r}
+
 #Load
 rmarkdown::render(input = '01_load.qmd',
 
