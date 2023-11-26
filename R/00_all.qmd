@@ -6,34 +6,36 @@ editor: visual
 
 #Run all scripts
 
-Load
-
 ```{r}
+#| message: false
 
+#| results: hide
 ```
 
-Clean
-
 ```{r}
+#Load
+rmarkdown::render(input = '01_load_data.qmd',
 
-```
+                  output_dir = '../results')
+#clean
+rmarkdown::render(input = '02_clean_data.qmd',
 
-Describe
+                  output_dir = '../results')
+#Describe
+rmarkdown::render(input = '03_describe.qmd',
 
-Augment
+                  output_dir = '../results')
+#Augment
+rmarkdown::render(input = '04_augment.qmd',
 
-```{r}
+                  output_dir = '../results')
+#Analysis_1
+rmarkdown::render(input = '05_analysis_1.qmd',
 
-```
+                  output_dir = '../results')
+#Analysis_2
+rmarkdown::render(input = '06_analysis_2.qmd',
 
-Analysis 1
-
-```{r}
-
-```
-
-Analysis 2
-
-```{r}
+                  output_dir = '../results')
 
 ```
