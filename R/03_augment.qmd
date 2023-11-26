@@ -59,15 +59,8 @@ dat_clean1 <- dat_clean1 |>
 To determine the total number of days admitted, the functions `sapply` and the `strsplit`were used. With these functions, the total length of the stay for each admission (los_for_each_admission) was summed and put in a new column called: 'num_days_admitted'.
 
 ```{r}
-# Function to sum values in a string
-sum_values <- function(string) {
-  if (string != "") {
-    values <- as.numeric(unlist(strsplit(string, ",")))
-    return(sum(values))
-  } else {
-    return(0)
-  }
-}
+# Source script with the function to sum values
+source("99_proj_func.R")
 
 dat_clean1 <- dat_clean1 |>       
   mutate(los_for_each_admission = ifelse(is.na(los_for_each_admission), 0,        
