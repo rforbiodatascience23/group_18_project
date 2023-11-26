@@ -1,0 +1,128 @@
+---
+title: "04_augment.qmd"
+format: html
+editor: visual
+---
+
+# Augment
+
+## Load .tsv files from data folder
+
+```{r}
+dat_clean1 <- read_tsv(
+  file = "~/group_18_project/data/02_dat_clean1.tsv",
+  show_col_types = FALSE)
+
+# Only if we augment dat_clean2
+#dat_clean2 <- read_tsv(
+  #file = "~/group_18_project/data/02_dat_clean2.tsv",
+  #show_col_types = FALSE)
+```
+
+### Create new variables and remove variables that won't be used further
+
+#### Data Wrangling I: BMI
+
+To calculate the Body Mass Index (BMI) from the height and weight measurements, the following formula was used: BMI = weight (kg) / (height (m))\^2. The `mutate` function from `dplyr` added a new column, 'BMI,' in data.
+
+```{r}
+dat_clean1 <- dat_clean1 |>     
+  mutate(height_m = height_cm/100,     
+         BMI = weight_kg/(height_m*2)) |>          
+  relocate(BMI, .after = age_at_radiation) 
+```
+
+#### Data Wrangling II: num_comorbidities
+
+For counting the number of comorbidities, the `ifelse` function, along with `str_count` from `stringr`, was used to process and quantify these variables. `mutate` was used again to create a new column named: 'num_comorbidities'. In cases where the data appeared as 'NA,' we assigned a value of 0 to 'num_comorbidities'.
+
+```{r}
+dat_clean1 <- dat_clean1 |>     
+  mutate(num_comorbidities = ifelse(is.na(comorbidities), 0,                      
+                                    str_count(comorbidities, pattern = ",") + 1)) |>
+  relocate(num_comorbidities, .after = comorbidities) 
+```
+
+#### Data Wrangling III: num_hosp_complications
+
+The same functions for counting the number of comorbidities were used to compute the sum of hospitalization complications. A new column called: 'num_hosp_complications' with the number of hospital complications was added to the data.
+
+```{r}
+dat_clean1 <- dat_clean1 |>   
+  mutate(num_hosp_complications = ifelse(is.na(hospitalization_complications), 0,     
+                                         str_count(hospitalization_complications, pattern = ",") + 1)) |>        
+  relocate(num_hosp_complications, .after = hospitalization_complications) 
+```
+
+#### Data Wrangling IV: num_days_admited
+
+To determine the total number of days admitted, the functions `sapply` and the `strsplit`were used. With these functions, the total length of the stay for each admission (los_for_each_admission) was summed and put in a new column called: 'num_days_admitted'.
+
+```{r}
+# Function to sum values in a string
+sum_values <- function(string) {
+  if (string != "") {
+    values <- as.numeric(unlist(strsplit(string, ",")))
+    return(sum(values))
+  } else {
+    return(0)
+  }
+}
+
+dat_clean1 <- dat_clean1 |>       
+  mutate(los_for_each_admission = ifelse(is.na(los_for_each_admission), 0,        
+                                         los_for_each_admission),     
+         num_days_admitted = sapply(los_for_each_admission, sum_values)) |>     
+  relocate(num_days_admitted, .after = los_for_each_admission) 
+```
+
+#### Data Wrangling V: cancer_type
+
+To ensure that the data in the clinical_cancer column was classified correctly, the functions `grepl` and `case_when` were used to categorize the data based on keywords in the column. This created 2 new columns called cancer_type and cancer_stage.
+
+```{r}
+
+dat_clean1 <- dat_clean1 |>
+  mutate(
+    cancer_type = case_when(
+      grepl("prostate", tolower(clinical_cancer)) & grepl("bladder", tolower(clinical_cancer)) ~ "both",
+      grepl("prostate", tolower(clinical_cancer)) ~ "prostate",
+      grepl("bladder", tolower(clinical_cancer)) ~ "bladder",
+      TRUE ~ NA_character_),
+    cancer_stage = str_extract(clinical_cancer, "(?i)T\\d++[a-z]|Gleason \\d+")) |>
+  select(-clinical_cancer)
+  
+dat_clean1 <- dat_clean1 |>  
+  relocate(c(cancer_type,cancer_stage), .before=hematuria_grade)
+```
+
+#### Remove data variables that will not be used further and correct variable placing
+
+```{r}
+dat_clean1 <- dat_clean1 |>   
+  select(
+    -height_m,      
+    -height_cm,    
+    -weight_kg,      
+    -los_for_each_admission)  
+
+dat_clean1 <- dat_clean1 |> relocate(radiation_completion_to_first_hc, .after = radiation_duration) 
+```
+
+### Save the augmented data as 03_dat_aug.tsv in data folder
+
+```{r}
+
+write.table(x = dat_clean1,
+            file = "~/group_18_project/data/03_dat_aug1.tsv", 
+            sep = "\t", 
+            quote = TRUE,
+            row.names = FALSE)
+
+# Only if we add something to dat_clean2
+#write.table(x = dat_clean2,
+            #file = "~/group_18_project/data/03_dat_aug2.tsv", 
+            #sep = "\t", 
+            #quote = TRUE,
+            #row.names = FALSE)
+```
