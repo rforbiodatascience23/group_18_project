@@ -1,15 +1,19 @@
 ---
-title: "Project_Group18"
-author: "group 18"
+title: "Group 18 Project"
+title-slide-attributes:
+    data-background-image: images/cover.png
+    data-background-size: cover
+    data-background-opacity: "0.3"
+author: "s213049 - Catia B.<br/>s222373 - Nova F.<br/>s222800 - Laia D.<br/>s222854 - Minke O.<br/>s230204 - Eirini G."
 format: 
   revealjs:
-    theme: "serif"
+    theme: [moon, custom.css]
     transition: "slide"
     center: true
-    footer: "Group_18"
+    footer: "Group 18 Project: R for Bio Data Science"
 ---
 
-## Introduction
+# Introduction
 
 -   Prostate cancer is a major global health concern.
 -   Radiation therapy, a common treatment, can lead to complications like hemorrhagic cystitis (HC).
@@ -17,17 +21,42 @@ format:
 -   Our 15-year study with 709 patients examines the impact of different radiotherapy types on HC development.
 -   We'll explore data processes, analyses, and insights gleaned from this extensive study.
 
-## Data
+# Data
 
 Our study involved extensive data preparation, including cleaning and augmenting our dataset. Here's a glimpse into our process:
 
-## Clean
+# Clean
 
-## Augment
+## 
 
-## Describe
+::: columns
+::: {.column width="50%"}
+The janitor package was used to enhance the quality of the dataset by making sure that the variable names would be clean and consistent. Primarily, the clean_names() function was used to simplify and standardize the column names, which would help later on in cleaning the dataset.
+:::
 
-## Analysis 1: Patient Distribution and Key Variables
+::: {.column width="50%"}
+``` r
+dat_load1 <- dat_load1 |> 
+  clean_names()
+```
+:::
+:::
+
+# Augment
+
+# Describe
+
+::: columns
+::: {.column .img-bg width="50%"}
+![Description: The presented plot illustrates the distribution of patients who experienced radiation-induced Hemorrhagic Cystitis (HC) based on the type of treatment received. Utilizing proportions in this visualization offers a comparative view of how different treatments are distributed relative to the total number of cases with HC incidence. Each bar represents the proportion of patients receiving a specific treatment within the categories of HC incidence, providing valuable insights into the treatment patterns in the context of radiation-induced HC.](images/key_plot_1.1-01.png)
+:::
+
+::: {.column .img-bg width="50%"}
+![Description: the 4 box plots each show the number of patients with HC that had the following variables: Age distribution at radiation treatment for Head and Neck Cancer (HC) patients, BMI distribution of HC patients, Distribution of the number of comorbidities in HC patients and finally the distribution of the number of hospital complications in HC patients.](images/key_plot_1.8-02.png)
+:::
+:::
+
+# Analysis 1
 
 -   We analyzed two datasets (*`analysis_1.1`* and *`analysis_1.2`*).
 
@@ -35,46 +64,70 @@ Our study involved extensive data preparation, including cleaning and augmenting
 
 -   We also explored survival probabilities and key variable distributions among patients who developed HC.
 
-## Analysis 1: Key findings
+## Key findings 1
 
 ::: columns
-::: {.column width="50%"}
-Left column
+::: {.column .img-bg width="50%"}
+![This plot shows the Analysis of Radiation Dose Percentages in correlation to the different radiation types. According to literature, a standardized threshold has been added distinguishing Low, Medium, and High Levels across various radiation types. From the plot below, we can observe that high radiation dosages are only used in ebrt,adjuvant and imrt. Also, the two most used radiation therapies are ebrt medium dose and imrt medium dose.](images/key_plot_1.3-01.png)
+:::
 
+<<<<<<< HEAD
 ![](images/key_plot_1.9-01.png){width="400"}
+=======
+::: {.column .img-bg width="50%"}
+![Description: This boxplot compares the average time passed since the completion of radiation treatment and the first incident of HC. For this the mean of the time passed since the completion of radiation treatment and first incident of HC is calculated and presented on the y-axis while on the x-axis the different types of radiation is shown. This could give an insight of the impact of the radiation type on the occurrence of HC in the patients.](images/key_plot_1.4-02.png)
+:::
+>>>>>>> 937235a8ebdd27ae439640419395c46fdfd25bc4
 :::
 
-::: {.column width="50%"}
-Right column
-
-![](images/key_plot_1.8-01.png){width="400"}
-:::
-:::
-
-## Analysis 2:
-
-## Analysis 2: Key findings
+## Key findings 2
 
 ::: columns
-::: {.column width="50%"}
-Left column
-
-![](images/key_plot_2.1.png){width="290px"}
+::: {.column .img-bg width="50%"}
+![Description: This plot illustrates the relationship between radiation dosage and duration across different types of cancer. Each cancer type is represented in a separate subplot for easy comparison, and the points are color-coded by radiation type. This visualization effectively displays complex data in a clear and comparative manner, ideal for in-depth analysis.](images/key_plot_1.10.png)
 :::
 
-::: {.column width="50%"}
-Right column
+::: {.column .img-bg width="50%"}
+![Description: The boxplot shows the amount of patients with HC and the hospital complications they experienced, while on the y-axis the number of hospital compilations are presented. Only the patients with more than 1 compilation are shown.](images/key_plot_1.11.png)
 
-![](images/key_plot_2.3.png){width="290px"}
+<<<<<<< HEAD
+![](images/key_plot_1.8-01.png){width="400"}
+=======
+*Description of the right image.*
+>>>>>>> 937235a8ebdd27ae439640419395c46fdfd25bc4
 :::
 :::
 
-## Discussion
+# Analysis 2
+
+## Key findings
+
+::: columns
+::: {.column .img-bg width="50%"}
+![Principal Component Analysis By doing a Principal Component Analysis in the data set we will reduce its dimmensionality and figure out if patients cancer organ have similar values in quantitative variables Grading system, Radiation dosage, Duration of radiation, Number of comorbidities.](images/key_plot_2.1.png){width="80%"}
+
+Data points aren't grouped by cancer organ. 
+
+Why do we get this spared data points?
+
+-\> Outliers
+
+-\> Small sample size
+
+-\> Low % explained variance
+:::
+
+::: {.column .img-bg width="50%"}
+![Description: scatterplot with a linear regression line, using the ggplot2 package. The plot visualizes the relationship between the variables age_at_radiation and num_comorbidities with respect to the number of days admitted to the hospital (num_days_admitted). The plot helps visualize the relationship between age, number of comorbidities, and the predicted number of days admitted. Points that deviate from the regression line may indicate observations with higher or lower than expected days admitted, providing insights into potential patterns or outliers in the data.](images/key_plot_2.4.png)
+:::
+:::
+
+# Discussion
 
 -   Our study unveils potential underreporting in HC cases, despite advancements in radiation therapy.
 -   Limitations include its retrospective nature and focus on the Detroit region.
 -   These findings provide valuable insights, informing future medical practices and research.
 
-## Conclusion
+# Conclusion
 
 Thank you for attending our presentation. We hope our study's insights contribute to better understanding and management of HC in prostate cancer treatment. Any questions or discussions are welcome.
