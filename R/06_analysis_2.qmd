@@ -39,6 +39,7 @@ analysis_2 <- analysis_2 |>
 pca_fit <- analysis_2 |> 
   select(all_of(selected_vars)) |> 
   prcomp(scale = TRUE)  # Perform PCA on scaled data
+
 ```
 
 Now, we plot the data in PC coordinates. In this step, we combine the PC coordinates with the original dataset and we color points by its cancer organ. To do this we use the augment() function from broom, which takes as arguments the fitted model and the original data. The columns containing the fitted coordinates are called *'.fittedPC1'*, and *'.fittedPC2'.*
@@ -56,10 +57,9 @@ pca_biplot<- pca_fit |>
   ylab("PC2") +
   ggtitle("PCA of patients with cancer and HC") +
   scale_color_manual(
-    values = c('prostate' = "#D55E00", 'both' = "#9900b2", 'bladder' = "#0066FF"),
-    breaks = c('prostate', 'both', 'bladder'),  
-    labels = c('Prostate', 'Prostate and Bladder', 'Bladder')
-  ) +
+    values = c('prostate' = "#D55E00", 'bladder' = "#9900b2", 'both' = "#0066FF"),
+    breaks = c('prostate', 'bladder', 'both'),  
+    labels = c('Prostate', 'Bladder', 'Prostate and bladder')) +
   theme_half_open(12) + background_grid() + 
   theme(
    plot.title = element_text(hjust = 0))
