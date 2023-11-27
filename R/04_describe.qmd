@@ -41,7 +41,7 @@ dat_clean2 |>
 
 The table shows the key statistics of the variables `treatment` and `bladder_cancer`. The most common treatments are EBRT at 34.1% and Brachytherapy at 6.0%. Other treatments include Adjuvant therapy (3.7%), IMRT (14.7%), Unknown treatments (25.2%), and a combination of Neutron/Photon therapies with EBRT or IMRT. The majority of individuals (95.0%) in the dataset do not have bladder cancer, while a smaller proportion (5.0%) has bladder cancer.
 
-#### Plot 1
+#### Key plot 1
 
 The presented plot illustrates the distribution of patients who experienced radiation-induced Hemorrhagic Cystitis (HC) based on the type of treatment received. Utilizing proportions in this visualization offers a comparative view of how different treatments are distributed relative to the total number of cases with HC incidence in the `dat_clean2` dataset. Each bar represents the proportion of patients receiving a specific treatment within the categories of HC incidence, providing valuable insights into the treatment patterns in the context of radiation-induced HC.
 
@@ -70,7 +70,7 @@ plot1 <-
                                    hjust = 1,
                                    vjust = 1.1))
 
-ggsave(filename = "key_plot_1.1.png", 
+ggsave(filename = "key_plot_1.png", 
       plot = plot1, 
       path = "~/group_18_project/results",
       width = 8, 
@@ -129,7 +129,9 @@ dat_aug1 |>
 
 The table shows the key statistics of the variables `age_at_radiation`, `ethnicity` and `radiation_type`. The dataset includes patients with a mean age at radiation of 68.7 years, a median age of 68.5 years, which ranges from 48 to 89 years. The ethnicity information is available for 90% of patients, with the majority being African American (92.5%) while Caucasians make up 7.5% of the dataset. The most common type of radiation is EBRT at 55% and different combinations of radiation types are also present, with varying frequencies.
 
-### Plot 8
+### 
+
+#### Key plot 2
 
 The boxplot is used to visualize the distribution of the normalized values for various variables obtained for patient that developed HC. Each box represents the interquartile range (IQR), with the median depicted as a horizontal line inside the box. The plot provides a concise summary of the central tendency, spread, and potential outliers in the normalized data across different variables.
 
@@ -171,7 +173,7 @@ plot8 <-
 print(plot8)
 
 # Save the plot to folder results
-ggsave(filename = "key_plot_1.8.png", 
+ggsave(filename = "key_plot_2.png", 
       plot = plot8, 
       path = "~/group_18_project/results",
       width = 8, 
@@ -182,7 +184,7 @@ ggsave(filename = "key_plot_1.8.png",
 
 Shortly describe what the plot shows
 
-### Plot 9
+#### Key plot 3
 
 The 4 box plots each show the number of patients with HC that had the following variables: Age distribution at radiation treatment for Head and Neck Cancer (HC) patients, BMI distribution of HC patients, Distribution of the number of comorbidities in HC patients and finally the distribution of the number of hospital complications in HC patients.
 
@@ -225,7 +227,7 @@ plot_hosp_comp <-
 grid.arrange(plot_age, plot_bmi, plot_comorbidities, plot_hosp_comp,  ncol = 2)
 
 # Save the plot to folder results
-ggsave(filename = "key_plot_1.9.png", 
+ggsave(filename = "key_plot_3.png", 
       plot = plot_bmi, 
       path = "~/group_18_project/results",
       width = 8, 

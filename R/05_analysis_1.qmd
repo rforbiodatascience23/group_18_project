@@ -19,7 +19,7 @@ analysis_1.2  <- read_tsv(
   show_col_types = FALSE)
 ```
 
-## Plot 1
+## Key plot 4
 
 Linear Regression Analysis of Body Mass Index (BMI) in relation to radiation dose.
 
@@ -59,7 +59,7 @@ summary(model)
 print(plot1)
 
 # Save plot to folder called "results"
-ggsave(filename = "key_plot_1.1.png", 
+ggsave(filename = "key_plot_4.png", 
       plot = plot1, 
       path = "~/group_18_project/results",
       width = 8, 
@@ -68,7 +68,9 @@ ggsave(filename = "key_plot_1.1.png",
 
 ```
 
-## Plot 2
+## 
+
+## Key plot 5
 
 This plot shows the Distribution of Radiation Doses across different radiation types. According to literature \[1\], a standardized threshold has been added distinguishing Low, Medium, and High Levels across various radiation types.
 
@@ -125,7 +127,7 @@ print(plot2)
 
 
 # Save plot to the "results" folder
-ggsave(filename = "key_plot_1.2.png", 
+ggsave(filename = "key_plot_5.png", 
       plot = plot2, 
       path = "~/group_18_project/results",
       width = 8, 
@@ -133,7 +135,7 @@ ggsave(filename = "key_plot_1.2.png",
       dpi = 300)
 ```
 
-## Plot 3
+## Key plot 6
 
 Description: This boxplot compares the average time passed since the completion of radiation treatment and the first incident of HC. For this the mean of the time passed since the completion of radiation treatment and first incident of HC is calculated and presented on the y-axis while on the x-axis the different types of radiation is shown. This could give an insight of the impact of the radiation type on the occurrence of HC in the patients.
 
@@ -173,7 +175,7 @@ plot3 <-
 print(plot3)
 
 # Save plot to the "results" folder
-ggsave(filename = "key_plot_1.3.png", 
+ggsave(filename = "key_plot_6.png", 
       plot = plot3, 
       path = "~/group_18_project/results",
       width = 8, 
@@ -182,7 +184,7 @@ ggsave(filename = "key_plot_1.3.png",
 
 ```
 
-## Plot 4
+## Key plot 7
 
 Relationship Between Body Mass Index (BMI) and time from radiation completion to first incidence of Hemorrhagic Cystitis.
 
@@ -208,7 +210,7 @@ plot4 <-
 print(plot4)
 
 # Save plot to folder called "results"
-ggsave(filename = "key_plot_1.4.png", 
+ggsave(filename = "key_plot_7.png", 
       plot = plot4, 
       path = "~/group_18_project/results",
       width = 8, 
@@ -218,7 +220,7 @@ ggsave(filename = "key_plot_1.4.png",
 
 ```
 
-## Plot 5
+## Key plot 8
 
 Kaplan Meier curve showing the probability of HC-free survival over time (n=562 months).
 
@@ -257,7 +259,7 @@ print(plot5)
 
 # Save the plot to folder results
 ggsave(
-  filename = "key_plot_1.5.png", 
+  filename = "key_plot_8.png", 
   plot = ggplot2::last_plot(),  
   path = "~/group_18_project/results",
   width = 8, 
@@ -266,7 +268,7 @@ ggsave(
 )
 ```
 
-## Plot 6
+## Key plot 9
 
 Description: This plot illustrates the relationship between radiation dosage and duration across different types of cancer. Each cancer type is represented in a separate subplot for easy comparison, and the points are color-coded by radiation type. This visualization effectively displays complex data in a clear and comparative manner, ideal for in-depth analysis.
 
@@ -286,7 +288,7 @@ plot6 <- ggplot(data = analysis_1.1,
 print(plot6)
 
 # Save the plot to folder results
-ggsave(filename = "key_plot_1.6.png", 
+ggsave(filename = "key_plot_9.png", 
       plot = plot6, 
       path = "~/group_18_project/results",
       width = 8, 
@@ -296,7 +298,7 @@ ggsave(filename = "key_plot_1.6.png",
 
 ```
 
-## Plot 7
+## Key plot 10
 
 Description: The boxplot shows the amount of patients with HC and the different types of comorbidities that occured, while on the y-axis the amount of those comorbidities are shown. Only the cases with more than 1 comorbidity were taken into account
 
@@ -325,7 +327,7 @@ plot7 <- ggplot(df_filtered, aes(x = comorbidities, fill = comorbidities)) +
   scale_fill_viridis_d()  
 
 # Save the plot to folder results
-ggsave(filename = "key_plot_1.7.png", 
+ggsave(filename = "key_plot_10.png", 
       plot = plot7, 
       path = "~/group_18_project/results",
       width = 8, 
@@ -333,7 +335,7 @@ ggsave(filename = "key_plot_1.7.png",
       dpi = 300)
 ```
 
-## Plot 8
+## Key plot 11
 
 Description: The boxplot shows the amount of patients with HC and the hospital complications they experienced, while on the y-axis the number of hospital compilations are presented. Only the patients with more than 1 compilation are shown.
 
@@ -376,7 +378,7 @@ plot8 <- ggplot(df_filtered, aes(x = hospitalization_complications_fixed, fill =
   scale_fill_viridis_d()
 
 # Save the plot to folder results
-ggsave(filename = "key_plot_1.8.png", 
+ggsave(filename = "key_plot_11.png", 
       plot = plot8, 
       path = "~/group_18_project/results",
       width = 8, 

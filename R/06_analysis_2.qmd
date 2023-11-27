@@ -6,7 +6,7 @@ editor: visual
 
 # Analysis 2
 
-### Principal Component Analysis
+### Key plot 12: Principal Component Analysis
 
 By doing a Principal Component Analysis in the data set we will reduce its dimmensionality and figure out if patients cancer organ have similar values in quantitative variables *Grading system, Radiation dosage, Duration of radiation, Number of comorbidities.*
 
@@ -66,7 +66,7 @@ pca_biplot<- pca_fit |>
 
 # Save the plot in Results directory
 ggsave(
-  filename = 'key_plot_2.1.png',
+  filename = 'key_plot_12.png',
   plot = pca_biplot,
   path = "~/group_18_project/results"
 )
@@ -114,7 +114,7 @@ pca_fit |>
   theme_minimal_grid(12)
 ```
 
-## Plot 2.2
+## Key plot 13: Explained variance
 
 Lastly we will plot the explained variance of each principal component to asses the significance of the PCA obtained before.
 
@@ -143,13 +143,13 @@ scree_plot <- eigenvalues_df |>
 
 # Save the plot in Results directory
 ggsave(
-  filename = 'key_plot_2.2.png',
+  filename = 'key_plot_13.png',
   plot = scree_plot,
   path = "~/group_18_project/results"
 )
 ```
 
-### Plot 2.3 Correlation Analysis
+### Key plot 14:  Correlation Analysis
 
 Description: The plot depicts the correlation between chosen pairs of variables (above a selected threshold), allowing a simple understanding of their relationships. The intensity of the colour indicates the strength and direction of the correlation.
 
@@ -198,14 +198,14 @@ correlation_plot <-
         axis.text.y = element_text(angle = 45, hjust = 1))
 
 print(correlation_plot)
-ggsave(filename = "key_plot_2.3.png", 
+ggsave(filename = "key_plot_14.png", 
        plot = correlation_plot,
        path = "~/group_18_project/results", 
        width = 8, height = 6,
        dpi = 300)
 ```
 
-### Plot 2.4 Model
+### Key plot 15:  Model
 
 Description: scatterplot with a linear regression line, using the **`ggplot2`** package. The plot visualizes the relationship between the variables **`age_at_radiation`** and **`num_comorbidities`** with respect to the number of days admitted to the hospital (**`num_days_admitted`**). The plot helps visualize the relationship between age, number of comorbidities, and the predicted number of days admitted. Points that deviate from the regression line may indicate observations with higher or lower than expected days admitted, providing insights into potential patterns or outliers in the data.
 
@@ -237,7 +237,7 @@ ggplot(df, aes(x = age_at_radiation, y = num_comorbidities, color = predicted_da
 
 print(model_plot_days_admitted)
 
-ggsave(filename = "key_plot_2.4.png", 
+ggsave(filename = "key_plot_15.png", 
        plot = model_plot_days_admitted,
        path = "~/group_18_project/results", 
        width = 8, height = 6,
