@@ -31,9 +31,7 @@ Our study involved extensive data preparation, including cleaning and augmenting
 
 ::: columns
 ::: {.column width="50%"}
-::: space-below
-#### `janitor` `dplyr` `stringr` `lubridate`
-:::
+#### `janitor` `dplyr` `stringr` `lubridate` {.space-below}
 
 `clean_names()`: to simplify and standardizes variable names
 
@@ -74,13 +72,12 @@ dat_load1 <- dat_load1 |>
 :::
 :::
 
-## Libraries and functions for `dat_load2` and `dat_load3`
+## Libraries and functions for dat_load2 and dat_load3
 
 ::: columns
 ::: {.column width="50%"}
-::: space-below
-### libraries
-:::
+
+### libraries {.space-below}
 
 `select()`
 
