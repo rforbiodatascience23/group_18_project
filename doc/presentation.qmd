@@ -188,11 +188,11 @@ Libraries: `ggplot2`, `table1`
 
 -   Libraries: `ggplot`, `base`
 
-## Key findings 1
+## Analysis 1 - Results  
 
 ::: columns
 ::: {.column .img-bg width="50%"}
-![Figure 3: Analysis of Radiation Dose Percentages in correlation to the different radiation types. According to literature, a standardized threshold has been added distinguishing Low, Medium, and High Levels across various radiation types.](images/key_plot_5.png)
+![Figure 3: Distribution of Radiation Doses across different radiation types. According to literature, a standardized threshold has been added distinguishing Low, Medium, and High Levels across various radiation types.](images/key_plot_5.png)
 :::
 
 ::: {.column .img-bg width="50%"}
@@ -200,7 +200,7 @@ Libraries: `ggplot2`, `table1`
 :::
 :::
 
-## Key findings 2
+## Analysis 1 - Results  
 
 ::: columns
 ::: {.column .img-bg width="50%"}
@@ -217,7 +217,7 @@ Libraries: `ggplot2`, `table1`
 -   Visualized PCA outcomes through a biplot, categorizing data by cancer type to identify patterns across different cancers.
 -   Developed a linear regression model examining the relationship between age at radiation, comorbidity count, and hospitalization duration.
 
-## Key findings
+## Analysis 2 - Results
 
 ::: columns
 ::: {.column .img-bg width="50%"}
