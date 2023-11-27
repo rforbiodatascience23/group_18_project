@@ -28,7 +28,7 @@ From the plot below, we can observe that the higher the BMI, the higher the radi
 ```{r}
 
 # Create the plot
-plot1 <- 
+plot4 <- 
   analysis_1.1 |> 
   na.omit(analysis_1.1) |> 
   ggplot(aes(x = radiation_dosage,
@@ -56,11 +56,11 @@ summary(model)
 
 
 #Print plot
-print(plot1)
+print(plot4)
 
 # Save plot to folder called "results"
 ggsave(filename = "key_plot_4.png", 
-      plot = plot1, 
+      plot = plot4, 
       path = "~/group_18_project/results",
       width = 8, 
       height = 5, 
@@ -99,7 +99,7 @@ result_3 <-
   ungroup()
 
 # Create a grouped plot with viridis color scheme
-plot2 <- result_3 |> 
+plot5 <- result_3 |> 
   ggplot(aes(x = radiation_type, 
              y = Proportion, 
              fill = dose_category)) +
@@ -123,12 +123,12 @@ plot2 <- result_3 |>
         )
 
 # Print the plot
-print(plot2)
+print(plot5)
 
 
 # Save plot to the "results" folder
 ggsave(filename = "key_plot_5.png", 
-      plot = plot2, 
+      plot = plot5, 
       path = "~/group_18_project/results",
       width = 8, 
       height = 5, 
@@ -141,7 +141,7 @@ Description: This boxplot compares the average time passed since the completion 
 
 ```{r}
 # Select relevant columns and filter out rows with missing values
-plot4_data <- 
+plot6_data <- 
   analysis_1.1 |>
   select(radiation_type, radiation_completion_to_first_hc) |>
   mutate(TimePassed = as.numeric(radiation_completion_to_first_hc)) |>
@@ -149,8 +149,8 @@ plot4_data <-
   filter(!is.na(radiation_type)) 
 
 # Group the data by radiation type and calculate mean time passed
-result_4 <- 
-  plot4_data |>
+result_6 <- 
+  plot6_data |>
   group_by(radiation_type) |>
   summarize(
     AvgTimePassed = mean(TimePassed),
@@ -158,8 +158,8 @@ result_4 <-
     TotalObservations = n())
 
 # Create a bar plot comparing average time since radiation for different type
-plot3 <- 
-  ggplot(data = result_4, 
+plot6 <- 
+  ggplot(data = result_6, 
          aes(x = radiation_type,
              y = AvgTimePassed, 
              fill = radiation_type)) +
@@ -172,11 +172,11 @@ plot3 <-
   theme(axis.text.x = element_blank())
 
 # Print the plot
-print(plot3)
+print(plot6)
 
 # Save plot to the "results" folder
 ggsave(filename = "key_plot_6.png", 
-      plot = plot3, 
+      plot = plot6, 
       path = "~/group_18_project/results",
       width = 8, 
       height = 5, 
@@ -192,7 +192,7 @@ From the plot below, we can observe that all Caucasian people developed Hemorrha
 
 ```{r}
 #Create a scatter plot
-plot4 <- 
+plot7 <- 
   ggplot(data = analysis_1.1,
          aes(x = radiation_completion_to_first_hc, 
              y = BMI , 
@@ -207,11 +207,11 @@ plot4 <-
   
 
 #Print plot
-print(plot4)
+print(plot7)
 
 # Save plot to folder called "results"
 ggsave(filename = "key_plot_7.png", 
-      plot = plot4, 
+      plot = plot7, 
       path = "~/group_18_project/results",
       width = 8, 
       height = 5, 
@@ -239,7 +239,7 @@ event_time <-
 km_fit <- survfit(Surv(time, event) ~ 1, data = event_time)
 
 # Create the survival plot
-plot5 <- ggsurvplot(
+plot8 <- ggsurvplot(
   km_fit,
   xlab = "Time (Months)", 
   ylab = "HC-Free Survival Probability",
@@ -254,7 +254,7 @@ plot5 <- ggsurvplot(
   ggtitle("Kaplan-Meier curve of HC-Free Survival P. vs Time")
 
 #Print plot
-print(plot5)
+print(plot8)
 
 
 # Save the plot to folder results
@@ -274,7 +274,7 @@ Description: This plot illustrates the relationship between radiation dosage and
 
 ```{r}
 # Faceted Scatter Plot
-plot6 <- ggplot(data = analysis_1.1, 
+plot9 <- ggplot(data = analysis_1.1, 
          aes(x = radiation_dosage, 
              y = radiation_duration, 
              color = radiation_type)) +
@@ -285,11 +285,11 @@ plot6 <- ggplot(data = analysis_1.1,
        y = "Radiation Duration")
 
 # Display the faceted scatter plot
-print(plot6)
+print(plot9)
 
 # Save the plot to folder results
 ggsave(filename = "key_plot_9.png", 
-      plot = plot6, 
+      plot = plot9, 
       path = "~/group_18_project/results",
       width = 8, 
       height = 5, 
@@ -316,7 +316,7 @@ df_filtered <- df_comorbidities |>
   ungroup()
 
 # Create a bar plot for the count of complications, colored by type of complication
-plot7 <- ggplot(df_filtered, aes(x = comorbidities, fill = comorbidities)) +
+plot10 <- ggplot(df_filtered, aes(x = comorbidities, fill = comorbidities)) +
   geom_bar(stat = "count", position = "dodge", color = "black", alpha = 0.5) +
   labs(title = "Count of Comorbidities (Cases with >1 comorbidity)",
        x = "Comorbidities",
@@ -328,7 +328,7 @@ plot7 <- ggplot(df_filtered, aes(x = comorbidities, fill = comorbidities)) +
 
 # Save the plot to folder results
 ggsave(filename = "key_plot_10.png", 
-      plot = plot7, 
+      plot = plot10, 
       path = "~/group_18_project/results",
       width = 8, 
       height = 5, 
@@ -367,7 +367,7 @@ df_filtered <- df_complications |>
   ungroup()
 
 # Create a bar plot for the count of complications, colored by type of complication
-plot8 <- ggplot(df_filtered, aes(x = hospitalization_complications_fixed, fill = hospitalization_complications_fixed)) +
+plot11 <- ggplot(df_filtered, aes(x = hospitalization_complications_fixed, fill = hospitalization_complications_fixed)) +
   geom_bar(stat = "count", position = "dodge", color = "black", alpha = 0.5) +
   labs(title = "Count of Hospital Complications (Cases with >1 Complication)",
        x = "Hospital Complications",
@@ -379,7 +379,7 @@ plot8 <- ggplot(df_filtered, aes(x = hospitalization_complications_fixed, fill =
 
 # Save the plot to folder results
 ggsave(filename = "key_plot_11.png", 
-      plot = plot8, 
+      plot = plot11, 
       path = "~/group_18_project/results",
       width = 8, 
       height = 5, 

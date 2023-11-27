@@ -157,7 +157,7 @@ long_data <-
                     value = "Value")
 
 # Create boxplots with normalized data, customized variable names
-plot8 <- 
+plot2 <- 
   ggplot(data =long_data, 
          aes(x = Variable, 
              y = Value, 
@@ -170,11 +170,11 @@ plot8 <-
   theme_minimal() +
   theme(axis.text.x = element_blank()) 
 
-print(plot8)
+print(plot2)
 
 # Save the plot to folder results
 ggsave(filename = "key_plot_2.png", 
-      plot = plot8, 
+      plot = plot2, 
       path = "~/group_18_project/results",
       width = 8, 
       height = 5, 
