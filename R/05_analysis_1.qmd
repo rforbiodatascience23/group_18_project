@@ -8,7 +8,7 @@ editor: visual
 
 ## Load clean data from data folder
 
-```{r warning=FALSE}
+```{r}
 
 analysis_1.1 <- read_tsv(
   file = "~/group_18_project/data/03_dat_aug1.tsv",
@@ -25,10 +25,10 @@ Linear Regression Analysis of Body Mass Index (BMI) in relation to radiation dos
 
 From the plot below, we can observe that the higher the BMI, the higher the radiation dose to the patients. However, the quality of the data is not sufficient to confirm these as we had many NAs in the radiation dosage column.
 
-```{r}
+```{r warning = FALSE}
 
 # Create the plot
-plot1 <- 
+plot4 <- 
   analysis_1.1 |> 
   na.omit(analysis_1.1) |> 
   ggplot(aes(x = radiation_dosage,
@@ -56,19 +56,17 @@ summary(model)
 
 
 #Print plot
-print(plot1)
+print(plot4)
 
 # Save plot to folder called "results"
 ggsave(filename = "key_plot_4.png", 
-      plot = plot1, 
+      plot = plot4, 
       path = "~/group_18_project/results",
       width = 8, 
       height = 5, 
       dpi = 300)
 
 ```
-
-## 
 
 ## Key plot 5
 
@@ -78,7 +76,8 @@ From the plot below, we can observe that 15% of patients underwent EBRT medium d
 
 \[1\] Ganswindt, U., Paulsen, F., Anastasiadis, A. G., Stenzl, A., Bamberg, M., & Belka, C. (2005). 70 Gy or more: which dose for which prostate cancer?. Journal of cancer research and clinical oncology, 131(7), 407--419.
 
-```{r}
+```{r message=FALSE}
+ 
 # Define dose categories based on paper
 low_dose_threshold <- 70
 high_dose_threshold <- 85
@@ -99,20 +98,19 @@ result_3 <-
   ungroup()
 
 # Create a grouped plot with viridis color scheme
-plot2 <- result_3 |> 
+plot5 <- result_3 |> 
   ggplot(aes(x = radiation_type, 
              y = Proportion, 
              fill = dose_category)) +
-  geom_col(position = position_dodge(
-    preserve = "single"),
-    colour = "black",
+  geom_bar(stat = "identity",
+    position = position_dodge(preserve = "single"),
+    color = "black",
     alpha = 0.5) + 
   geom_hline(yintercept = 0) +
   labs(title = "Radiation Type and corresponding dosage category",
        #x = "Type of Radiation",
        y = "Proportion",
        fill = "Radiation Dosage Category") +
-  scale_fill_viridis_d() +  # Add viridis color scheme
   theme_minimal(base_size = 12) +
   theme(legend.position = "right",
         panel.grid.major.x = element_blank(),
@@ -123,12 +121,12 @@ plot2 <- result_3 |>
         )
 
 # Print the plot
-print(plot2)
+print(plot5)
 
 
 # Save plot to the "results" folder
 ggsave(filename = "key_plot_5.png", 
-      plot = plot2, 
+      plot = plot5, 
       path = "~/group_18_project/results",
       width = 8, 
       height = 5, 
@@ -141,7 +139,7 @@ Description: This boxplot compares the average time passed since the completion 
 
 ```{r}
 # Select relevant columns and filter out rows with missing values
-plot4_data <- 
+plot6_data <- 
   analysis_1.1 |>
   select(radiation_type, radiation_completion_to_first_hc) |>
   mutate(TimePassed = as.numeric(radiation_completion_to_first_hc)) |>
@@ -149,8 +147,8 @@ plot4_data <-
   filter(!is.na(radiation_type)) 
 
 # Group the data by radiation type and calculate mean time passed
-result_4 <- 
-  plot4_data |>
+result_6 <- 
+  plot6_data |>
   group_by(radiation_type) |>
   summarize(
     AvgTimePassed = mean(TimePassed),
@@ -158,12 +156,15 @@ result_4 <-
     TotalObservations = n())
 
 # Create a bar plot comparing average time since radiation for different type
-plot3 <- 
-  ggplot(data = result_4, 
+plot6 <- 
+  ggplot(data = result_6, 
          aes(x = radiation_type,
              y = AvgTimePassed, 
              fill = radiation_type)) +
-  geom_bar(stat = "identity", position = "dodge", color = "black", alpha = 0.5) +
+  geom_bar(stat = "identity", 
+           position = "dodge", 
+           color = "black", 
+           alpha = 0.5) +
   labs(title = "Average Time of Radiation Completion to First HC Incident",
        x = "Type of Radiation",
        y = "Average Time Of Radiation To First HC\n(months)",
@@ -172,11 +173,11 @@ plot3 <-
   theme(axis.text.x = element_blank())
 
 # Print the plot
-print(plot3)
+print(plot6)
 
 # Save plot to the "results" folder
 ggsave(filename = "key_plot_6.png", 
-      plot = plot3, 
+      plot = plot6, 
       path = "~/group_18_project/results",
       width = 8, 
       height = 5, 
@@ -190,9 +191,10 @@ Relationship Between Body Mass Index (BMI) and time from radiation completion to
 
 From the plot below, we can observe that all Caucasian people developed Hemorrhagic cystitis before 100 months from the end of their cancer therapy. The vast majority of the patients got HC before 200 months and after them the cases of HC were rare.
 
-```{r}
+```{r warning = FALSE}
+
 #Create a scatter plot
-plot4 <- 
+plot7 <- 
   ggplot(data = analysis_1.1,
          aes(x = radiation_completion_to_first_hc, 
              y = BMI , 
@@ -207,11 +209,11 @@ plot4 <-
   
 
 #Print plot
-print(plot4)
+print(plot7)
 
 # Save plot to folder called "results"
 ggsave(filename = "key_plot_7.png", 
-      plot = plot4, 
+      plot = plot7, 
       path = "~/group_18_project/results",
       width = 8, 
       height = 5, 
@@ -239,7 +241,7 @@ event_time <-
 km_fit <- survfit(Surv(time, event) ~ 1, data = event_time)
 
 # Create the survival plot
-plot5 <- ggsurvplot(
+plot8 <- ggsurvplot(
   km_fit,
   xlab = "Time (Months)", 
   ylab = "HC-Free Survival Probability",
@@ -254,7 +256,7 @@ plot5 <- ggsurvplot(
   ggtitle("Kaplan-Meier curve of HC-Free Survival P. vs Time")
 
 #Print plot
-print(plot5)
+print(plot8)
 
 
 # Save the plot to folder results
@@ -272,9 +274,10 @@ ggsave(
 
 Description: This plot illustrates the relationship between radiation dosage and duration across different types of cancer. Each cancer type is represented in a separate subplot for easy comparison, and the points are color-coded by radiation type. This visualization effectively displays complex data in a clear and comparative manner, ideal for in-depth analysis.
 
-```{r}
+```{r warning = FALSE}
+
 # Faceted Scatter Plot
-plot6 <- ggplot(data = analysis_1.1, 
+plot9 <- ggplot(data = analysis_1.1, 
          aes(x = radiation_dosage, 
              y = radiation_duration, 
              color = radiation_type)) +
@@ -285,11 +288,11 @@ plot6 <- ggplot(data = analysis_1.1,
        y = "Radiation Duration")
 
 # Display the faceted scatter plot
-print(plot6)
+print(plot9)
 
 # Save the plot to folder results
 ggsave(filename = "key_plot_9.png", 
-      plot = plot6, 
+      plot = plot9, 
       path = "~/group_18_project/results",
       width = 8, 
       height = 5, 
@@ -304,7 +307,7 @@ Description: The boxplot shows the amount of patients with HC and the different 
 
 ```{r}
 # Separate hospitalization complications into distinct rows
-df_comorbidities <- df |>
+df_comorbidities <- analysis_1.1 |>
   separate_rows(comorbidities, sep = ", ") |>
   filter(!is.na(comorbidities)) |>
   mutate(comorbidities = str_to_upper(comorbidities))  # Convert to uppercase
@@ -316,19 +319,18 @@ df_filtered <- df_comorbidities |>
   ungroup()
 
 # Create a bar plot for the count of complications, colored by type of complication
-plot7 <- ggplot(df_filtered, aes(x = comorbidities, fill = comorbidities)) +
+plot10 <- ggplot(df_filtered, aes(x = comorbidities, fill = comorbidities)) +
   geom_bar(stat = "count", position = "dodge", color = "black", alpha = 0.5) +
   labs(title = "Count of Comorbidities (Cases with >1 comorbidity)",
        x = "Comorbidities",
        y = "Count",
        fill = "Comorbidities") +
   theme_minimal() +
-  theme(axis.text.x = element_blank()) +  # Remove x-axis labels labels for better readability
-  scale_fill_viridis_d()  
+  theme(axis.text.x = element_blank())  
 
 # Save the plot to folder results
 ggsave(filename = "key_plot_10.png", 
-      plot = plot7, 
+      plot = plot10, 
       path = "~/group_18_project/results",
       width = 8, 
       height = 5, 
@@ -341,7 +343,7 @@ Description: The boxplot shows the amount of patients with HC and the hospital c
 
 ```{r}
 # Create a new column with fixed hospitalization complications
-df <- df |>
+df <- analysis_1.1 |>
   mutate(
     hospitalization_complications_fixed = case_when(
       row_number() %in% c(4, 28) ~ "Urosepsis, death",
@@ -367,24 +369,21 @@ df_filtered <- df_complications |>
   ungroup()
 
 # Create a bar plot for the count of complications, colored by type of complication
-plot8 <- ggplot(df_filtered, aes(x = hospitalization_complications_fixed, fill = hospitalization_complications_fixed)) +
+plot11 <- ggplot(df_filtered, aes(x = hospitalization_complications_fixed, fill = hospitalization_complications_fixed)) +
   geom_bar(stat = "count", position = "dodge", color = "black", alpha = 0.5) +
   labs(title = "Count of Hospital Complications (Cases with >1 Complication)",
        x = "Hospital Complications",
        y = "Count",
        fill = "Hospitalization complications") +
   theme_minimal() +
-  theme(axis.text.x = element_blank()) +  # Remove x-axis labels labels for better readability
-  scale_fill_viridis_d()
+  theme(axis.text.x = element_blank()) 
 
 # Save the plot to folder results
 ggsave(filename = "key_plot_11.png", 
-      plot = plot8, 
+      plot = plot11, 
       path = "~/group_18_project/results",
       width = 8, 
       height = 5, 
       dpi = 300)
 
 ```
-
-\
