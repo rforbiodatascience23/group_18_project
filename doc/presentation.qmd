@@ -164,12 +164,10 @@ dat_clean1 <- dat_clean1 |>
 
 Libraries: `ggplot2`, `table1`
 
-## 
-
 ::: columns
-::: {.column .img-bg width="50%"}
 #### dat_clean2: 739 obsevations and 5 variables
 
+::: {.column .img-bg width="50%"}
 ![Figure 1: Bar plot with the distribution of patients who experienced radiation-induced Hemorrhagic Cystitis (HC) based on the type of treatment received.](images/key_plot_1.png)
 :::
 
@@ -186,7 +184,7 @@ Libraries: `ggplot2`, `table1`
 
 -   We also explored survival probabilities and key variable distributions among patients who developed HC.
 
--   Libraries: `ggplot`, `base`
+-   Libraries: `ggplot2`
 
 ## Analysis 1 - Results & Discussion 
 
@@ -216,6 +214,7 @@ Libraries: `ggplot2`, `table1`
 
 -   Visualized PCA outcomes through a biplot, categorizing data by cancer type to identify patterns across different cancers.
 -   Developed a linear regression model examining the relationship between age at radiation, comorbidity count, and hospitalization duration.
+-   Libraries: `ggplot2`, `purrr`, `cowplot`, `broom`
 
 ## Analysis 2 - Results & Discussion 
 
