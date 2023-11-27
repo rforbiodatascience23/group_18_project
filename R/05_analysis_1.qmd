@@ -2,13 +2,16 @@
 title: "05_analysis_1.qmd"
 format: html
 editor: visual
+execute:
+  message: false
+  warning: false
 ---
 
 # Analysis 1
 
 ## Load clean data from data folder
 
-```{r warning=FALSE}
+```{r}
 
 analysis_1.1 <- read_tsv(
   file = "~/group_18_project/data/03_dat_aug1.tsv",
