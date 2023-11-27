@@ -59,6 +59,9 @@ pca_biplot<- pca_fit |>
   theme(
    plot.title = element_text(hjust = 0))
 
+#Print plot
+print(plot12)
+
 # Save the plot in Results directory
 ggsave(
   filename = 'key_plot_2.1.png',
@@ -135,6 +138,9 @@ scree_plot <- eigenvalues_df |>
   theme_minimal_hgrid(12) +
   theme(plot.title = element_text(hjust = 0.5))
 
+#Print plot
+print(plot13)
+
 # Save the plot in Results directory
 ggsave(
   filename = 'key_plot_2.2.png',
@@ -191,7 +197,10 @@ correlation_plot <-
   theme(axis.text.x = element_text(angle = 45, hjust = 1),
         axis.text.y = element_text(angle = 45, hjust = 1))
 
-#print(correlation_plot)
+#Print plot
+print(plot14)
+
+# Save the plot in Results directory
 ggsave(filename = "key_plot_2.3.png", 
        plot = correlation_plot,
        path = "~/group_18_project/results", 
@@ -230,6 +239,7 @@ ggplot(data_for_predicton, aes(x = age_at_radiation, y = num_comorbidities, colo
   annotate("text", x = Inf, y = Inf, label = paste("R² =", round(R2, 2)), 
            hjust = 1.1, vjust = 1.1, size = 5, color = "black")
 
+#Print plot
 print(model_plot_days_admitted)
 
 ggsave(filename = "key_plot_2.4.png", 
