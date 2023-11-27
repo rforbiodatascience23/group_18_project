@@ -136,6 +136,9 @@ The table shows the key statistics of the variables `age_at_radiation`, `ethnici
 The boxplot is used to visualize the distribution of the normalized values for various variables obtained for patient that developed HC. Each box represents the interquartile range (IQR), with the median depicted as a horizontal line inside the box. The plot provides a concise summary of the central tendency, spread, and potential outliers in the normalized data across different variables.
 
 ```{r}
+#| message : FALSE
+#| warning : FALSE
+
 box_plot_data <- 
   dat_aug1 |>
   select(age_at_radiation,
@@ -182,13 +185,14 @@ ggsave(filename = "key_plot_2.png",
 
 ```
 
-Shortly describe what the plot shows
-
 #### Key plot 3
 
-The 4 box plots each show the number of patients with HC that had the following variables: Age distribution at radiation treatment for Head and Neck Cancer (HC) patients, BMI distribution of HC patients, Distribution of the number of comorbidities in HC patients and finally the distribution of the number of hospital complications in HC patients.
+The 4 box plots each show the number of patients with HC that had the following variables: Age distribution at radiation treatment for HC patients, BMI distribution of HC patients, Distribution of the number of comorbidities in HC patients and finally the distribution of the number of hospital complications in HC patients.
 
 ```{r}
+#| message : FALSE
+#| warning : FALSE
+
 df = dat_aug1
 
 # Age Distribution
@@ -234,5 +238,3 @@ ggsave(filename = "key_plot_3.png",
       height = 5, 
       dpi = 300)
 ```
-
-Shortly describe what the plot shows
