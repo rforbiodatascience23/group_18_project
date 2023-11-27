@@ -29,7 +29,8 @@ Linear Regression Analysis of Body Mass Index (BMI) in relation to radiation dos
 From the plot below, we can observe that the higher the BMI, the higher the radiation dose to the patients. However, the quality of the data is not sufficient to confirm these as we had many NAs in the radiation dosage column.
 
 ```{r}
-
+#| warning: false 
+#| message : false
 # Create the plot
 plot4 <- 
   analysis_1.1 |> 
