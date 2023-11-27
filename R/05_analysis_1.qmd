@@ -328,6 +328,9 @@ plot10 <- ggplot(df_filtered, aes(x = comorbidities, fill = comorbidities)) +
   theme_minimal() +
   theme(axis.text.x = element_blank())  
 
+#Print plot
+print(plot10)
+
 # Save the plot to folder results
 ggsave(filename = "key_plot_10.png", 
       plot = plot10, 
@@ -377,6 +380,9 @@ plot11 <- ggplot(df_filtered, aes(x = hospitalization_complications_fixed, fill 
        fill = "Hospitalization complications") +
   theme_minimal() +
   theme(axis.text.x = element_blank()) 
+
+#Print plot
+print(plot11)
 
 # Save the plot to folder results
 ggsave(filename = "key_plot_11.png", 
