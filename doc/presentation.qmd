@@ -170,13 +170,13 @@ Libraries: `ggplot2`, `table1`
 ::: {.column .img-bg width="50%"}
 #### dat_clean2: 739 obsevations and 5 variables
 
-![Figure 1: Bar plot with the distribution of patients who experienced radiation-induced Hemorrhagic Cystitis (HC) based on the type of treatment received.](images/key_plot_1-01.png)
+![Figure 1: Bar plot with the distribution of patients who experienced radiation-induced Hemorrhagic Cystitis (HC) based on the type of treatment received.](images/key_plot_1.png)
 :::
 
 ::: {.column .img-bg width="50%"}
 #### dat_aug1: 80 observations and 26 variables
 
-![Figure 2: Boxplot Analysis of numeric variables from patients that developed HC. Multifaceted Data Distributions Across numeric variables and outliers are visualized.](images/key_plot_2-01.png)
+![Figure 2: Boxplot Analysis of numeric variables from patients that developed HC. Multifaceted Data Distributions Across numeric variables and outliers are visualized.](images/key_plot_2.png)
 :::
 :::
 
@@ -192,7 +192,7 @@ Libraries: `ggplot2`, `table1`
 
 ::: columns
 ::: {.column .img-bg width="50%"}
-![Figure 3: Analysis of Radiation Dose Percentages in correlation to the different radiation types. According to literature, a standardized threshold has been added distinguishing Low, Medium, and High Levels across various radiation types.](images/key_plot_5-04.png)
+![Figure 3: Analysis of Radiation Dose Percentages in correlation to the different radiation types. According to literature, a standardized threshold has been added distinguishing Low, Medium, and High Levels across various radiation types.](images/key_plot_5.png)
 :::
 
 ::: {.column .img-bg width="50%"}
@@ -204,11 +204,11 @@ Libraries: `ggplot2`, `table1`
 
 ::: columns
 ::: {.column .img-bg width="50%"}
-![Figure 5: Prevalence of comorbidities in HC patients: A Count of Recurrent Conditions. The data is limited to patients with more than one comorbidity.](images/key_plot_10-01.png)
+![Figure 5: Prevalence of comorbidities in HC patients: A Count of Recurrent Conditions. The data is limited to patients with more than one comorbidity.](images/key_plot_10.png)
 :::
 
 ::: {.column .img-bg width="50%"}
-![Figure 6: Incidence of multiple Hospital Complications among HC patients. A count of hospitalin complications. The Data is limited to patients with more than one complication.](images/key_plot_11-01.png)
+![Figure 6: Incidence of multiple Hospital Complications among HC patients. A count of hospitalin complications. The Data is limited to patients with more than one complication.](images/key_plot_11.png)
 :::
 :::
 
