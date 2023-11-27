@@ -41,7 +41,7 @@ dat_clean2 |>
 
 The table shows the key statistics of the variables `treatment` and `bladder_cancer`. The most common treatments are EBRT at 34.1% and Brachytherapy at 6.0%. Other treatments include Adjuvant therapy (3.7%), IMRT (14.7%), Unknown treatments (25.2%), and a combination of Neutron/Photon therapies with EBRT or IMRT. The majority of individuals (95.0%) in the dataset do not have bladder cancer, while a smaller proportion (5.0%) has bladder cancer.
 
-#### Plot 1 
+#### Plot 1
 
 The presented plot illustrates the distribution of patients who experienced radiation-induced Hemorrhagic Cystitis (HC) based on the type of treatment received. Utilizing proportions in this visualization offers a comparative view of how different treatments are distributed relative to the total number of cases with HC incidence in the `dat_clean2` dataset. Each bar represents the proportion of patients receiving a specific treatment within the categories of HC incidence, providing valuable insights into the treatment patterns in the context of radiation-induced HC.
 
@@ -106,9 +106,8 @@ The dataset `dat_aug1` shows the information on only the 80 patients who develop
 
 -   **`num_comorbidities`** representing the number of comorbid conditions a patient has. Comorbidities are additional medical conditions that coexist with the primary condition (prostate cancer). Assessing comorbidities is essential for understanding the overall health status of patients, as it can influence treatment decisions and outcomes.
 
-```{=html}
 <!-- -->
-```
+
 -   **`radiation_type`** representing the types of radiation therapy administered to the patients. These include:
 
     -   EBRT (External Beam Radiation Therapy): high-energy X-rays are directed at the cancerous tissue from outside the body.
@@ -117,8 +116,7 @@ The dataset `dat_aug1` shows the information on only the 80 patients who develop
 
     -   Neutron Photon: This combines the use of neutrons and photons (X-rays) for radiation treatment. Neutrons have unique properties that may enhance their effectiveness in certain cases and will be used for specific types of cancer.
 
--   **`num_days_admited`** indicates the number of days a patient was admitted to the hospital.
-    Tracking hospital admission days provides insights into the impact of radiation therapy on patients' well-being, including potential complications and recovery periods.
+-   **`num_days_admited`** indicates the number of days a patient was admitted to the hospital. Tracking hospital admission days provides insights into the impact of radiation therapy on patients' well-being, including potential complications and recovery periods.
 
 -   **`num_hosp_complications`** denotes the number of hospital complications experienced by patients. Monitoring hospital complications is vital for assessing the overall safety and efficacy of radiation therapy. It helps identify potential risks associated with the treatment and informs healthcare decisions for patient care.
 
