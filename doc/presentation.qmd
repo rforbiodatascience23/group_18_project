@@ -204,7 +204,7 @@ Libraries: `ggplot2`, `table1`
 
 ::: columns
 ::: {.column .img-bg width="50%"}
-![Figure 5: Prevalence of comorbidities in HC patients: A Count of Recurrent Conditions. The data is limited to patients with more than one comorbidity.](images/key_plot_10.png)
+![Figure 5: Prevalence of comorbidities in HC patients: A Count of Recurrent Conditions. The data is limited to patients with more than one comorbidity.](images/key_plot_10-01.png)
 :::
 
 ::: {.column .img-bg width="50%"}
