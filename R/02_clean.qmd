@@ -106,6 +106,8 @@ dat_load1 <- dat_load1 |>
     
     # comorbidities add "," to allow separation by ",", str_replace did not work
     comorbidities = ifelse(row_number() == 2, "HTN, A. fib, DM, CHF, tobacco", comorbidities),
+    comorbidities = ifelse(row_number() == 65, "HTN, MM, CAD, a. fib, CHF", comorbidities),
+    comorbidities = ifelse(row_number() == 66, "HTN,DM,CHF,COPD, a. fib, CAD", comorbidities),
 
     # los_for_each_admission_days replace spaces with comas 
     los_for_each_admission = str_replace_all(los_for_each_admission, "\\s+", " "),
