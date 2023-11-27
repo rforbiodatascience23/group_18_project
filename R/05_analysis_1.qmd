@@ -68,7 +68,7 @@ ggsave(filename = "key_plot_1.1.png",
 
 ```
 
-## Plot 3
+## Plot 2
 
 This plot shows the Distribution of Radiation Doses across different radiation types. According to literature \[1\], a standardized threshold has been added distinguishing Low, Medium, and High Levels across various radiation types.
 
@@ -97,7 +97,7 @@ result_3 <-
   ungroup()
 
 # Create a grouped plot with viridis color scheme
-plot3 <- result_3 |> 
+plot2 <- result_3 |> 
   ggplot(aes(x = radiation_type, 
              y = Proportion, 
              fill = dose_category)) +
@@ -106,8 +106,7 @@ plot3 <- result_3 |>
     colour = "black",
     alpha = 0.5) + 
   geom_hline(yintercept = 0) +
-  labs(title = "Radiation Dosage Category" ,
-       subtitle = "Radiation Type and corresponding dosage category",
+  labs(title = "Radiation Type and corresponding dosage category",
        #x = "Type of Radiation",
        y = "Proportion",
        fill = "Radiation Dosage Category") +
@@ -122,19 +121,19 @@ plot3 <- result_3 |>
         )
 
 # Print the plot
-print(plot3)
+print(plot2)
 
 
 # Save plot to the "results" folder
-ggsave(filename = "key_plot_1.3.png", 
-      plot = plot3, 
+ggsave(filename = "key_plot_1.2.png", 
+      plot = plot2, 
       path = "~/group_18_project/results",
       width = 8, 
       height = 5, 
       dpi = 300)
 ```
 
-## Plot 4
+## Plot 3
 
 Description: This boxplot compares the average time passed since the completion of radiation treatment and the first incident of HC. For this the mean of the time passed since the completion of radiation treatment and first incident of HC is calculated and presented on the y-axis while on the x-axis the different types of radiation is shown. This could give an insight of the impact of the radiation type on the occurrence of HC in the patients.
 
@@ -157,7 +156,7 @@ result_4 <-
     TotalObservations = n())
 
 # Create a bar plot comparing average time since radiation for different type
-plot4 <- 
+plot3 <- 
   ggplot(data = result_4, 
          aes(x = radiation_type,
              y = AvgTimePassed, 
@@ -171,11 +170,11 @@ plot4 <-
   theme(axis.text.x = element_blank())
 
 # Print the plot
-print(plot4)
+print(plot3)
 
 # Save plot to the "results" folder
-ggsave(filename = "key_plot_1.4.png", 
-      plot = plot4, 
+ggsave(filename = "key_plot_1.3.png", 
+      plot = plot3, 
       path = "~/group_18_project/results",
       width = 8, 
       height = 5, 
@@ -183,7 +182,7 @@ ggsave(filename = "key_plot_1.4.png",
 
 ```
 
-## Plot 5
+## Plot 4
 
 Relationship Between Body Mass Index (BMI) and time from radiation completion to first incidence of Hemorrhagic Cystitis.
 
@@ -191,7 +190,7 @@ From the plot below, we can observe that all Caucasian people developed Hemorrha
 
 ```{r}
 #Create a scatter plot
-plot5 <- 
+plot4 <- 
   ggplot(data = analysis_1.1,
          aes(x = radiation_completion_to_first_hc, 
              y = BMI , 
@@ -206,11 +205,11 @@ plot5 <-
   
 
 #Print plot
-print(plot5)
+print(plot4)
 
 # Save plot to folder called "results"
-ggsave(filename = "key_plot_1.5.png", 
-      plot = plot5, 
+ggsave(filename = "key_plot_1.4.png", 
+      plot = plot4, 
       path = "~/group_18_project/results",
       width = 8, 
       height = 5, 
@@ -219,7 +218,7 @@ ggsave(filename = "key_plot_1.5.png",
 
 ```
 
-## Plot 6
+## Plot 5
 
 Kaplan Meier curve showing the probability of HC-free survival over time (n=562 months).
 
@@ -238,7 +237,7 @@ event_time <-
 km_fit <- survfit(Surv(time, event) ~ 1, data = event_time)
 
 # Create the survival plot
-plot6 <- ggsurvplot(
+plot5 <- ggsurvplot(
   km_fit,
   xlab = "Time (Months)", 
   ylab = "HC-Free Survival Probability",
@@ -253,12 +252,12 @@ plot6 <- ggsurvplot(
   ggtitle("Kaplan-Meier curve of HC-Free Survival P. vs Time")
 
 #Print plot
-print(plot6)
+print(plot5)
 
 
 # Save the plot to folder results
 ggsave(
-  filename = "key_plot_1.6.png", 
+  filename = "key_plot_1.5.png", 
   plot = ggplot2::last_plot(),  
   path = "~/group_18_project/results",
   width = 8, 
@@ -267,13 +266,13 @@ ggsave(
 )
 ```
 
-## Plot 7
+## Plot 6
 
 Description: This plot illustrates the relationship between radiation dosage and duration across different types of cancer. Each cancer type is represented in a separate subplot for easy comparison, and the points are color-coded by radiation type. This visualization effectively displays complex data in a clear and comparative manner, ideal for in-depth analysis.
 
 ```{r}
 # Faceted Scatter Plot
-plot7 <- ggplot(data = analysis_1.1, 
+plot6 <- ggplot(data = analysis_1.1, 
          aes(x = radiation_dosage, 
              y = radiation_duration, 
              color = radiation_type)) +
@@ -284,11 +283,11 @@ plot7 <- ggplot(data = analysis_1.1,
        y = "Radiation Duration")
 
 # Display the faceted scatter plot
-print(plot7)
+print(plot6)
 
 # Save the plot to folder results
-ggsave(filename = "key_plot_1.7.png", 
-      plot = plot7, 
+ggsave(filename = "key_plot_1.6.png", 
+      plot = plot6, 
       path = "~/group_18_project/results",
       width = 8, 
       height = 5, 
@@ -297,7 +296,7 @@ ggsave(filename = "key_plot_1.7.png",
 
 ```
 
-## Plot 10
+## Plot 7
 
 Description: The boxplot shows the amount of patients with HC and the different types of comorbidities that occured, while on the y-axis the amount of those comorbidities are shown. Only the cases with more than 1 comorbidity were taken into account
 
@@ -315,7 +314,7 @@ df_filtered <- df_comorbidities |>
   ungroup()
 
 # Create a bar plot for the count of complications, colored by type of complication
-plot10 <- ggplot(df_filtered, aes(x = comorbidities, fill = comorbidities)) +
+plot7 <- ggplot(df_filtered, aes(x = comorbidities, fill = comorbidities)) +
   geom_bar(stat = "count", position = "dodge", color = "black", alpha = 0.5) +
   labs(title = "Count of Comorbidities (Cases with >1 comorbidity)",
        x = "Comorbidities",
@@ -326,15 +325,15 @@ plot10 <- ggplot(df_filtered, aes(x = comorbidities, fill = comorbidities)) +
   scale_fill_viridis_d()  
 
 # Save the plot to folder results
-ggsave(filename = "key_plot_1.10.png", 
-      plot = plot10, 
+ggsave(filename = "key_plot_1.7.png", 
+      plot = plot7, 
       path = "~/group_18_project/results",
       width = 8, 
       height = 5, 
       dpi = 300)
 ```
 
-## Plot 11
+## Plot 8
 
 Description: The boxplot shows the amount of patients with HC and the hospital complications they experienced, while on the y-axis the number of hospital compilations are presented. Only the patients with more than 1 compilation are shown.
 
@@ -366,7 +365,7 @@ df_filtered <- df_complications |>
   ungroup()
 
 # Create a bar plot for the count of complications, colored by type of complication
-plot11 <- ggplot(df_filtered, aes(x = hospitalization_complications_fixed, fill = hospitalization_complications_fixed)) +
+plot8 <- ggplot(df_filtered, aes(x = hospitalization_complications_fixed, fill = hospitalization_complications_fixed)) +
   geom_bar(stat = "count", position = "dodge", color = "black", alpha = 0.5) +
   labs(title = "Count of Hospital Complications (Cases with >1 Complication)",
        x = "Hospital Complications",
@@ -377,8 +376,8 @@ plot11 <- ggplot(df_filtered, aes(x = hospitalization_complications_fixed, fill 
   scale_fill_viridis_d()
 
 # Save the plot to folder results
-ggsave(filename = "key_plot_1.11.png", 
-      plot = plot11, 
+ggsave(filename = "key_plot_1.8.png", 
+      plot = plot8, 
       path = "~/group_18_project/results",
       width = 8, 
       height = 5, 
