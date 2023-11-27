@@ -18,30 +18,40 @@ format:
 -   Prostate cancer is a major global health concern.
 -   Radiation therapy, a common treatment, can lead to complications like hemorrhagic cystitis (HC).
 -   HC symptoms include bleeding and bladder pain.
--   Our 15-year study with 709 patients examines the impact of different radiotherapy types on HC development.
--   We'll explore data processes, analyses, and insights gleaned from this extensive study.
+-   A 15-year study with 739 patients examined the impact of different radiotherapy types on HC development.
+-   We will explore data processes, analyses, and insights gained from this study.
 
 # Data
 
-Our study involved extensive data preparation, including cleaning and augmenting our dataset. Here's a glimpse into our process:
+Our project involved extensive data preparation, including cleaning and augmenting our dataset. Here's a glimpse into the process:
 
 # Clean
+
+`janitor`
+
+`dplyr`
+
+`stringr`
+
+`tidyverse`
+
+`lubridate`
 
 ## *dat_load1*
 
 ::: columns
 ::: {.column width="50%"}
-#### `janitor`, `dplyr`, `stringr` & `lubridate` {.space-below}
+`clean_names()`: Simplifies and standardizes variable names
 
-`clean_names()`: to simplify and standardizes variable names
+`mutate()`:Transforms or adds new variables
 
-`mutate()`: to fix variable types, spelling errors and used to add commas
+`ymd()`: Parse strings to dates
 
--   `ymd()`
+`str_replace_all()`: Replaces all pattern matches in the string
 
--   `str_replace_all()`
+`as.numeric()`: Converts values to numeric
 
--   `ifelse()`
+`ifelse()` : Conditional logic returns two alternatives
 :::
 
 ::: {.column width="50%"}
@@ -52,7 +62,7 @@ dat_load1 <- dat_load1 |>
 ```
 :::
 
-``` {.r code-line-numbers="5,8,11,15"}
+``` {.r code-line-numbers="2,5,8,9,11,15"}
 dat_load1 <- dat_load1 |> 
   mutate(
   
@@ -76,15 +86,13 @@ dat_load1 <- dat_load1 |>
 
 ::: columns
 ::: {.column width="50%"}
-#### `dplyr` & `tidyverse` {.space-below}
+`select()`: Selects specific variables
 
-`pivot_longer()`: data manipulation to transform the data from a wide to a longer format
+`rename()`: Renames variables
 
-`select()`: select specific variables
+`pivot_longer()`: Manipulation of data from a wide to longer format
 
-`rename()`: rename variables
-
-`distinct()`: remove duplicate rows from the data
+`distinct()`: Removes duplicate rows from the data
 :::
 
 ::: {.column width="50%"}
@@ -115,28 +123,30 @@ combined_dat_load2_load3 <- combined_dat_load2_load3 |>
 
 # Augment
 
+`dplyr`
+
+`stringr`
+
 ## *dat_clean1*
 
 ::: columns
 ::: {.column width="50%"}
-#### Functions {.space-below}
+`sapply()`: Applies a function over a list or vector with a simple output.
 
-relocate()
+`relocate()`: Rearranges columns in the data set.
 
-sapply()
+`str_count()`: Counts the number of matches to a pattern in each string of a vector
 
-str_count()
-
-strplit() ?
+`strplit()`: Splits string into a list of sub-strings (not sure if it should be here).
 :::
 
 ::: {.column width="50%"}
 ::: space-below
-``` {.r code-line-numbers="3,4"}
+``` {.r code-line-numbers="4,5"}
 dat_clean1 <- dat_clean1 |>       
-  mutate(los_for_each_admission = ifelse(is.na(los_for_each_admission), 0,        
+  mutate(los_for_each_admission = ifelse(is.na(los_for_each_admission), 0,    
                                          los_for_each_admission),     
-         num_days_admitted = sapply(los_for_each_admission, sum_values)) |>     
+         num_days_admitted = sapply(los_for_each_admission, sum_values)) |>   
   relocate(num_days_admitted, .after = los_for_each_admission) 
 ```
 :::
@@ -152,7 +162,7 @@ dat_clean1 <- dat_clean1 |>
 
 # Describe
 
-The dataset under consideration originates from an in-depth exploration of medical records pertaining to individuals who underwent radiation therapy for prostate cancer within the timeframe of January 2000 to September 2015.
+Libraries: `ggplot2`, `table1`
 
 ## 
 
@@ -166,17 +176,17 @@ The dataset under consideration originates from an in-depth exploration of medic
 ::: {.column .img-bg width="50%"}
 #### dat_aug1: 80 observations and 26 variables
 
-![Figure 2: Boxplot Analysis of numeric variables from patients that developed HC. Multifaceted Data Distributions Across numeric variables and outliers are visualized](images/key_plot_1.8-02.png)
+![Figure 2: Boxplot Analysis of numeric variables from patients that developed HC. Multifaceted Data Distributions Across numeric variables and outliers are visualized.](images/key_plot_1.8-02.png)
 :::
 :::
 
 # Analysis 1
 
--   We analyzed two datasets (*`analysis_1.1`* and *`analysis_1.2`*).
-
 -   Key insights include BMI and radiation dose relationships, dose percentages, and time-related comparisons.
 
 -   We also explored survival probabilities and key variable distributions among patients who developed HC.
+
+-   Libraries: `ggplot`, `base`
 
 ## Key findings 1
 
@@ -194,21 +204,24 @@ The dataset under consideration originates from an in-depth exploration of medic
 
 ::: columns
 ::: {.column .img-bg width="50%"}
-![Figure 5: Prevalence of comorbidities in HC patients: A Count of Recurrent Conditions. The data is limited to patients with more than one comorbidity](images/key_plot_1.10.png)
+![Figure 5: Prevalence of comorbidities in HC patients: A Count of Recurrent Conditions. The data is limited to patients with more than one comorbidity.](images/key_plot_1.10.png)
 :::
 
-::: {.column .img-bg width="50%"} 
-![Figure 6: Incidence of multiple Hospital Complications among HC patients. A count of hospitalin complications. The  Data is limited to patients with more than one complication.](images/key_plot_1.11.png)
+::: {.column .img-bg width="50%"}
+![Figure 6: Incidence of multiple Hospital Complications among HC patients. A count of hospitalin complications. The Data is limited to patients with more than one complication.](images/key_plot_1.11.png)
 :::
 :::
 
 # Analysis 2
 
+-   Visualized PCA outcomes through a biplot, categorizing data by cancer type to identify patterns across different cancers.
+-   Developed a linear regression model examining the relationship between age at radiation, comorbidity count, and hospitalization duration.
+
 ## Key findings
 
 ::: columns
 ::: {.column .img-bg width="50%"}
-![Figure 7: Dimensionality Reduction and Pattern Detection. It enables to discern whether patients with cancer in specific organs exhibit consistent patterns across quantitative variables such as the Grading system, Radiation dosage, Duration of radiation, and the Number of comorbidities](images/key_plot_2.1.png){width="80%"}
+![Figure 7: Dimensionality Reduction and Pattern Detection. It enables to discern whether patients with cancer in specific organs exhibit consistent patterns across quantitative variables such as the Grading system, Radiation dosage, Duration of radiation, and the Number of comorbidities.](images/key_plot_2.1.png){width="80%"}
 :::
 
 ::: {.column .img-bg width="50%"}
@@ -218,10 +231,25 @@ The dataset under consideration originates from an in-depth exploration of medic
 
 # Discussion
 
+## Analysis 1
+
 -   The study unveils potential underreporting in HC cases, despite advancements in radiation therapy.
--   Talk about findins from the plots here.... 
--   These findings provide valuable insights, informing future medical practices and research.
+-   HL has the highest prevalence among the comorbidities, while UTIs and AKI are the most common hospital complications.
+-   The use of EBRT and brachytherapy was linked to a quicker development of HC, while mixed neutron-photon IMRT therapy was linked to HC development at 75 months or late.
+-   15% of patients underwent EBRT medium dose therapy, while 10% received IMRT medium dose therapy, making them the two most prevalent radiation treatments.
+
+## Analysis 2
+
+-   The PCA biplot's lack of distinct variable clustering suggests no clear separation between bladder and prostate cancer characteristics within our limited dataset.
+The scarcity of bladder cancer data points highlights the need for a more extensive and balanced dataset to accurately differentiate between these two cancer types.
+
+-   The scatterplot with the linear regression line reveals a subtle trend indicating longer hospital stays associated with older patients and those with a higher number of comorbidities.
+This observation suggests that age and comorbidities might be predictive factors in determining the duration of hospitalization in this patient cohort.
 
 # Conclusion
 
-Thank you for attending our presentation. We hope our study's insights contribute to better understanding and management of HC in prostate cancer treatment. Any questions or discussions are welcome.
+The analysis provided valuable insights for understanding prostate cancer radiation treatment and HC development.
+
+R Studio, together with `ggplot2`, converts data into concise, understandable visuals. `tidyverse` and `dplyr` make data manipulation easier while `stringr` simplifies text analysis.
+
+Together, these tools significantly improve the clarity and communication of research findings.
