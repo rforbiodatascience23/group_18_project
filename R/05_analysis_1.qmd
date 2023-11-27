@@ -19,20 +19,16 @@ analysis_1.2  <- read_tsv(
   show_col_types = FALSE)
 ```
 
-```{r}
-
-
-```
-
-## Plot 2
+## Plot 1
 
 Linear Regression Analysis of Body Mass Index (BMI) in relation to radiation dose.
 
 From the plot below, we can observe that the higher the BMI, the higher the radiation dose to the patients. However, the quality of the data is not sufficient to confirm these as we had many NAs in the radiation dosage column.
 
 ```{r}
+
 # Create the plot
-plot2 <- 
+plot1 <- 
   analysis_1.1 |> 
   na.omit(analysis_1.1) |> 
   ggplot(aes(x = radiation_dosage,
@@ -60,11 +56,11 @@ summary(model)
 
 
 #Print plot
-print(plot2)
+print(plot1)
 
 # Save plot to folder called "results"
-ggsave(filename = "key_plot_1.2.png", 
-      plot = plot2, 
+ggsave(filename = "key_plot_1.1.png", 
+      plot = plot1, 
       path = "~/group_18_project/results",
       width = 8, 
       height = 5, 
