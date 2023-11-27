@@ -27,11 +27,11 @@ Our study involved extensive data preparation, including cleaning and augmenting
 
 # Clean
 
-## Libraries and functions for *dat_load1*
+## *dat_load1*
 
 ::: columns
 ::: {.column width="50%"}
-#### `janitor` `dplyr` `stringr` `lubridate` {.space-below}
+#### `janitor`, `dplyr`, `stringr` & `lubridate` {.space-below}
 
 `clean_names()`: to simplify and standardizes variable names
 
@@ -46,13 +46,13 @@ Our study involved extensive data preparation, including cleaning and augmenting
 
 ::: {.column width="50%"}
 ::: space-below
-``` r
+``` {.r code-line-numbers="2"}
 dat_load1 <- dat_load1 |> 
   clean_names()
 ```
 :::
 
-``` r
+``` {.r code-line-numbers="5,8,11,15"}
 dat_load1 <- dat_load1 |> 
   mutate(
   
@@ -72,25 +72,24 @@ dat_load1 <- dat_load1 |>
 :::
 :::
 
-## Libraries and functions for dat_load2 and dat_load3
+## *dat_load2 & dat_load3*
 
 ::: columns
 ::: {.column width="50%"}
+#### `dplyr` & `tidyverse` {.space-below}
 
-### libraries {.space-below}
+`pivot_longer()`: data manipulation to transform the data from a wide to a longer format
 
-`select()`
+`select()`: select specific variables
 
-`rename()`
+`rename()`: rename variables
 
-`pivot_longer()`
-
-`distinct()`
+`distinct()`: remove duplicate rows from the data
 :::
 
 ::: {.column width="50%"}
 ::: space-below
-``` r
+``` {.r code-line-numbers="2,8"}
 dat_load2 <- dat_load2 |> 
   select(-rads_for_prostate_primary, 
          -rads_bladder_primary, 
@@ -102,8 +101,7 @@ dat_load2 <- dat_load2 |>
 ```
 :::
 
-``` r
-
+``` {.r code-line-numbers="2,6"}
 combined_dat_load2_load3 <- combined_dat_load2_load3 |>
   pivot_longer(cols = ebrt:brachytherapy,
               names_to = "treatment", 
@@ -117,15 +115,58 @@ combined_dat_load2_load3 <- combined_dat_load2_load3 |>
 
 # Augment
 
+## *dat_clean1*
+
+::: columns
+::: {.column width="50%"}
+#### Functions {.space-below}
+
+relocate()
+
+sapply()
+
+str_count()
+
+strplit() ?
+:::
+
+::: {.column width="50%"}
+::: space-below
+``` {.r code-line-numbers="3,4"}
+dat_clean1 <- dat_clean1 |>       
+  mutate(los_for_each_admission = ifelse(is.na(los_for_each_admission), 0,        
+                                         los_for_each_admission),     
+         num_days_admitted = sapply(los_for_each_admission, sum_values)) |>     
+  relocate(num_days_admitted, .after = los_for_each_admission) 
+```
+:::
+
+``` {.r code-line-numbers="3"}
+dat_clean1 <- dat_clean1 |>   
+  mutate(num_hosp_complications = ifelse(is.na(hospitalization_complications), 0,     
+                                         str_count(hospitalization_complications, pattern = ",") + 1)) |>        
+  relocate(num_hosp_complications, .after = hospitalization_complications) 
+```
+:::
+:::
+
 # Describe
+
+The dataset under consideration originates from an in-depth exploration of medical records pertaining to individuals who underwent radiation therapy for prostate cancer within the timeframe of January 2000 to September 2015.
+
+## 
 
 ::: columns
 ::: {.column .img-bg width="50%"}
-![Description: The presented plot illustrates the distribution of patients who experienced radiation-induced Hemorrhagic Cystitis (HC) based on the type of treatment received. Utilizing proportions in this visualization offers a comparative view of how different treatments are distributed relative to the total number of cases with HC incidence. Each bar represents the proportion of patients receiving a specific treatment within the categories of HC incidence, providing valuable insights into the treatment patterns in the context of radiation-induced HC.](images/key_plot_1.1-01.png)
+#### dat_clean2: 739 obsevations and 5 variables
+
+![Figure 1: Bar plot with the distribution of patients who experienced radiation-induced Hemorrhagic Cystitis (HC) based on the type of treatment received.](images/key_plot_1.1-01.png)
 :::
 
 ::: {.column .img-bg width="50%"}
-![Description: the 4 box plots each show the number of patients with HC that had the following variables: Age distribution at radiation treatment for Head and Neck Cancer (HC) patients, BMI distribution of HC patients, Distribution of the number of comorbidities in HC patients and finally the distribution of the number of hospital complications in HC patients.](images/key_plot_1.8-02.png)
+#### dat_aug1: 80 observations and 26 variables
+
+![Figure 2: Boxplot Analysis of numeric variables from patients that developed HC. Multifaceted Data Distributions Across numeric variables and outliers are visualized](images/key_plot_1.8-02.png)
 :::
 :::
 
@@ -141,11 +182,11 @@ combined_dat_load2_load3 <- combined_dat_load2_load3 |>
 
 ::: columns
 ::: {.column .img-bg width="50%"}
-![This plot shows the Analysis of Radiation Dose Percentages in correlation to the different radiation types. According to literature, a standardized threshold has been added distinguishing Low, Medium, and High Levels across various radiation types. From the plot below, we can observe that high radiation dosages are only used in ebrt,adjuvant and imrt. Also, the two most used radiation therapies are ebrt medium dose and imrt medium dose.](images/key_plot_1.3-01.png)
+![Figure 3: Analysis of Radiation Dose Percentages in correlation to the different radiation types. According to literature, a standardized threshold has been added distinguishing Low, Medium, and High Levels across various radiation types.](images/key_plot_1.3-01.png)
 :::
 
 ::: {.column .img-bg width="50%"}
-![Description: This boxplot compares the average time passed since the completion of radiation treatment and the first incident of HC. For this the mean of the time passed since the completion of radiation treatment and first incident of HC is calculated and presented on the y-axis while on the x-axis the different types of radiation is shown. This could give an insight of the impact of the radiation type on the occurrence of HC in the patients.](images/key_plot_1.4-02.png)
+![Figure 4: Bar plot displaying the average time passed since the completion of radiation treatment and the first incidence of HC. Each bar corresponds to a radiation treatment category.](images/key_plot_1.4-02.png)
 :::
 :::
 
@@ -153,13 +194,11 @@ combined_dat_load2_load3 <- combined_dat_load2_load3 |>
 
 ::: columns
 ::: {.column .img-bg width="50%"}
-![Description: This plot illustrates the relationship between radiation dosage and duration across different types of cancer. Each cancer type is represented in a separate subplot for easy comparison, and the points are color-coded by radiation type. This visualization effectively displays complex data in a clear and comparative manner, ideal for in-depth analysis.](images/key_plot_1.10.png)
+![Figure 5: Prevalence of comorbidities in HC patients: A Count of Recurrent Conditions. The data is limited to patients with more than one comorbidity](images/key_plot_1.10.png)
 :::
 
-::: {.column .img-bg width="50%"}
-![Description: The boxplot shows the amount of patients with HC and the hospital complications they experienced, while on the y-axis the number of hospital compilations are presented. Only the patients with more than 1 compilation are shown.](images/key_plot_1.11.png)
-
-*Description of the right image.*
+::: {.column .img-bg width="50%"} 
+![Figure 6: Incidence of multiple Hospital Complications among HC patients. A count of hospitalin complications. The  Data is limited to patients with more than one complication.](images/key_plot_1.11.png)
 :::
 :::
 
@@ -169,28 +208,18 @@ combined_dat_load2_load3 <- combined_dat_load2_load3 |>
 
 ::: columns
 ::: {.column .img-bg width="50%"}
-![Principal Component Analysis By doing a Principal Component Analysis in the data set we will reduce its dimmensionality and figure out if patients cancer organ have similar values in quantitative variables Grading system, Radiation dosage, Duration of radiation, Number of comorbidities.](images/key_plot_2.1.png){width="80%"}
-
-Data points aren't grouped by cancer organ.
-
-Why do we get this spared data points?
-
--\> Outliers
-
--\> Small sample size
-
--\> Low % explained variance
+![Figure 7: Dimensionality Reduction and Pattern Detection. It enables to discern whether patients with cancer in specific organs exhibit consistent patterns across quantitative variables such as the Grading system, Radiation dosage, Duration of radiation, and the Number of comorbidities](images/key_plot_2.1.png){width="80%"}
 :::
 
 ::: {.column .img-bg width="50%"}
-![Description: scatterplot with a linear regression line, using the ggplot2 package. The plot visualizes the relationship between the variables age_at_radiation and num_comorbidities with respect to the number of days admitted to the hospital (num_days_admitted). The plot helps visualize the relationship between age, number of comorbidities, and the predicted number of days admitted. Points that deviate from the regression line may indicate observations with higher or lower than expected days admitted, providing insights into potential patterns or outliers in the data.](images/key_plot_2.4.png)
+![Figure 7: Scatterplot Analysis with Regression Line. It elucidates the correlation between patient age at the time of radiation and their number of comorbidities, as related to their hospital stay duration.](images/key_plot_2.4.png)
 :::
 :::
 
 # Discussion
 
--   Our study unveils potential underreporting in HC cases, despite advancements in radiation therapy.
--   Limitations include its retrospective nature and focus on the Detroit region.
+-   The study unveils potential underreporting in HC cases, despite advancements in radiation therapy.
+-   Talk about findins from the plots here.... 
 -   These findings provide valuable insights, informing future medical practices and research.
 
 # Conclusion
