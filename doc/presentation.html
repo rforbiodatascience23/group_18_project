@@ -420,14 +420,73 @@ s213049 - Catia B.<br>s222373 - Nova F.<br>s222800 - Laia D.<br>s222854 - Minke 
 <h1>Clean</h1>
 
 </section>
-<section id="section" class="slide level2 center">
-<h2></h2>
+<section id="libraries-and-functions-for-dat_load1" class="slide level2 center">
+<h2>Libraries and functions for <em>dat_load1</em></h2>
 <div class="columns">
 <div class="column" style="width:50%;">
-<p>The janitor package was used to enhance the quality of the dataset by making sure that the variable names would be clean and consistent. Primarily, the clean_names() function was used to simplify and standardize the column names, which would help later on in cleaning the dataset.</p>
+<section id="janitor-dplyr-stringr-lubridate" class="space-below">
+<h4><code>janitor</code> <code>dplyr</code> <code>stringr</code> <code>lubridate</code></h4>
+</section>
+<p><code>clean_names()</code>: to simplify and standardizes variable names</p>
+<p><code>mutate()</code>: to fix variable types, spelling errors and used to add commas</p>
+<ul>
+<li><p><code>ymd()</code></p></li>
+<li><p><code>str_replace_all()</code></p></li>
+<li><p><code>ifelse()</code></p></li>
+</ul>
 </div><div class="column" style="width:50%;">
+<div class="space-below">
 <div class="sourceCode" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a>dat_load1 <span class="ot">&lt;-</span> dat_load1 <span class="sc">|&gt;</span> </span>
 <span id="cb1-2"><a href="#cb1-2"></a>  <span class="fu">clean_names</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>dat_load1 <span class="ot">&lt;-</span> dat_load1 <span class="sc">|&gt;</span> </span>
+<span id="cb2-2"><a href="#cb2-2"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb2-3"><a href="#cb2-3"></a>  </span>
+<span id="cb2-4"><a href="#cb2-4"></a>    <span class="co"># Make variable type as Date</span></span>
+<span id="cb2-5"><a href="#cb2-5"></a>    <span class="at">date_of_birth =</span> <span class="fu">ymd</span>(date_of_birth),</span>
+<span id="cb2-6"><a href="#cb2-6"></a>    </span>
+<span id="cb2-7"><a href="#cb2-7"></a>    <span class="co"># ethnicity - make all names lower case, change AA to african american</span></span>
+<span id="cb2-8"><a href="#cb2-8"></a>    <span class="at">ethnicity =</span> <span class="fu">ifelse</span>(ethnicity <span class="sc">==</span> <span class="st">"AA"</span>, <span class="st">"african_american"</span>, <span class="fu">tolower</span>(ethnicity)),</span>
+<span id="cb2-9"><a href="#cb2-9"></a>    </span>
+<span id="cb2-10"><a href="#cb2-10"></a>    <span class="co"># radiation_dosage - remove characters "Gy" make the observatons as num</span></span>
+<span id="cb2-11"><a href="#cb2-11"></a>    <span class="at">radiation_dosage =</span>  <span class="fu">str_replace_all</span>(radiation_dosage, <span class="st">"Gy"</span>, <span class="st">""</span>),</span>
+<span id="cb2-12"><a href="#cb2-12"></a>    <span class="at">radiation_dosage =</span> <span class="fu">round</span>(<span class="fu">as.numeric</span>(radiation_dosage),<span class="dv">2</span>),</span>
+<span id="cb2-13"><a href="#cb2-13"></a>    </span>
+<span id="cb2-14"><a href="#cb2-14"></a>    <span class="co"># comorbidities add "," to allow separation by ",", str_replace did not work</span></span>
+<span id="cb2-15"><a href="#cb2-15"></a>    <span class="at">comorbidities =</span> <span class="fu">ifelse</span>(<span class="fu">row_number</span>() <span class="sc">==</span> <span class="dv">2</span>, <span class="st">"HTN, A. fib, DM, CHF, tobacco"</span>, comorbidities)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</section>
+<section id="libraries-and-functions-for-dat_load2-and-dat_load3" class="slide level2 center">
+<h2>Libraries and functions for <code>dat_load2</code> and <code>dat_load3</code></h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<section id="libraries" class="space-below">
+<h3>libraries</h3>
+</section>
+<p><code>select()</code></p>
+<p><code>rename()</code></p>
+<p><code>pivot_longer()</code></p>
+<p><code>distinct()</code></p>
+</div><div class="column" style="width:50%;">
+<div class="space-below">
+<div class="sourceCode" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>dat_load2 <span class="ot">&lt;-</span> dat_load2 <span class="sc">|&gt;</span> </span>
+<span id="cb3-2"><a href="#cb3-2"></a>  <span class="fu">select</span>(<span class="sc">-</span>rads_for_prostate_primary, </span>
+<span id="cb3-3"><a href="#cb3-3"></a>         <span class="sc">-</span>rads_bladder_primary, </span>
+<span id="cb3-4"><a href="#cb3-4"></a>         <span class="sc">-</span>developed_bladder_first,</span>
+<span id="cb3-5"><a href="#cb3-5"></a>         <span class="sc">-</span>developed_prostate_first)</span>
+<span id="cb3-6"><a href="#cb3-6"></a></span>
+<span id="cb3-7"><a href="#cb3-7"></a>dat_load2 <span class="ot">&lt;-</span> dat_load2 <span class="sc">|&gt;</span></span>
+<span id="cb3-8"><a href="#cb3-8"></a>  <span class="fu">rename</span>(<span class="at">bladder =</span> <span class="st">"bladder_ca"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a></span>
+<span id="cb4-2"><a href="#cb4-2"></a>combined_dat_load2_load3 <span class="ot">&lt;-</span> combined_dat_load2_load3 <span class="sc">|&gt;</span></span>
+<span id="cb4-3"><a href="#cb4-3"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> ebrt<span class="sc">:</span>brachytherapy,</span>
+<span id="cb4-4"><a href="#cb4-4"></a>              <span class="at">names_to =</span> <span class="st">"treatment"</span>, </span>
+<span id="cb4-5"><a href="#cb4-5"></a>              <span class="at">values_to =</span> <span class="st">"values"</span>,</span>
+<span id="cb4-6"><a href="#cb4-6"></a>              <span class="at">values_drop_na =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb4-7"><a href="#cb4-7"></a>  <span class="fu">distinct</span>(hospital_id, <span class="at">.keep_all =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb4-8"><a href="#cb4-8"></a>  <span class="fu">select</span>(<span class="sc">-</span>values)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </section></section>

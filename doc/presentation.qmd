@@ -27,17 +27,93 @@ Our study involved extensive data preparation, including cleaning and augmenting
 
 # Clean
 
-## 
+## Libraries and functions for *dat_load1*
 
 ::: columns
 ::: {.column width="50%"}
-The janitor package was used to enhance the quality of the dataset by making sure that the variable names would be clean and consistent. Primarily, the clean_names() function was used to simplify and standardize the column names, which would help later on in cleaning the dataset.
+::: space-below
+#### `janitor` `dplyr` `stringr` `lubridate`
+:::
+
+`clean_names()`: to simplify and standardizes variable names
+
+`mutate()`: to fix variable types, spelling errors and used to add commas
+
+-   `ymd()`
+
+-   `str_replace_all()`
+
+-   `ifelse()`
 :::
 
 ::: {.column width="50%"}
+::: space-below
 ``` r
 dat_load1 <- dat_load1 |> 
   clean_names()
+```
+:::
+
+``` r
+dat_load1 <- dat_load1 |> 
+  mutate(
+  
+    # Make variable type as Date
+    date_of_birth = ymd(date_of_birth),
+    
+    # ethnicity - make all names lower case, change AA to african american
+    ethnicity = ifelse(ethnicity == "AA", "african_american", tolower(ethnicity)),
+    
+    # radiation_dosage - remove characters "Gy" make the observatons as num
+    radiation_dosage =  str_replace_all(radiation_dosage, "Gy", ""),
+    radiation_dosage = round(as.numeric(radiation_dosage),2),
+    
+    # comorbidities add "," to allow separation by ",", str_replace did not work
+    comorbidities = ifelse(row_number() == 2, "HTN, A. fib, DM, CHF, tobacco", comorbidities)
+```
+:::
+:::
+
+## Libraries and functions for `dat_load2` and `dat_load3`
+
+::: columns
+::: {.column width="50%"}
+::: space-below
+### libraries
+:::
+
+`select()`
+
+`rename()`
+
+`pivot_longer()`
+
+`distinct()`
+:::
+
+::: {.column width="50%"}
+::: space-below
+``` r
+dat_load2 <- dat_load2 |> 
+  select(-rads_for_prostate_primary, 
+         -rads_bladder_primary, 
+         -developed_bladder_first,
+         -developed_prostate_first)
+
+dat_load2 <- dat_load2 |>
+  rename(bladder = "bladder_ca")
+```
+:::
+
+``` r
+
+combined_dat_load2_load3 <- combined_dat_load2_load3 |>
+  pivot_longer(cols = ebrt:brachytherapy,
+              names_to = "treatment", 
+              values_to = "values",
+              values_drop_na = TRUE) |>
+  distinct(hospital_id, .keep_all = TRUE) |>
+  select(-values)
 ```
 :::
 :::
@@ -98,7 +174,7 @@ dat_load1 <- dat_load1 |>
 ::: {.column .img-bg width="50%"}
 ![Principal Component Analysis By doing a Principal Component Analysis in the data set we will reduce its dimmensionality and figure out if patients cancer organ have similar values in quantitative variables Grading system, Radiation dosage, Duration of radiation, Number of comorbidities.](images/key_plot_2.1.png){width="80%"}
 
-Data points aren't grouped by cancer organ. 
+Data points aren't grouped by cancer organ.
 
 Why do we get this spared data points?
 
