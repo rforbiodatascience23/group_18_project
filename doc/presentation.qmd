@@ -188,7 +188,7 @@ Libraries: `ggplot2`, `table1`
 
 -   Libraries: `ggplot`, `base`
 
-## Analysis 1 - Results  
+## Analysis 1 - Results & Discussion 
 
 ::: columns
 ::: {.column .img-bg width="50%"}
@@ -200,7 +200,7 @@ Libraries: `ggplot2`, `table1`
 :::
 :::
 
-## Analysis 1 - Results  
+## Analysis 1 - Results & Discussion
 
 ::: columns
 ::: {.column .img-bg width="50%"}
@@ -217,7 +217,7 @@ Libraries: `ggplot2`, `table1`
 -   Visualized PCA outcomes through a biplot, categorizing data by cancer type to identify patterns across different cancers.
 -   Developed a linear regression model examining the relationship between age at radiation, comorbidity count, and hospitalization duration.
 
-## Analysis 2 - Results
+## Analysis 2 - Results & Discussion 
 
 ::: columns
 ::: {.column .img-bg width="50%"}
@@ -228,21 +228,6 @@ Libraries: `ggplot2`, `table1`
 ![Figure 8: Scatterplot Analysis with Regression Line. The model tries to idemtify if a correlation between patient age at the time of radiation and their number of comorbidities, has any relation to the patient's hospital stay lenght.](images/key_plot_15.png)
 :::
 :::
-
-# Discussion
-
-## Analysis 1
-
--   The study unveils potential underreporting in HC cases, despite advancements in radiation therapy.
--   HL has the highest prevalence among the comorbidities, while UTIs and AKI are the most common hospital complications.
--   The use of EBRT and brachytherapy was linked to a quicker development of HC, while mixed neutron-photon IMRT therapy was linked to HC development at 75 months or late.
--   15% of patients underwent EBRT medium dose therapy, while 10% received IMRT medium dose therapy, making them the two most prevalent radiation treatments.
-
-## Analysis 2
-
--   The PCA biplot's lack of distinct variable clustering suggests no clear separation between bladder and prostate cancer characteristics within our limited dataset. The scarcity of bladder cancer data points highlights the need for a more extensive and balanced dataset to accurately differentiate between these two cancer types.
-
--   The scatterplot with the linear regression line hints that older patients and those with more comorbidities tend to stay in the hospital longer. However, the low R-squared value of 0.09 indicates that these factors explain only a small portion of the variation in hospital stay duration, implying the influence of additional, unaccounted variables or inherent data variability not captured by the current model.
 
 # Conclusion
 
