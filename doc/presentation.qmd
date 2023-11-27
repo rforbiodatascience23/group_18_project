@@ -7,6 +7,7 @@ title-slide-attributes:
 author: "s213049 - Catia B.<br/>s222373 - Nova F.<br/>s222800 - Laia D.<br/>s222854 - Minke O.<br/>s230204 - Eirini G."
 format: 
   revealjs:
+    embed-resources: true
     theme: [moon, custom.css]
     transition: "slide"
     center: true
