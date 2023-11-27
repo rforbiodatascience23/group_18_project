@@ -106,8 +106,6 @@ The dataset `dat_aug1` shows the information on only the 80 patients who develop
 
 -   **`num_comorbidities`** representing the number of comorbid conditions a patient has. Comorbidities are additional medical conditions that coexist with the primary condition (prostate cancer). Assessing comorbidities is essential for understanding the overall health status of patients, as it can influence treatment decisions and outcomes.
 
-<!-- -->
-
 -   **`radiation_type`** representing the types of radiation therapy administered to the patients. These include:
 
     -   EBRT (External Beam Radiation Therapy): high-energy X-rays are directed at the cancerous tissue from outside the body.
@@ -182,11 +180,9 @@ ggsave(filename = "key_plot_2.png",
 
 ```
 
-Shortly describe what the plot shows
-
 #### Key plot 3
 
-The 4 box plots each show the number of patients with HC that had the following variables: Age distribution at radiation treatment for Head and Neck Cancer (HC) patients, BMI distribution of HC patients, Distribution of the number of comorbidities in HC patients and finally the distribution of the number of hospital complications in HC patients.
+The 4 box plots each show the number of patients with HC that had the following variables: Age distribution at radiation treatment for HC patients, BMI distribution of HC patients, Distribution of the number of comorbidities in HC patients and finally the distribution of the number of hospital complications in HC patients.
 
 ```{r}
 df = dat_aug1
@@ -234,5 +230,3 @@ ggsave(filename = "key_plot_3.png",
       height = 5, 
       dpi = 300)
 ```
-
-Shortly describe what the plot shows
