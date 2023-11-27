@@ -48,7 +48,6 @@ dat_load3 <- read_excel(path = file_path, sheet = 3)
 ## Save the data as 01_dat_load.tsv in data folder
 
 ```{r}
-
 # Save data from sheet 1 
 write.table(x = dat_load1, "~/group_18_project/data/01_dat_load1.tsv", 
             sep = "\t", 
