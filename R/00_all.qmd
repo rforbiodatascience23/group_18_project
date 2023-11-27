@@ -9,11 +9,6 @@ editor: visual
 ```{r}
 #Run all scripts
 
-#| message: false
-
-#| results: hide
-
-
 #Load
 rmarkdown::render(input = '01_load.qmd',
 

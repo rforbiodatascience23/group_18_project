@@ -15,7 +15,7 @@ analysis_2 <- read_tsv(
   show_col_types = FALSE)
 ```
 
-## Plot 2.1 - Principal Component Analysis
+## Key plot 12 - Principal Component Analysis
 
 By doing a Principal Component Analysis in the data set we will reduce its dimmensionality and figure out if patients cancer organ have similar values in quantitative variables *Grading system, Radiation dosage, Duration of radiation, Number of comorbidities.*
 
@@ -69,7 +69,7 @@ ggsave(
 
 Look at the data in the PC coordinates.
 
-## Plot 2.1.1 - the rotation matrix.
+## The rotation matrix
 
 ```{r}
 # Extract rotation matrix
@@ -82,9 +82,10 @@ rotation_matrix <- round(rotation_matrix, digits = 3)
 kable(rotation_matrix, caption = "Rotation Matrix in PCA")
 ```
 
-## Plot 2.1.2 - Arrow plot.
+## Arrow plot
 
-```{r}
+```{r warning = FALSE}
+
 # define arrow style for plotting
 arrow_style <- arrow(
   angle = 20, ends = "first", type = "closed", length = grid::unit(8, "pt")
@@ -106,11 +107,12 @@ pca_fit |>
   theme_minimal_grid(12)
 ```
 
-## Plot 2.2 - Variance explained
+## Key plot 13 - Variance explained
 
 Lastly we will plot the explained variance of each principal component to asses the significance of the PCA obtained before.
 
-```{r}
+```{r warning = FALSE}
+
 # Explained variance obtained from the eigenvalues
 eigenvalues_df <- pca_fit |> 
   tidy(matrix = "eigenvalues")
@@ -141,11 +143,11 @@ ggsave(
 )
 ```
 
-## Plot 2.3 - Correlation Analysis
+## Key plot 14 - Correlation Analysis
 
 The plot depicts the correlation between chosen pairs of variables (above a selected threshold), allowing a simple understanding of their relationships. The intensity of the color indicates the strength and direction of the correlation.
 
-```{r}
+```{r warning = FALSE}
  
 # Get correlation between numeric variables
 cor_matrix <- analysis_2 |>
@@ -197,11 +199,12 @@ ggsave(filename = "key_plot_2.3.png",
        dpi = 300)
 ```
 
-## Plot 2.4 - Model to predict number of hospitalization days
+## Key plot 15 - Model to predict number of hospitalization days
 
 Scatterplot with a linear regression line, using the **`ggplot2`** package. The plot shows the relationship between the variables **`age_at_radiation`** and **`num_comorbidities`** with respect to the number of days admitted to the hospital (**`num_days_admitted`**). The predicted number of days is shown with different colors. Points that deviate from the regression line may indicate observations with higher or lower than expected days admitted, providing insights into potential patterns or outliers in the data.
 
-```{r}
+```{r warning = FALSE}
+
 # Linear regression model
 model <- lm(num_days_admitted ~ age_at_radiation + num_comorbidities, data = analysis_2)
 
