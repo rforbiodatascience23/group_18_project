@@ -45,6 +45,9 @@ Now, we plot the data in PC coordinates. In this step, we combine the PC coordin
 We select the first two PC given that they are the ones which contain a highest variation explained. This will be justified later with a scree plot.
 
 ```{r}
+#| message : FALSE
+#| warning : FALSE
+
 pca_biplot<- pca_fit |> 
   augment(analysis_2_subset) |>
   drop_na() |>
@@ -75,6 +78,9 @@ Look at the data in the PC coordinates.
 ## The rotation matrix.
 
 ```{r}
+#| message : FALSE
+#| warning : FALSE
+
 # Extract rotation matrix
 rotation_matrix <- pca_fit$rotation
 
@@ -88,6 +94,9 @@ kable(rotation_matrix, caption = "Rotation Matrix in PCA")
 ## Arrow plot.
 
 ```{r}
+#| message : FALSE
+#| warning : FALSE
+
 # define arrow style for plotting
 arrow_style <- arrow(
   angle = 20, ends = "first", type = "closed", length = grid::unit(8, "pt")
@@ -114,6 +123,9 @@ pca_fit |>
 Lastly we will plot the explained variance of each principal component to asses the significance of the PCA obtained before.
 
 ```{r}
+#| message : FALSE
+#| warning : FALSE
+
 # Explained variance obtained from the eigenvalues
 eigenvalues_df <- pca_fit |> 
   tidy(matrix = "eigenvalues")
@@ -149,6 +161,8 @@ ggsave(
 The plot depicts the correlation between chosen pairs of variables (above a selected threshold), allowing a simple understanding of their relationships. The intensity of the color indicates the strength and direction of the correlation.
 
 ```{r}
+#| message : FALSE
+#| warning : FALSE
  
 # Get correlation between numeric variables
 cor_matrix <- analysis_2 |>
@@ -205,6 +219,9 @@ ggsave(filename = "key_plot_14.png",
 Scatterplot with a linear regression line, using the **`ggplot2`** package. The plot shows the relationship between the variables **`age_at_radiation`** and **`num_comorbidities`** with respect to the number of days admitted to the hospital (**`num_days_admitted`**). The predicted number of days is shown with different colors. Points that deviate from the regression line may indicate observations with higher or lower than expected days admitted, providing insights into potential patterns or outliers in the data.
 
 ```{r}
+#| message : FALSE
+#| warning : FALSE
+
 # Linear regression model
 model <- lm(num_days_admitted ~ age_at_radiation + num_comorbidities, data = analysis_2)
 
