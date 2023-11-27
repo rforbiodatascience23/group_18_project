@@ -6,37 +6,32 @@ editor: visual
 
 # Analysis 2
 
-### Key plot 12: Principal Component Analysis
-
-By doing a Principal Component Analysis in the data set we will reduce its dimmensionality and figure out if patients cancer organ have similar values in quantitative variables *Grading system, Radiation dosage, Duration of radiation, Number of comorbidities.*
-
-First we load the libraries and data set required to perform this analysis.
+## Load dat_aug1 from data folder
 
 ```{r}
-# Load libraries
-library(cowplot)
-library(tidyverse)
-library(broom)  
-
 # Load data
 analysis_2 <- read_tsv(
   file = "~/group_18_project/data/03_dat_aug1.tsv",
   show_col_types = FALSE)
 ```
 
-Afterwards, we need to look at the data in PC coordinates. To do this, we select the numeric variables we are interested in and scale the data values to unit variance before doing the PCA.
+## Plot 2.1 - Principal Component Analysis
+
+By doing a Principal Component Analysis in the data set we will reduce its dimmensionality and figure out if patients cancer organ have similar values in quantitative variables *Grading system, Radiation dosage, Duration of radiation, Number of comorbidities.*
+
+Firstly, we need to look at the data in PC coordinates. To do this, we select the numeric variables we are interested in and scale the data values to unit variance before doing the PCA.
 
 ```{r}
 # Names of the numeric columns included in PCA
 selected_vars <- c("hematuria_grade", "radiation_dosage", "radiation_duration", "num_comorbidities")
 
 # Create a subset without NA values
-analysis_2 <- analysis_2 |> 
+analysis_2_subset <- analysis_2 |> 
   select(all_of(selected_vars), cancer_type) |> 
   drop_na() 
 
 # Use the selected numeric columns for PCA and avoid rows with NA values
-pca_fit <- analysis_2 |> 
+pca_fit <- analysis_2_subset |> 
   select(all_of(selected_vars)) |> 
   prcomp(scale = TRUE)  # Perform PCA on scaled data
 
@@ -48,8 +43,8 @@ We select the first two PC given that they are the ones which contain a highest 
 
 ```{r}
 pca_biplot<- pca_fit |> 
-  augment(analysis_2) |>  # add original dataset back in
-  drop_na() |>  
+  augment(analysis_2_subset) |>
+  drop_na() |>
   ggplot(aes(.fittedPC1, .fittedPC2, color = cancer_type)) + 
   geom_point(size = 2.5) +
   labs(color = "Cancer type")+
@@ -66,7 +61,7 @@ pca_biplot<- pca_fit |>
 
 # Save the plot in Results directory
 ggsave(
-  filename = 'key_plot_12.png',
+  filename = 'key_plot_2.1.png',
   plot = pca_biplot,
   path = "~/group_18_project/results"
 )
@@ -74,13 +69,10 @@ ggsave(
 
 Look at the data in the PC coordinates.
 
-Plot the rotation matrix.
+## Plot 2.1.1 - the rotation matrix.
 
 ```{r}
-# Load library
-library(knitr)
-
-# extract rotation matrix
+# Extract rotation matrix
 rotation_matrix <- pca_fit$rotation
 
 # Rounded rotation matrix
@@ -90,7 +82,7 @@ rotation_matrix <- round(rotation_matrix, digits = 3)
 kable(rotation_matrix, caption = "Rotation Matrix in PCA")
 ```
 
-Arrow plot.
+## Plot 2.1.2 - Arrow plot.
 
 ```{r}
 # define arrow style for plotting
@@ -114,7 +106,7 @@ pca_fit |>
   theme_minimal_grid(12)
 ```
 
-## Key plot 13: Explained variance
+## Plot 2.2 - Variance explained
 
 Lastly we will plot the explained variance of each principal component to asses the significance of the PCA obtained before.
 
@@ -143,15 +135,15 @@ scree_plot <- eigenvalues_df |>
 
 # Save the plot in Results directory
 ggsave(
-  filename = 'key_plot_13.png',
+  filename = 'key_plot_2.2.png',
   plot = scree_plot,
   path = "~/group_18_project/results"
 )
 ```
 
-### Key plot 14:  Correlation Analysis
+## Plot 2.3 - Correlation Analysis
 
-Description: The plot depicts the correlation between chosen pairs of variables (above a selected threshold), allowing a simple understanding of their relationships. The intensity of the colour indicates the strength and direction of the correlation.
+The plot depicts the correlation between chosen pairs of variables (above a selected threshold), allowing a simple understanding of their relationships. The intensity of the color indicates the strength and direction of the correlation.
 
 ```{r}
  
@@ -187,7 +179,7 @@ high_correlation_matrix <- cor(high_correlation_data)
 # Melt the high correlation matrix
 high_correlation_df <- melt(high_correlation_matrix)
 
-# Create a ggplot scatterplot with color representing correlation
+# Create a ggplot with color representing correlation
 correlation_plot <- 
   ggplot(data = high_correlation_df, 
          aes(Var1, Var2, fill = value)) +
@@ -197,34 +189,32 @@ correlation_plot <-
   theme(axis.text.x = element_text(angle = 45, hjust = 1),
         axis.text.y = element_text(angle = 45, hjust = 1))
 
-print(correlation_plot)
-ggsave(filename = "key_plot_14.png", 
+#print(correlation_plot)
+ggsave(filename = "key_plot_2.3.png", 
        plot = correlation_plot,
        path = "~/group_18_project/results", 
        width = 8, height = 6,
        dpi = 300)
 ```
 
-### Key plot 15:  Model
+## Plot 2.4 - Model to predict number of hospitalization days
 
-Description: scatterplot with a linear regression line, using the **`ggplot2`** package. The plot visualizes the relationship between the variables **`age_at_radiation`** and **`num_comorbidities`** with respect to the number of days admitted to the hospital (**`num_days_admitted`**). The plot helps visualize the relationship between age, number of comorbidities, and the predicted number of days admitted. Points that deviate from the regression line may indicate observations with higher or lower than expected days admitted, providing insights into potential patterns or outliers in the data.
+Scatterplot with a linear regression line, using the **`ggplot2`** package. The plot shows the relationship between the variables **`age_at_radiation`** and **`num_comorbidities`** with respect to the number of days admitted to the hospital (**`num_days_admitted`**). The predicted number of days is shown with different colors. Points that deviate from the regression line may indicate observations with higher or lower than expected days admitted, providing insights into potential patterns or outliers in the data.
 
 ```{r}
-# Fit a linear regression model
+# Linear regression model
+model <- lm(num_days_admitted ~ age_at_radiation + num_comorbidities, data = analysis_2)
 
-df <- analysis_1.1
-
-model <- lm(num_days_admitted ~ age_at_radiation + num_comorbidities, data = df)
-
-cor(df$age_at_radiation, df$num_days_admitted)
+# Calculate the R squared 
+R2 <- summary(model)$r.squared
 
 # Make predictions
-df <- df %>%
-  mutate(predicted_days = predict(model, newdata = df))
+data_for_predicton <- analysis_2 |>
+  mutate(predicted_days = predict(model, newdata = analysis_2))
 
-# Create a scatterplot with the regression line
+# Create a scatterplot with regression line & R-squared value
 model_plot_days_admitted <-
-ggplot(df, aes(x = age_at_radiation, y = num_comorbidities, color = predicted_days)) +
+ggplot(data_for_predicton, aes(x = age_at_radiation, y = num_comorbidities, color = predicted_days)) +
   geom_point(aes(size = num_days_admitted)) +
   geom_smooth(method = "lm", se = FALSE, linetype = "dashed", color = "black") +
   labs(title = "Comparison of Age, Number of Comorbidities, and Number of Hospitalizations",
@@ -232,22 +222,24 @@ ggplot(df, aes(x = age_at_radiation, y = num_comorbidities, color = predicted_da
        y = "Number of Comorbidities",
        color = "Predicted Days of Admission",
        size = "Actual Days of Admission") +
-  scale_color_viridis_c() +  # Choose a color scale
-  theme_minimal()
+  scale_color_viridis_c() + 
+  theme_minimal() +
+  annotate("text", x = Inf, y = Inf, label = paste("R² =", round(R2, 2)), 
+           hjust = 1.1, vjust = 1.1, size = 5, color = "black")
 
 print(model_plot_days_admitted)
 
-ggsave(filename = "key_plot_15.png", 
+ggsave(filename = "key_plot_2.4.png", 
        plot = model_plot_days_admitted,
        path = "~/group_18_project/results", 
        width = 8, height = 6,
        dpi = 300)
 ```
 
-Residual plots are a crucial diagnostic tool to assess the validity of a linear regression model. They help you evaluate whether the assumptions of the model are met. Here are several types of residual plots you can create and interpret:
+Residual plots were appied to assess the validity of the linear regression model.
 
 ```{r}
-# Fit a linear regression model
+# Fit linear regression model
 model <- lm(num_days_admitted ~ age_at_radiation + num_comorbidities, data = df)
 
 # Check residual plots

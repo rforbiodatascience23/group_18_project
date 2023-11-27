@@ -26,6 +26,7 @@ library(survival)
 library(survminer)
 library(gridExtra)
 library(viridis)
+library(knitr)
 ```
 
 ## Load raw_data.xlsx from \_raw folder
