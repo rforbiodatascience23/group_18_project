@@ -74,9 +74,9 @@ ggsave(filename = "key_plot_1.2.png",
 
 ## Plot 3
 
-This plot shows the Analysis of Radiation Dose Percentages in correlation to the different radiation types. According to literature \[1\], a standardized threshold has been added distinguishing Low, Medium, and High Levels across various radiation types.
+This plot shows the Distribution of Radiation Doses across different radiation types. According to literature \[1\], a standardized threshold has been added distinguishing Low, Medium, and High Levels across various radiation types.
 
-From the plot below, we can observe that high radiation dosages are only used in ebrt,adjuvant and imrt. Also, the two most used radiation therapies are ebrt medium dose and imrt medium dose.
+From the plot below, we can observe that 15% of patients underwent EBRT medium dose therapy, while 10% received IMRT medium dose therapy, making them the two most prevalent radiation treatments.
 
 \[1\] Ganswindt, U., Paulsen, F., Anastasiadis, A. G., Stenzl, A., Bamberg, M., & Belka, C. (2005). 70 Gy or more: which dose for which prostate cancer?. Journal of cancer research and clinical oncology, 131(7), 407--419.
 
