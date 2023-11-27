@@ -64,7 +64,7 @@ print(plot12)
 
 # Save the plot in Results directory
 ggsave(
-  filename = 'key_plot_2.1.png',
+  filename = 'key_plot_12.png',
   plot = pca_biplot,
   path = "~/group_18_project/results"
 )
@@ -143,7 +143,7 @@ print(plot13)
 
 # Save the plot in Results directory
 ggsave(
-  filename = 'key_plot_2.2.png',
+  filename = 'key_plot_13.png',
   plot = scree_plot,
   path = "~/group_18_project/results"
 )
@@ -201,7 +201,7 @@ correlation_plot <-
 print(plot14)
 
 # Save the plot in Results directory
-ggsave(filename = "key_plot_2.3.png", 
+ggsave(filename = "key_plot_14.png", 
        plot = correlation_plot,
        path = "~/group_18_project/results", 
        width = 8, height = 6,
@@ -242,7 +242,7 @@ ggplot(data_for_predicton, aes(x = age_at_radiation, y = num_comorbidities, colo
 #Print plot
 print(model_plot_days_admitted)
 
-ggsave(filename = "key_plot_2.4.png", 
+ggsave(filename = "key_plot_15.png", 
        plot = model_plot_days_admitted,
        path = "~/group_18_project/results", 
        width = 8, height = 6,
