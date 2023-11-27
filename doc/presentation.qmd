@@ -136,8 +136,6 @@ combined_dat_load2_load3 <- combined_dat_load2_load3 |>
 `relocate()`: Rearranges columns in the data set.
 
 `str_count()`: Counts the number of matches to a pattern in each string of a vector
-
-`strplit()`: Splits string into a list of sub-strings (not sure if it should be here).
 :::
 
 ::: {.column width="50%"}
