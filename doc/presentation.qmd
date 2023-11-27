@@ -162,6 +162,8 @@ dat_clean1 <- dat_clean1 |>
 
 Libraries: `ggplot2`, `table1`
 
+## Data description
+
 ::: columns
 #### dat_clean2: 739 obsevations and 5 variables
 
@@ -184,7 +186,7 @@ Libraries: `ggplot2`, `table1`
 
 -   Libraries: `ggplot2`
 
-## Analysis 1 - Results & Discussion 
+## Analysis 1 - Results & Discussion
 
 ::: columns
 ::: {.column .img-bg width="50%"}
@@ -214,7 +216,7 @@ Libraries: `ggplot2`, `table1`
 -   Developed a linear regression model examining the relationship between age at radiation, comorbidity count, and hospitalization duration.
 -   Libraries: `ggplot2`, `purrr`, `cowplot`, `broom`
 
-## Analysis 2 - Results & Discussion 
+## Analysis 2 - Results & Discussion
 
 ::: columns
 ::: {.column .img-bg width="50%"}
