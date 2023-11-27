@@ -4,7 +4,7 @@ format: html
 editor: visual
 ---
 
-# Describe 
+# Describe
 
 The dataset under consideration originates from an in-depth exploration of medical records pertaining to individuals who underwent radiation therapy for prostate cancer within the timeframe of January 2000 to September 2015, specifically within two Detroit Medical Center hospitals. The dataset encompasses information on 709 patients. The primary objective of this investigation was to assess the frequency and severity of radiation-induced hemorrhagic cystitis (HC) in patients subjected to radiation therapy.
 
