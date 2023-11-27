@@ -2,9 +2,6 @@
 title: "05_analysis_1.qmd"
 format: html
 editor: visual
-execute:
-  message: false
-  warning: false
 ---
 
 # Analysis 1
@@ -28,9 +25,8 @@ Linear Regression Analysis of Body Mass Index (BMI) in relation to radiation dos
 
 From the plot below, we can observe that the higher the BMI, the higher the radiation dose to the patients. However, the quality of the data is not sufficient to confirm these as we had many NAs in the radiation dosage column.
 
-```{r}
-#| warning: false 
-#| message : false
+```{r warning = FALSE}
+
 # Create the plot
 plot4 <- 
   analysis_1.1 |> 
@@ -83,6 +79,7 @@ From the plot below, we can observe that 15% of patients underwent EBRT medium d
 \[1\] Ganswindt, U., Paulsen, F., Anastasiadis, A. G., Stenzl, A., Bamberg, M., & Belka, C. (2005). 70 Gy or more: which dose for which prostate cancer?. Journal of cancer research and clinical oncology, 131(7), 407--419.
 
 ```{r}
+ 
 # Define dose categories based on paper
 low_dose_threshold <- 70
 high_dose_threshold <- 85
@@ -194,7 +191,8 @@ Relationship Between Body Mass Index (BMI) and time from radiation completion to
 
 From the plot below, we can observe that all Caucasian people developed Hemorrhagic cystitis before 100 months from the end of their cancer therapy. The vast majority of the patients got HC before 200 months and after them the cases of HC were rare.
 
-```{r}
+```{r warning = FALSE}
+
 #Create a scatter plot
 plot7 <- 
   ggplot(data = analysis_1.1,
@@ -276,7 +274,8 @@ ggsave(
 
 Description: This plot illustrates the relationship between radiation dosage and duration across different types of cancer. Each cancer type is represented in a separate subplot for easy comparison, and the points are color-coded by radiation type. This visualization effectively displays complex data in a clear and comparative manner, ideal for in-depth analysis.
 
-```{r}
+```{r warning = FALSE}
+
 # Faceted Scatter Plot
 plot9 <- ggplot(data = analysis_1.1, 
          aes(x = radiation_dosage, 
