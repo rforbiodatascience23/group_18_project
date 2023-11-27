@@ -192,7 +192,10 @@ Libraries: `ggplot2`, `table1`
 
 ::: columns
 ::: {.column .img-bg width="50%"}
-![Figure 3: Analysis of Radiation Dose Percentages in correlation to the different radiation types. According to literature, a standardized threshold has been added distinguishing Low, Medium, and High Levels across various radiation types.](images/key_plot_1.3-01.png)
+![Figure 3: Distribution of Radiation Doses across different radiation types. According to literature, a standardized threshold has been added distinguishing Low, Medium, and High Levels across various radiation types.\
+
+
+](images/key_plot_1.3-01.png)
 :::
 
 ::: {.column .img-bg width="50%"}
@@ -240,11 +243,9 @@ Libraries: `ggplot2`, `table1`
 
 ## Analysis 2
 
--   The PCA biplot's lack of distinct variable clustering suggests no clear separation between bladder and prostate cancer characteristics within our limited dataset.
-The scarcity of bladder cancer data points highlights the need for a more extensive and balanced dataset to accurately differentiate between these two cancer types.
+-   The PCA biplot's lack of distinct variable clustering suggests no clear separation between bladder and prostate cancer characteristics within our limited dataset. The scarcity of bladder cancer data points highlights the need for a more extensive and balanced dataset to accurately differentiate between these two cancer types.
 
--   The scatterplot with the linear regression line reveals a subtle trend indicating longer hospital stays associated with older patients and those with a higher number of comorbidities.
-This observation suggests that age and comorbidities might be predictive factors in determining the duration of hospitalization in this patient cohort.
+-   The scatterplot with the linear regression line reveals a subtle trend indicating longer hospital stays associated with older patients and those with a higher number of comorbidities. This observation suggests that age and comorbidities might be predictive factors in determining the duration of hospitalization in this patient cohort.
 
 # Conclusion
 
