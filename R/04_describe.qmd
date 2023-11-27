@@ -137,7 +137,7 @@ The boxplot is used to visualize the distribution of the normalized values for v
 
 ```{r}
 box_plot_data <- 
-  dat_clean1.2 |>
+  dat_aug1 |>
   select(age_at_radiation,
          BMI, 
          num_comorbidities, 
@@ -189,7 +189,7 @@ Shortly describe what the plot shows
 The 4 box plots each show the number of patients with HC that had the following variables: Age distribution at radiation treatment for Head and Neck Cancer (HC) patients, BMI distribution of HC patients, Distribution of the number of comorbidities in HC patients and finally the distribution of the number of hospital complications in HC patients.
 
 ```{r}
-df = dat_clean1.2
+df = dat_aug1
 
 # Age Distribution
 plot_age <- 
