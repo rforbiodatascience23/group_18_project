@@ -198,7 +198,7 @@ From the plot below, we can observe that all Caucasian people developed Hemorrha
 plot5 <- 
   ggplot(data = analysis_1.1,
          aes(x = radiation_completion_to_first_hc, 
-             y = BMI, 
+             y = BMI , 
              color = ethnicity)) +
   geom_point() +
   labs(title = "BMI vs Radiation Completion to First HC",
