@@ -12,52 +12,19 @@ The findings reveal that approximately 11.1% of the patients in the dataset deve
 
 Demographically, the majority of these patients were of African American descent, with an average age of around 69 at the time of radiation. The spectrum of complications ranged from urinary tract infections to more severe conditions like kidney issues, bladder ruptures, and unfortunately, instances of mortality.
 
-## Load dat_clean from data folder
+The dataset discussed in the article comprises 3 files. The initial file stands out as the primary source of information, containing the most extensive dataset. Following a thorough cleaning process, this file underwent augmentation. In contrast, the second and third files did not necessitate augmentation, having been deemed complete after cleaning and merged together. Therefore, it is important to provide descriptions of the `dat_clean2` file as well, rather than focusing solely on the augmented one.
+
+## dat_clean2
+
+### Load dat_clean2 from data folder
 
 ```{r}
-dat_clean1 <- read_tsv(
-  file = "~/group_18_project/data/02_dat_clean1.tsv",
-  show_col_types = FALSE)
-
 dat_clean2 <- read_tsv(
   file = "~/group_18_project/data/02_dat_clean2.tsv",
   show_col_types = FALSE)
-
-dat_clean1.2 <- read_tsv(
-  file = "~/group_18_project/data/03_dat_aug1.tsv",
-  show_col_types = FALSE)
-
 ```
 
-## Inspect the dat_clean1
-
-```{r}
-
-dat_clean1 |> head(10)
-```
-
-The dataset `dat_clean1` shows the information on only the 80 patients who developed HC subsequent to their radiation therapy. The primary focus of the analysis is to assess the frequency and severity of radiation-induced hemorrhagic cystitis (HC) in these patients. Standard information of each patient is given such as: `date_of_birth`, `ethnicity`, `age_at_radiation`, `height` and `weight`, but the following variables were important to look at:
-
--   **`radiation_type`** representing the types of radiation therapy administered to the patients. These include:
-
-    -   EBRT (External Beam Radiation Therapy): high-energy X-rays are directed at the cancerous tissue from outside the body.
-
-    -   IMRT (Intensity-Modulated Radiation Therapy): IMRT is an advanced form of EBRT that adjusts the intensity of the radiation beams.
-
-    -   Neutron Photon: This combines the use of neutrons and photons (X-rays) for radiation treatment. Neutrons have unique properties that may enhance their effectiveness in certain cases and will be used for specific types of cancer.
-
--   **`hematuria_grade`** indicating the severity or grade of hematuria experienced by patients. Hematuria grade is a qualitative assessment of the severity of blood in the urine. It ranges from mild to severe, reflecting the amount and visibility of blood. Understanding hematuria grade provides insights into the severity of complications, especially those induced by radiation therapy.
-
-```{r}
-dat_clean1 |>
-  mutate(hematuria_grade = factor(hematuria_grade)) |>
-  table1(x = formula(~ age_at_radiation + ethnicity + radiation_type | hematuria_grade),
-         data = _)
-```
-
-The table shows the key statistics of the variables `age_at_radiation`, `ethnicity` and `radiation_type`. The dataset includes patients with a mean age at radiation of 68.7 years, a median age of 68.5 years, which ranges from 48 to 89 years. The ethnicity information is available for 90% of patients, with the majority being African American (92.5%) while Caucasians make up 7.5% of the dataset. The most common type of radiation is EBRT at 55% and different combinations of radiation types are also present, with varying frequencies. Missing data is observed for 7.5% of the cases.
-
-## Inspect the dat_clean2
+### Inspect the dat_clean2
 
 ```{r}
 
@@ -74,9 +41,9 @@ dat_clean2 |>
 
 The table shows the key statistics of the variables `treatment` and `bladder_cancer`. The most common treatments are EBRT at 34.1% and Brachytherapy at 6.0%. Other treatments include Adjuvant therapy (3.7%), IMRT (14.7%), Unknown treatments (25.2%), and a combination of Neutron/Photon therapies with EBRT or IMRT. The majority of individuals (95.0%) in the dataset do not have bladder cancer, while a smaller proportion (5.0%) has bladder cancer.
 
-## Plot 1
+#### Plot 1
 
-Description: The presented plot illustrates the distribution of patients who experienced radiation-induced Hemorrhagic Cystitis (HC) based on the type of treatment received. Utilizing proportions in this visualization offers a comparative view of how different treatments are distributed relative to the total number of cases with HC incidence. Each bar represents the proportion of patients receiving a specific treatment within the categories of HC incidence, providing valuable insights into the treatment patterns in the context of radiation-induced HC.
+The presented plot illustrates the distribution of patients who experienced radiation-induced Hemorrhagic Cystitis (HC) based on the type of treatment received. Utilizing proportions in this visualization offers a comparative view of how different treatments are distributed relative to the total number of cases with HC incidence in the `dat_clean2` dataset. Each bar represents the proportion of patients receiving a specific treatment within the categories of HC incidence, providing valuable insights into the treatment patterns in the context of radiation-induced HC.
 
 ```{r}
 plot1 <- 
@@ -111,13 +78,64 @@ ggsave(filename = "key_plot_1.1.png",
       dpi = 300)
 ```
 
-## Plot 8
+As seen in the plot, the majority of patients did not develop HC. While a small percentage of patients did develop HC in all the radiation types, brachytherapy was the only radiation therapy without HC development.
 
-Description: The boxplot is used to visualize the distribution of the normalized values for various variables obtained for patient that developed HC. Each box represents the interquartile range (IQR), with the median depicted as a horizontal line inside the box. The plot provides a concise summary of the central tendency, spread, and potential outliers in the normalized data across different variables.
+## dat_aug
+
+### Load dat_aug from data folder
+
+```{r}
+dat_aug1 <- read_tsv(
+  file = "~/group_18_project/data/03_dat_aug1.tsv",
+  show_col_types = FALSE)
+```
+
+### Inspect the dat_aug1.tsv
+
+```{r}
+dat_aug1 |> head(10)
+```
+
+The dataset `dat_aug1` shows the information on only the 80 patients who developed HC subsequent to their radiation therapy. The primary focus of the analysis is to assess the frequency and severity of radiation-induced hemorrhagic cystitis (HC) in these patients. Standard information of each patient is given such as: `date_of_birth`, `age_at_radiation` and `ethnicity`, but the following variables were important to look at:
+
+-   **`BMI`** derived from the patient's height and weight. BMI could be crucial for understanding the association between body composition and the development of HC, as research has suggested that BMI may influence treatment outcomes and complications in cancer patients.
+
+-   **`cancer_type`** indicating the specific type or category of prostate cancer that patients are diagnosed with. Understanding the cancer type is essential for tailoring effective treatments and analyzing how different types may be associated with the occurrence and severity of radiation-induced complications (HC).
+
+-   **`hematuria_grade`** indicating the severity or grade of hematuria experienced by patients. Hematuria grade is a qualitative assessment of the severity of blood in the urine. It ranges from mild to severe, reflecting the amount and visibility of blood. Understanding hematuria grade provides insights into the severity of complications, especially those induced by radiation therapy.
+
+-   **`num_comorbidities`** representing the number of comorbid conditions a patient has. Comorbidities are additional medical conditions that coexist with the primary condition (prostate cancer). Assessing comorbidities is essential for understanding the overall health status of patients, as it can influence treatment decisions and outcomes.
+
+<!-- -->
+
+-   **`radiation_type`** representing the types of radiation therapy administered to the patients. These include:
+
+    -   EBRT (External Beam Radiation Therapy): high-energy X-rays are directed at the cancerous tissue from outside the body.
+
+    -   IMRT (Intensity-Modulated Radiation Therapy): IMRT is an advanced form of EBRT that adjusts the intensity of the radiation beams.
+
+    -   Neutron Photon: This combines the use of neutrons and photons (X-rays) for radiation treatment. Neutrons have unique properties that may enhance their effectiveness in certain cases and will be used for specific types of cancer.
+
+-   **`num_days_admited`** indicates the number of days a patient was admitted to the hospital. Tracking hospital admission days provides insights into the impact of radiation therapy on patients' well-being, including potential complications and recovery periods.
+
+-   **`num_hosp_complications`** denotes the number of hospital complications experienced by patients. Monitoring hospital complications is vital for assessing the overall safety and efficacy of radiation therapy. It helps identify potential risks associated with the treatment and informs healthcare decisions for patient care.
+
+```{r}
+dat_aug1 |>
+  mutate(hematuria_grade = factor(hematuria_grade)) |>
+  table1(x = formula(~ age_at_radiation + ethnicity + radiation_type | hematuria_grade),
+         data = _)
+```
+
+The table shows the key statistics of the variables `age_at_radiation`, `ethnicity` and `radiation_type`. The dataset includes patients with a mean age at radiation of 68.7 years, a median age of 68.5 years, which ranges from 48 to 89 years. The ethnicity information is available for 90% of patients, with the majority being African American (92.5%) while Caucasians make up 7.5% of the dataset. The most common type of radiation is EBRT at 55% and different combinations of radiation types are also present, with varying frequencies.
+
+### Plot 8
+
+The boxplot is used to visualize the distribution of the normalized values for various variables obtained for patient that developed HC. Each box represents the interquartile range (IQR), with the median depicted as a horizontal line inside the box. The plot provides a concise summary of the central tendency, spread, and potential outliers in the normalized data across different variables.
 
 ```{r}
 box_plot_data <- 
-  dat_clean1.2 |>
+  dat_aug1 |>
   select(age_at_radiation,
          BMI, 
          num_comorbidities, 
@@ -162,15 +180,14 @@ ggsave(filename = "key_plot_1.8.png",
 
 ```
 
-## Plot 9
+Shortly describe what the plot shows
 
-Description: the 4 box plots each show the number of patients with HC that had the following variables: Age distribution at radiation treatment for Head and Neck Cancer (HC) patients, BMI distribution of HC patients, Distribution of the number of comorbidities in HC patients and finally the distribution of the number of hospital complications in HC patients.
+### Plot 9
+
+The 4 box plots each show the number of patients with HC that had the following variables: Age distribution at radiation treatment for Head and Neck Cancer (HC) patients, BMI distribution of HC patients, Distribution of the number of comorbidities in HC patients and finally the distribution of the number of hospital complications in HC patients.
 
 ```{r}
-library(gridExtra)
-library(viridis)
-
-df = dat_clean1.2
+df = dat_aug1
 
 # Age Distribution
 plot_age <- 
@@ -215,3 +232,5 @@ ggsave(filename = "key_plot_1.9.png",
       height = 5, 
       dpi = 300)
 ```
+
+Shortly describe what the plot shows

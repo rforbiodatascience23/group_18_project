@@ -106,6 +106,8 @@ dat_load1 <- dat_load1 |>
     
     # comorbidities add "," to allow separation by ",", str_replace did not work
     comorbidities = ifelse(row_number() == 2, "HTN, A. fib, DM, CHF, tobacco", comorbidities),
+    comorbidities = ifelse(row_number() == 65, "HTN, MM, CAD, a. fib, CHF", comorbidities),
+    comorbidities = ifelse(row_number() == 66, "HTN,DM,CHF,COPD, a. fib, CAD", comorbidities),
 
     # los_for_each_admission_days replace spaces with comas 
     los_for_each_admission = str_replace_all(los_for_each_admission, "\\s+", " "),
@@ -178,6 +180,7 @@ dat_load1 <- dat_load1 |>
 ### Save the data as 02_dat_clean1.tsv in data folder
 
 ```{r}
+
 # Save clean data from sheet 1
 write.table(x = dat_load1,
             file = "~/group_18_project/data/02_dat_clean1.tsv", 
@@ -191,6 +194,7 @@ write.table(x = dat_load1,
 The `select` and `rename` functions from `dplyr` were used to remove irrelevant columns, after which the `bind_rows` function was applied to merge datasets (`dat_load2` and `dat_load3`) and handled missing values. Then, the `pivot_longer` function from `tidyverse` was used to create a 'treatment' column, to represent the different types of treatments in a unified way.
 
 ```{r}
+
 # Remove column from the variables and columns that don't exist in patient_info2
 dat_load2 <- dat_load2 |> 
   select(-rads_for_prostate_primary, 
@@ -237,6 +241,7 @@ combined_dat_load2_load3 <- combined_dat_load2_load3 |>
 ### Save the combined data as 02_dat_clean2.tsv in data folder
 
 ```{r}
+
 # Save combined clean data from sheet 2 and sheet 3
 write.table(x = combined_dat_load2_load3,
             file = "~/group_18_project/data/02_dat_clean2.tsv", 

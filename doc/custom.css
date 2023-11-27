@@ -19,3 +19,7 @@ $presentation-h1-font-size: 2em;
 #title-slide .quarto-title-author-name {
   color: rgb(200,200,200);
 }
+
+.space-below {
+  margin-bottom: 20px;
+}

@@ -405,65 +405,154 @@ s213049 - Catia B.<br>s222373 - Nova F.<br>s222800 - Laia D.<br>s222854 - Minke 
 <li>Prostate cancer is a major global health concern.</li>
 <li>Radiation therapy, a common treatment, can lead to complications like hemorrhagic cystitis (HC).</li>
 <li>HC symptoms include bleeding and bladder pain.</li>
-<li>Our 15-year study with 709 patients examines the impact of different radiotherapy types on HC development.</li>
-<li>We’ll explore data processes, analyses, and insights gleaned from this extensive study.</li>
+<li>A 15-year study with 739 patients examined the impact of different radiotherapy types on HC development.</li>
+<li>We will explore data processes, analyses, and insights gained from this study.</li>
 </ul>
 </section>
 
 <section id="data" class="title-slide slide level1 center">
 <h1>Data</h1>
-<p>Our study involved extensive data preparation, including cleaning and augmenting our dataset. Here’s a glimpse into our process:</p>
+<p>Our project involved extensive data preparation, including cleaning and augmenting our dataset. Here’s a glimpse into the process:</p>
 </section>
 
 <section>
 <section id="clean" class="title-slide slide level1 center">
 <h1>Clean</h1>
-
+<p><code>janitor</code></p>
+<p><code>dplyr</code></p>
+<p><code>stringr</code></p>
+<p><code>tidyverse</code></p>
+<p><code>lubridate</code></p>
+</section>
+<section id="dat_load1" class="slide level2 center">
+<h2><em>dat_load1</em></h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><code>clean_names()</code>: Simplifies and standardizes variable names</p>
+<p><code>mutate()</code>:Transforms or adds new variables</p>
+<p><code>ymd()</code>: Parse strings to dates</p>
+<p><code>str_replace_all()</code>: Replaces all pattern matches in the string</p>
+<p><code>as.numeric()</code>: Converts values to numeric</p>
+<p><code>ifelse()</code> : Conditional logic returns two alternatives</p>
+</div><div class="column" style="width:50%;">
+<div class="space-below">
+<div class="sourceCode" id="cb1" data-code-line-numbers="2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a>dat_load1 <span class="ot">&lt;-</span> dat_load1 <span class="sc">|&gt;</span> </span>
+<span id="cb1-2"><a href="#cb1-2"></a>  <span class="fu">clean_names</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="sourceCode" id="cb2" data-code-line-numbers="2,5,8,9,11,15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>dat_load1 <span class="ot">&lt;-</span> dat_load1 <span class="sc">|&gt;</span> </span>
+<span id="cb2-2"><a href="#cb2-2"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb2-3"><a href="#cb2-3"></a>  </span>
+<span id="cb2-4"><a href="#cb2-4"></a>    <span class="co"># Make variable type as Date</span></span>
+<span id="cb2-5"><a href="#cb2-5"></a>    <span class="at">date_of_birth =</span> <span class="fu">ymd</span>(date_of_birth),</span>
+<span id="cb2-6"><a href="#cb2-6"></a>    </span>
+<span id="cb2-7"><a href="#cb2-7"></a>    <span class="co"># ethnicity - make all names lower case, change AA to african american</span></span>
+<span id="cb2-8"><a href="#cb2-8"></a>    <span class="at">ethnicity =</span> <span class="fu">ifelse</span>(ethnicity <span class="sc">==</span> <span class="st">"AA"</span>, <span class="st">"african_american"</span>, <span class="fu">tolower</span>(ethnicity)),</span>
+<span id="cb2-9"><a href="#cb2-9"></a>    </span>
+<span id="cb2-10"><a href="#cb2-10"></a>    <span class="co"># radiation_dosage - remove characters "Gy" make the observatons as num</span></span>
+<span id="cb2-11"><a href="#cb2-11"></a>    <span class="at">radiation_dosage =</span>  <span class="fu">str_replace_all</span>(radiation_dosage, <span class="st">"Gy"</span>, <span class="st">""</span>),</span>
+<span id="cb2-12"><a href="#cb2-12"></a>    <span class="at">radiation_dosage =</span> <span class="fu">round</span>(<span class="fu">as.numeric</span>(radiation_dosage),<span class="dv">2</span>),</span>
+<span id="cb2-13"><a href="#cb2-13"></a>    </span>
+<span id="cb2-14"><a href="#cb2-14"></a>    <span class="co"># comorbidities add "," to allow separation by ",", str_replace did not work</span></span>
+<span id="cb2-15"><a href="#cb2-15"></a>    <span class="at">comorbidities =</span> <span class="fu">ifelse</span>(<span class="fu">row_number</span>() <span class="sc">==</span> <span class="dv">2</span>, <span class="st">"HTN, A. fib, DM, CHF, tobacco"</span>, comorbidities)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</section>
+<section id="dat_load2-dat_load3" class="slide level2 center">
+<h2><em>dat_load2 &amp; dat_load3</em></h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><code>select()</code>: Selects specific variables</p>
+<p><code>rename()</code>: Renames variables</p>
+<p><code>pivot_longer()</code>: Manipulation of data from a wide to longer format</p>
+<p><code>distinct()</code>: Removes duplicate rows from the data</p>
+</div><div class="column" style="width:50%;">
+<div class="space-below">
+<div class="sourceCode" id="cb3" data-code-line-numbers="2,8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>dat_load2 <span class="ot">&lt;-</span> dat_load2 <span class="sc">|&gt;</span> </span>
+<span id="cb3-2"><a href="#cb3-2"></a>  <span class="fu">select</span>(<span class="sc">-</span>rads_for_prostate_primary, </span>
+<span id="cb3-3"><a href="#cb3-3"></a>         <span class="sc">-</span>rads_bladder_primary, </span>
+<span id="cb3-4"><a href="#cb3-4"></a>         <span class="sc">-</span>developed_bladder_first,</span>
+<span id="cb3-5"><a href="#cb3-5"></a>         <span class="sc">-</span>developed_prostate_first)</span>
+<span id="cb3-6"><a href="#cb3-6"></a></span>
+<span id="cb3-7"><a href="#cb3-7"></a>dat_load2 <span class="ot">&lt;-</span> dat_load2 <span class="sc">|&gt;</span></span>
+<span id="cb3-8"><a href="#cb3-8"></a>  <span class="fu">rename</span>(<span class="at">bladder =</span> <span class="st">"bladder_ca"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="sourceCode" id="cb4" data-code-line-numbers="2,6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>combined_dat_load2_load3 <span class="ot">&lt;-</span> combined_dat_load2_load3 <span class="sc">|&gt;</span></span>
+<span id="cb4-2"><a href="#cb4-2"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> ebrt<span class="sc">:</span>brachytherapy,</span>
+<span id="cb4-3"><a href="#cb4-3"></a>              <span class="at">names_to =</span> <span class="st">"treatment"</span>, </span>
+<span id="cb4-4"><a href="#cb4-4"></a>              <span class="at">values_to =</span> <span class="st">"values"</span>,</span>
+<span id="cb4-5"><a href="#cb4-5"></a>              <span class="at">values_drop_na =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb4-6"><a href="#cb4-6"></a>  <span class="fu">distinct</span>(hospital_id, <span class="at">.keep_all =</span> <span class="cn">TRUE</span>) <span class="sc">|&gt;</span></span>
+<span id="cb4-7"><a href="#cb4-7"></a>  <span class="fu">select</span>(<span class="sc">-</span>values)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</section></section>
+<section>
+<section id="augment" class="title-slide slide level1 center">
+<h1>Augment</h1>
+<p><code>dplyr</code></p>
+<p><code>stringr</code></p>
+</section>
+<section id="dat_clean1" class="slide level2 center">
+<h2><em>dat_clean1</em></h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><code>sapply()</code>: Applies a function over a list or vector with a simple output.</p>
+<p><code>relocate()</code>: Rearranges columns in the data set.</p>
+<p><code>str_count()</code>: Counts the number of matches to a pattern in each string of a vector</p>
+<p><code>strplit()</code>: Splits string into a list of sub-strings (not sure if it should be here).</p>
+</div><div class="column" style="width:50%;">
+<div class="space-below">
+<div class="sourceCode" id="cb5" data-code-line-numbers="4,5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>dat_clean1 <span class="ot">&lt;-</span> dat_clean1 <span class="sc">|&gt;</span>       </span>
+<span id="cb5-2"><a href="#cb5-2"></a>  <span class="fu">mutate</span>(<span class="at">los_for_each_admission =</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(los_for_each_admission), <span class="dv">0</span>,    </span>
+<span id="cb5-3"><a href="#cb5-3"></a>                                         los_for_each_admission),     </span>
+<span id="cb5-4"><a href="#cb5-4"></a>         <span class="at">num_days_admitted =</span> <span class="fu">sapply</span>(los_for_each_admission, sum_values)) <span class="sc">|&gt;</span>   </span>
+<span id="cb5-5"><a href="#cb5-5"></a>  <span class="fu">relocate</span>(num_days_admitted, <span class="at">.after =</span> los_for_each_admission) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="sourceCode" id="cb6" data-code-line-numbers="3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>dat_clean1 <span class="ot">&lt;-</span> dat_clean1 <span class="sc">|&gt;</span>   </span>
+<span id="cb6-2"><a href="#cb6-2"></a>  <span class="fu">mutate</span>(<span class="at">num_hosp_complications =</span> <span class="fu">ifelse</span>(<span class="fu">is.na</span>(hospitalization_complications), <span class="dv">0</span>,     </span>
+<span id="cb6-3"><a href="#cb6-3"></a>                                         <span class="fu">str_count</span>(hospitalization_complications, <span class="at">pattern =</span> <span class="st">","</span>) <span class="sc">+</span> <span class="dv">1</span>)) <span class="sc">|&gt;</span>        </span>
+<span id="cb6-4"><a href="#cb6-4"></a>  <span class="fu">relocate</span>(num_hosp_complications, <span class="at">.after =</span> hospitalization_complications) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</section></section>
+<section>
+<section id="describe" class="title-slide slide level1 center">
+<h1>Describe</h1>
+<p>Libraries: <code>ggplot2</code>, <code>table1</code></p>
 </section>
 <section id="section" class="slide level2 center">
 <h2></h2>
 <div class="columns">
-<div class="column" style="width:50%;">
-<p>The janitor package was used to enhance the quality of the dataset by making sure that the variable names would be clean and consistent. Primarily, the clean_names() function was used to simplify and standardize the column names, which would help later on in cleaning the dataset.</p>
-</div><div class="column" style="width:50%;">
-<div class="sourceCode" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a>dat_load1 <span class="ot">&lt;-</span> dat_load1 <span class="sc">|&gt;</span> </span>
-<span id="cb1-2"><a href="#cb1-2"></a>  <span class="fu">clean_names</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</div>
-</section></section>
-<section id="augment" class="title-slide slide level1 center">
-<h1>Augment</h1>
-
-</section>
-
-<section id="describe" class="title-slide slide level1 center">
-<h1>Describe</h1>
-<div class="columns">
+<<<<<<< HEAD
 <div class="column img-bgimage." style="width:50%;">
+=======
+<div class="column img-bg" style="width:50%;">
+<h4 id="dat_clean2-739-obsevations-and-5-variables">dat_clean2: 739 obsevations and 5 variables</h4>
+>>>>>>> 3e4d1f400aed83c547b7c42573c4bba954754ec4
 <div class="quarto-figure quarto-figure-center">
 <figure>
 <p><img data-src="images/key_plot_1.1-01.png"></p>
-<p></p><figcaption>Description: The presented plot illustrates the distribution of patients who experienced radiation-induced Hemorrhagic Cystitis (HC) based on the type of treatment received. Utilizing proportions in this visualization offers a comparative view of how different treatments are distributed relative to the total number of cases with HC incidence. Each bar represents the proportion of patients receiving a specific treatment within the categories of HC incidence, providing valuable insights into the treatment patterns in the context of radiation-induced HC.</figcaption><p></p>
+<p></p><figcaption>Figure 1: Bar plot with the distribution of patients who experienced radiation-induced Hemorrhagic Cystitis (HC) based on the type of treatment received.</figcaption><p></p>
 </figure>
 </div>
 </div><div class="column img-bg" style="width:50%;">
+<h4 id="dat_aug1-80-observations-and-26-variables">dat_aug1: 80 observations and 26 variables</h4>
 <div class="quarto-figure quarto-figure-center">
 <figure>
 <p><img data-src="images/key_plot_1.8-02.png"></p>
-<p></p><figcaption>Description: the 4 box plots each show the number of patients with HC that had the following variables: Age distribution at radiation treatment for Head and Neck Cancer (HC) patients, BMI distribution of HC patients, Distribution of the number of comorbidities in HC patients and finally the distribution of the number of hospital complications in HC patients.</figcaption><p></p>
+<p></p><figcaption>Figure 2: Boxplot Analysis of numeric variables from patients that developed HC. Multifaceted Data Distributions Across numeric variables and outliers are visualized.</figcaption><p></p>
 </figure>
 </div>
 </div>
 </div>
-</section>
-
+</section></section>
 <section>
 <section id="analysis-1" class="title-slide slide level1 center">
 <h1>Analysis 1</h1>
 <ul>
-<li><p>We analyzed two datasets (<em><code>analysis_1.1</code></em> and <em><code>analysis_1.2</code></em>).</p></li>
 <li><p>Key insights include BMI and radiation dose relationships, dose percentages, and time-related comparisons.</p></li>
 <li><p>We also explored survival probabilities and key variable distributions among patients who developed HC.</p></li>
+<li><p>Libraries: <code>ggplot</code>, <code>base</code></p></li>
 </ul>
 </section>
 <section id="key-findings-1" class="slide level2 center">
@@ -473,7 +562,7 @@ s213049 - Catia B.<br>s222373 - Nova F.<br>s222800 - Laia D.<br>s222854 - Minke 
 <div class="quarto-figure quarto-figure-center">
 <figure>
 <p><img data-src="images/key_plot_1.3-01.png"></p>
-<p></p><figcaption>This plot shows the Analysis of Radiation Dose Percentages in correlation to the different radiation types. According to literature, a standardized threshold has been added distinguishing Low, Medium, and High Levels across various radiation types. From the plot below, we can observe that high radiation dosages are only used in ebrt,adjuvant and imrt. Also, the two most used radiation therapies are ebrt medium dose and imrt medium dose.</figcaption><p></p>
+<p></p><figcaption>Figure 3: Analysis of Radiation Dose Percentages in correlation to the different radiation types. According to literature, a standardized threshold has been added distinguishing Low, Medium, and High Levels across various radiation types.</figcaption><p></p>
 </figure>
 </div>
 </div><section id="section-1" class="title-slide slide level1 center">
@@ -482,7 +571,7 @@ s213049 - Catia B.<br>s222373 - Nova F.<br>s222800 - Laia D.<br>s222854 - Minke 
 <div class="quarto-figure quarto-figure-center">
 <figure>
 <p><img data-src="images/key_plot_1.4-02.png"></p>
-<p></p><figcaption>Description: This boxplot compares the average time passed since the completion of radiation treatment and the first incident of HC. For this the mean of the time passed since the completion of radiation treatment and first incident of HC is calculated and presented on the y-axis while on the x-axis the different types of radiation is shown. This could give an insight of the impact of the radiation type on the occurrence of HC in the patients.</figcaption><p></p>
+<p></p><figcaption>Figure 4: Bar plot displaying the average time passed since the completion of radiation treatment and the first incidence of HC. Each bar corresponds to a radiation treatment category.</figcaption><p></p>
 </figure>
 </div>
 </div>
@@ -497,28 +586,34 @@ s213049 - Catia B.<br>s222373 - Nova F.<br>s222800 - Laia D.<br>s222854 - Minke 
 <div class="quarto-figure quarto-figure-center">
 <figure>
 <p><img data-src="images/key_plot_1.10.png"></p>
-<p></p><figcaption>Description: This plot illustrates the relationship between radiation dosage and duration across different types of cancer. Each cancer type is represented in a separate subplot for easy comparison, and the points are color-coded by radiation type. This visualization effectively displays complex data in a clear and comparative manner, ideal for in-depth analysis.</figcaption><p></p>
+<p></p><figcaption>Figure 5: Prevalence of comorbidities in HC patients: A Count of Recurrent Conditions. The data is limited to patients with more than one comorbidity.</figcaption><p></p>
 </figure>
 </div>
 </div><div class="column img-bg" style="width:50%;">
 <div class="quarto-figure quarto-figure-center">
 <figure>
 <p><img data-src="images/key_plot_1.11.png"></p>
-<p></p><figcaption>Description: The boxplot shows the amount of patients with HC and the hospital complications they experienced, while on the y-axis the number of hospital compilations are presented. Only the patients with more than 1 compilation are shown.</figcaption><p></p>
+<p></p><figcaption>Figure 6: Incidence of multiple Hospital Complications among HC patients. A count of hospitalin complications. The Data is limited to patients with more than one complication.</figcaption><p></p>
 </figure>
 </div>
+<<<<<<< HEAD
 <section id="section-2" class="title-slide slide level1 center">
 <h1><img data-src="images/key_plot_1.8-01.png" width="400"></h1>
 <p><em>Description of the right image.</em></p>
 </section>
 
+=======
+>>>>>>> 3e4d1f400aed83c547b7c42573c4bba954754ec4
 </div>
 </div>
 </section></section>
 <section>
 <section id="analysis-2" class="title-slide slide level1 center">
 <h1>Analysis 2</h1>
-
+<ul>
+<li>Visualized PCA outcomes through a biplot, categorizing data by cancer type to identify patterns across different cancers.</li>
+<li>Developed a linear regression model examining the relationship between age at radiation, comorbidity count, and hospitalization duration.</li>
+</ul>
 </section>
 <section id="key-findings" class="slide level2 center">
 <h2>Key findings</h2>
@@ -527,36 +622,45 @@ s213049 - Catia B.<br>s222373 - Nova F.<br>s222800 - Laia D.<br>s222854 - Minke 
 <div class="quarto-figure quarto-figure-center">
 <figure>
 <p><img data-src="images/key_plot_2.1.png" style="width:80.0%"></p>
-<p></p><figcaption>Principal Component Analysis By doing a Principal Component Analysis in the data set we will reduce its dimmensionality and figure out if patients cancer organ have similar values in quantitative variables Grading system, Radiation dosage, Duration of radiation, Number of comorbidities.</figcaption><p></p>
+<p></p><figcaption>Figure 7: Dimensionality Reduction and Pattern Detection. It enables to discern whether patients with cancer in specific organs exhibit consistent patterns across quantitative variables such as the Grading system, Radiation dosage, Duration of radiation, and the Number of comorbidities.</figcaption><p></p>
 </figure>
 </div>
-<p>Data points aren’t grouped by cancer organ.&nbsp;</p>
-<p>Why do we get this spared data points?</p>
-<p>-&gt; Outliers</p>
-<p>-&gt; Small sample size</p>
-<p>-&gt; Low % explained variance</p>
 </div><div class="column img-bg" style="width:50%;">
 <div class="quarto-figure quarto-figure-center">
 <figure>
 <p><img data-src="images/key_plot_2.4.png"></p>
-<p></p><figcaption>Description: scatterplot with a linear regression line, using the ggplot2 package. The plot visualizes the relationship between the variables age_at_radiation and num_comorbidities with respect to the number of days admitted to the hospital (num_days_admitted). The plot helps visualize the relationship between age, number of comorbidities, and the predicted number of days admitted. Points that deviate from the regression line may indicate observations with higher or lower than expected days admitted, providing insights into potential patterns or outliers in the data.</figcaption><p></p>
+<p></p><figcaption>Figure 7: Scatterplot Analysis with Regression Line. It elucidates the correlation between patient age at the time of radiation and their number of comorbidities, as related to their hospital stay duration.</figcaption><p></p>
 </figure>
 </div>
 </div>
 </div>
 </section></section>
+<section>
 <section id="discussion" class="title-slide slide level1 center">
 <h1>Discussion</h1>
+
+</section>
+<section id="analysis-1-1" class="slide level2 center">
+<h2>Analysis 1</h2>
 <ul>
-<li>Our study unveils potential underreporting in HC cases, despite advancements in radiation therapy.</li>
-<li>Limitations include its retrospective nature and focus on the Detroit region.</li>
-<li>These findings provide valuable insights, informing future medical practices and research.</li>
+<li>The study unveils potential underreporting in HC cases, despite advancements in radiation therapy.</li>
+<li>HL has the highest prevalence among the comorbidities, while UTIs and AKI are the most common hospital complications.</li>
+<li>The use of EBRT and brachytherapy was linked to a quicker development of HC, while mixed neutron-photon IMRT therapy was linked to HC development at 75 months or late.</li>
+<li>15% of patients underwent EBRT medium dose therapy, while 10% received IMRT medium dose therapy, making them the two most prevalent radiation treatments.</li>
 </ul>
 </section>
-
+<section id="analysis-2-1" class="slide level2 center">
+<h2>Analysis 2</h2>
+<ul>
+<li><p>The PCA biplot’s lack of distinct variable clustering suggests no clear separation between bladder and prostate cancer characteristics within our limited dataset. The scarcity of bladder cancer data points highlights the need for a more extensive and balanced dataset to accurately differentiate between these two cancer types.</p></li>
+<li><p>The scatterplot with the linear regression line reveals a subtle trend indicating longer hospital stays associated with older patients and those with a higher number of comorbidities. This observation suggests that age and comorbidities might be predictive factors in determining the duration of hospitalization in this patient cohort.</p></li>
+</ul>
+</section></section>
 <section id="conclusion" class="title-slide slide level1 center">
 <h1>Conclusion</h1>
-<p>Thank you for attending our presentation. We hope our study’s insights contribute to better understanding and management of HC in prostate cancer treatment. Any questions or discussions are welcome.</p>
+<p>The analysis provided valuable insights for understanding prostate cancer radiation treatment and HC development.</p>
+<p>R Studio, together with <code>ggplot2</code>, converts data into concise, understandable visuals. <code>tidyverse</code> and <code>dplyr</code> make data manipulation easier while <code>stringr</code> simplifies text analysis.</p>
+<p>Together, these tools significantly improve the clarity and communication of research findings.</p>
 <div class="footer footer-default">
 <p>Group 18 Project: R for Bio Data Science</p>
 </div>
